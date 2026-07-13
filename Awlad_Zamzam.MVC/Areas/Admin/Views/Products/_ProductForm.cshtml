@@ -1,0 +1,66 @@
+@model ProductFormViewModel
+
+<input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="ExistingImagePath" />
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="CategoryId" class="form-label"></label>
+        <select asp-for="CategoryId" class="form-select"
+                asp-items="Model.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()))">
+            <option value="">-- اختر القسم --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="DiscountPercentage" class="form-label"></label>
+        <input asp-for="DiscountPercentage" class="form-control" type="number" />
+        <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-center">
+        <div class="form-check form-switch mt-4">
+            <input asp-for="IsAvailable" class="form-check-input" />
+            <label asp-for="IsAvailable" class="form-check-label"></label>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="ImageFile" class="form-label"></label>
+        <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ExistingImagePath))
+    {
+        <div class="col-md-6">
+            <label class="form-label d-block">الصورة الحالية</label>
+            <img src="@Model.ExistingImagePath" style="width:100px;height:100px;object-fit:cover;border-radius:8px" />
+        </div>
+    }
+</div>
+
+<div class="mt-4 d-flex gap-2">
+    <button type="submit" class="btn btn-brand px-5"><i class="fa-solid fa-floppy-disk me-1"></i> حفظ</button>
+    <a asp-action="Index" class="btn btn-outline-secondary px-5">إلغاء</a>
+</div>

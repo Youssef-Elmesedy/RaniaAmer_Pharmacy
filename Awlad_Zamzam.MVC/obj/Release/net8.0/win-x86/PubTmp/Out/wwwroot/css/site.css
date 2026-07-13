@@ -1,0 +1,290 @@
+:root {
+    --brand-red: #8b1e1e;
+    --brand-red-dark: #5c1414;
+    --brand-gold: #d4a13d;
+    --brand-cream: #faf3e9;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: var(--brand-cream);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.site-footer {
+    flex-shrink: 0;
+}
+
+.main-navbar {
+    background: linear-gradient(90deg, var(--brand-red-dark), var(--brand-red));
+}
+
+.main-navbar .nav-link {
+    font-weight: 600;
+    transition: color .2s;
+}
+
+.main-navbar .nav-link:hover {
+    color: var(--brand-gold) !important;
+}
+
+.hero-section {
+    background: linear-gradient(135deg, rgba(91,20,20,.92), rgba(139,30,30,.85)), url('/images/seed/grills.svg') center/cover;
+    color: #fff;
+    padding: 90px 0;
+}
+
+.hero-section h1 {
+    font-weight: 800;
+}
+
+.btn-brand {
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #2b1a08;
+    font-weight: 700;
+}
+
+.btn-brand:hover {
+    background-color: #c08e2f;
+    border-color: #c08e2f;
+    color: #2b1a08;
+}
+
+.btn-outline-brand {
+    border-color: #fff;
+    color: #fff;
+    font-weight: 700;
+}
+
+.btn-outline-brand:hover {
+    background-color: #fff;
+    color: var(--brand-red);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: rgba(139, 30, 30, .1);
+    color: var(--brand-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    margin: 0 auto 15px;
+}
+
+.product-card {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+    transition: transform .2s, box-shadow .2s;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .15);
+}
+
+.product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .price-old {
+    text-decoration: line-through;
+    color: #999;
+    font-size: .9rem;
+}
+
+.product-card .price-new {
+    color: var(--brand-red);
+    font-weight: 800;
+    font-size: 1.2rem;
+}
+
+.badge-offer {
+    background-color: var(--brand-gold);
+    color: #2b1a08;
+    font-weight: 700;
+}
+
+.badge-unavailable {
+    background-color: #6c757d;
+}
+
+.card-unavailable {
+    opacity: .6;
+}
+
+.category-pill {
+    border-radius: 30px;
+    padding: 8px 22px;
+    font-weight: 600;
+}
+
+.site-footer {
+    background-color: var(--brand-red-dark);
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, .75);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.footer-links a:hover {
+    color: var(--brand-gold);
+}
+
+.admin-navbar {
+    background: linear-gradient(90deg, var(--brand-red-dark), var(--brand-red));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+}
+
+.admin-navbar .nav-link {
+    color: rgba(255, 255, 255, .8);
+    font-weight: 600;
+    font-size: .92rem;
+    border-radius: 8px;
+    padding: 8px 14px;
+    transition: all .18s ease;
+}
+
+.admin-navbar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+}
+
+.admin-navbar .nav-link.active {
+    background-color: var(--brand-gold);
+    color: #2b1a08;
+}
+
+.admin-content {
+    background-color: #f6f3ee;
+    min-height: calc(100vh - 56px);
+}
+
+.stat-card {
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .06);
+    background: #fff;
+}
+
+.admin-content .card {
+    border-radius: 14px;
+}
+
+.admin-content .table thead th {
+    font-weight: 700;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: #6c757d;
+    border-bottom-width: 1px;
+}
+
+.admin-content .table td,
+.admin-content .table th {
+    vertical-align: middle;
+}
+
+.admin-content .btn-brand,
+.admin-content .btn-outline-secondary,
+.admin-content .btn-outline-danger,
+.admin-content .btn-outline-success {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.admin-page-title {
+    position: relative;
+    padding-inline-start: 14px;
+}
+
+.admin-page-title::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 5px;
+    border-radius: 4px;
+    background: var(--brand-gold);
+}
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .2s ease;
+}
+
+/* ===================== Responsive: tablets & phones ===================== */
+
+@media (max-width: 767.98px) {
+    .hero-section {
+        padding: 50px 0;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .stat-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .card.border-0.shadow-sm.p-4 {
+        padding: 1.25rem !important;
+    }
+
+    .table-responsive table {
+        font-size: .85rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .btn-lg {
+        font-size: 1rem;
+        padding: .6rem 1.2rem;
+    }
+
+    .display-4 {
+        font-size: 2.1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+}
+
+/* Prevent inline fixed-width inputs (payment/quantity boxes, etc.) from overflowing narrow screens */
+input[style*="width"],
+select[style*="width"] {
+    max-width: 100%;
+}
+
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+}

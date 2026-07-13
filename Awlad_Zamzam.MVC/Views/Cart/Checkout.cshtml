@@ -1,0 +1,102 @@
+@model CheckoutViewModel
+@{
+    ViewData["Title"] = "إتمام الطلب";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/checkout.css" asp-append-version="true" />
+}
+
+<div class="container py-5">
+    <h2 class="fw-bold mb-4">إتمام الطلب</h2>
+
+    <div class="row g-5">
+        <div class="col-md-5 order-md-2">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-3">ملخص الطلب</h5>
+                @foreach (var item in Model.Cart.Items)
+                {
+                    <div class="d-flex justify-content-between small mb-2">
+                        <span>@item.ProductName × @item.Quantity</span>
+                        <span>@item.LineTotal.ToString("0.00") ج.م</span>
+                    </div>
+                }
+                <hr />
+                <div class="d-flex justify-content-between fw-bold fs-5">
+                    <span>الإجمالي</span>
+                    <span class="price-new">@Model.Cart.Total.ToString("0.00") ج.م</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 order-md-1">
+            <div class="card border-0 shadow-sm p-4">
+                <form asp-action="Checkout" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="IsLoggedIn" />
+
+                    @if (Model.IsLoggedIn)
+                    {
+                        <div class="alert alert-light border mb-4">
+                            <i class="fa-solid fa-circle-user me-1"></i>
+                            الطلب هيتسجل باسم <strong>@Model.Name</strong> - @Model.PhoneNumber
+                        </div>
+                        <input type="hidden" asp-for="Name" />
+                        <input type="hidden" asp-for="PhoneNumber" />
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label"></label>
+                            <textarea asp-for="Address" class="form-control" rows="2"
+                                      placeholder="@Model.SavedAddress"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                            <div class="form-text">
+                                اتركه فارغاً لاستخدام عنوانك المحفوظ: <strong>@Model.SavedAddress</strong>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label"></label>
+                            <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="alert alert-light border small mb-3">
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            <a asp-controller="CustomerAccount" asp-action="Login">سجّل دخولك</a>
+                            عشان مش تكتب بياناتك في كل مرة.
+                        </div>
+                    }
+
+                    <div class="mb-3">
+                        <label asp-for="Notes" class="form-label"></label>
+                        <textarea asp-for="Notes" class="form-control" rows="2" placeholder="أي ملاحظات على الطلب..."></textarea>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+
+                    <div class="alert alert-light border small mb-4">
+                        <i class="fa-solid fa-circle-info me-1"></i>
+                        سيتم تحديد نوع السداد (كاش / آجل) من قِبل المحل عند تسليم الطلب.
+                    </div>
+
+                    <button type="submit" class="btn btn-brand w-100 btn-lg">
+                        <i class="fa-solid fa-check me-2"></i>تأكيد الطلب
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

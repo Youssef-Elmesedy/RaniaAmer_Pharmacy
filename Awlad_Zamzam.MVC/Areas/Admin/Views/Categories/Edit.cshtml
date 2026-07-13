@@ -1,0 +1,16 @@
+@model CategoryFormViewModel
+@{
+    ViewData["Title"] = "تعديل قسم";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-categories.css" asp-append-version="true" />
+}
+
+<h3 class="fw-bold mb-4">تعديل قسم</h3>
+
+<div class="card border-0 shadow-sm p-4">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        @await Html.PartialAsync("_CategoryForm", Model)
+    </form>
+</div>

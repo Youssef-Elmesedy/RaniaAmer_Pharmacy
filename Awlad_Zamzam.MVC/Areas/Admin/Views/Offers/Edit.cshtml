@@ -1,0 +1,16 @@
+@model OfferFormViewModel
+@{
+    ViewData["Title"] = "تعديل عرض";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-offers.css" asp-append-version="true" />
+}
+
+<h3 class="fw-bold mb-4">تعديل عرض</h3>
+
+<div class="card border-0 shadow-sm p-4">
+    <form asp-action="Edit" method="post">
+        @await Html.PartialAsync("_OfferForm", Model)
+    </form>
+</div>

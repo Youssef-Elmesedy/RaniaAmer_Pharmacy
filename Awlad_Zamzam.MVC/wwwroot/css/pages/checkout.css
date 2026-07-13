@@ -1,0 +1,4 @@
+/* Checkout page specific styles */
+.form-check.form-switch.p-3.bg-light {
+    border: 1px dashed var(--brand-gold);
+}

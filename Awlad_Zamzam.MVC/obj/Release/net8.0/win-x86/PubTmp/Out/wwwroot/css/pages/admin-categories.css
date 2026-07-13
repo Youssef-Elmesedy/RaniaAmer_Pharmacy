@@ -1,0 +1,9 @@
+/* Admin Categories */
+.card img.card-img-top {
+    filter: saturate(1.08);
+    transition: transform .3s ease;
+}
+
+.card:hover img.card-img-top {
+    transform: scale(1.05);
+}

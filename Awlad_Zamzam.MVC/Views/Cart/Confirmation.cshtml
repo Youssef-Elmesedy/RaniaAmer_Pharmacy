@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "تم استلام الطلب";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/cart.css" asp-append-version="true" />
+}
+
+<div class="container py-5 text-center">
+    <i class="fa-solid fa-circle-check fa-5x text-success mb-4"></i>
+    <h2 class="fw-bold">تم استلام طلبك بنجاح</h2>
+    <p class="text-muted">سنتواصل معك قريباً لتأكيد الطلب</p>
+    <p class="text-muted"><small>رقم الطلب: <code>@ViewBag.OrderId</code></small></p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-brand mt-3">العودة للرئيسية</a>
+</div>

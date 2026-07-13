@@ -1,0 +1,39 @@
+/* Admin Dashboard */
+.stat-card {
+    transition: transform .2s ease, box-shadow .2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--brand-gold);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, .1) !important;
+}
+
+.stat-card.border-danger-subtle {
+    border: 1px solid #f5c2c7 !important;
+}
+.stat-card.border-danger-subtle::before { background: #dc3545; }
+
+.stat-card.border-success-subtle {
+    border: 1px solid #a3cfbb !important;
+}
+.stat-card.border-success-subtle::before { background: #198754; }
+
+.stat-card i {
+    display: block;
+}
+
+.stat-card h3 {
+    font-size: 1.6rem;
+}

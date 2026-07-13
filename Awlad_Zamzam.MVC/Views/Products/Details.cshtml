@@ -1,0 +1,74 @@
+@model Product
+@{
+    ViewData["Title"] = Model.Name;
+    var priceAfter = Model.DiscountPercentage > 0
+        ? Math.Round(Model.Price - (Model.Price * Model.DiscountPercentage / 100), 2)
+        : Model.Price;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/products.css" asp-append-version="true" />
+}
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="btn btn-brand btn-sm px-2">الرئيسية</a></li>
+
+            <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" class="btn btn-brand btn-sm px-2">المنتجات</a></li>
+
+            <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" asp-route-categoryId="@Model.CategoryId" class="btn btn-brand btn-sm px-2">@Model.Category?.Name</a>
+            </li>
+
+            <li class="breadcrumb-item  accordion-body">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5">
+        <div class="col-md-6">
+            <img src="@(Model.ImagePath ?? "/images/seed/grills.svg")" class="img-fluid rounded-4 shadow-sm w-100" alt="@Model.Name" style="max-height:450px;object-fit:cover" />
+        </div>
+        <div class="col-md-6">
+            @if (Model.DiscountPercentage > 0)
+            {
+                <span class="badge badge-offer mb-2">خصم @Model.DiscountPercentage%</span>
+            }
+            @if (!Model.IsAvailable)
+            {
+                <span class="badge badge-unavailable mb-2">غير متوفر حالياً</span>
+            }
+            <h2 class="fw-bold">@Model.Name</h2>
+            <p class="text-muted">@Model.Description</p>
+
+            <div class="mb-4">
+                @if (Model.DiscountPercentage > 0)
+                {
+                    <span class="price-old fs-5">@Model.Price.ToString("0.00") ج.م</span>
+                }
+                <span class="price-new fs-3 ms-2">@priceAfter.ToString("0.00") ج.م</span>
+            </div>
+
+            @if (Model.IsAvailable)
+            {
+                <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex align-items-end gap-2">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                    <div>
+                        <label class="form-label mb-1">الكمية</label>
+                        <input type="number" name="quantity" value="1" min="1" class="form-control" style="width:100px" />
+                    </div>
+                    <button type="submit" class="btn btn-brand btn-lg px-5">
+                        <i class="fa-solid fa-cart-plus me-2"></i>أضف للسلة
+                    </button>
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Customer" asp-action="Index" class="btn btn-brand btn-lg px-5">
+                    <i class="fa-solid fa-phone me-2"></i>تواصل معنا
+                </a>
+            }
+        </div>
+    </div>
+</div>

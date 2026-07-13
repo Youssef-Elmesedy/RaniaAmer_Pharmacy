@@ -1,0 +1,24 @@
+/* Admin Payments */
+.payments-search-card {
+    border-top: 3px solid var(--brand-gold) !important;
+}
+
+.payment-summary-card {
+    border-top: 3px solid var(--brand-red) !important;
+}
+
+.payment-stat {
+    background: #f8f5f0;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.payment-stat-due {
+    background: #fdecec;
+}
+
+.payment-form {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 16px;
+}

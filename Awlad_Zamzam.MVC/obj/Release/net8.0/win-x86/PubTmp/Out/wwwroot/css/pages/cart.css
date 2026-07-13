@@ -1,0 +1,8 @@
+/* Cart page specific styles */
+.table img {
+    transition: transform .2s ease;
+}
+
+.table tr:hover img {
+    transform: scale(1.08);
+}

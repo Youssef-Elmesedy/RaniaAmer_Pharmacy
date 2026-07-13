@@ -1,0 +1,16 @@
+/* Home page specific styles */
+.hero-section {
+    position: relative;
+}
+
+.hero-section .display-4 {
+    text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+.feature-icon {
+    transition: transform .25s ease;
+}
+
+.feature-icon:hover {
+    transform: translateY(-4px) scale(1.05);
+}

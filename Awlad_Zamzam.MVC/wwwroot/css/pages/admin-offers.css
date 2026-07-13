@@ -1,0 +1,15 @@
+/* Admin Offers */
+.offer-product-check:checked + img {
+    outline: 2px solid var(--brand-gold);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+.border.rounded-3.p-2.d-flex.align-items-center.gap-2 {
+    transition: border-color .15s ease, background-color .15s ease;
+}
+
+.border.rounded-3.p-2.d-flex.align-items-center.gap-2:hover {
+    border-color: var(--brand-gold) !important;
+    background-color: #fffaf0;
+}

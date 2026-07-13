@@ -1,0 +1,89 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-dashboard.css" asp-append-version="true" />
+}
+
+<h3 class="fw-bold mb-4">نظرة عامة</h3>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-drumstick-bite fa-2x mb-2" style="color:var(--brand-red)"></i>
+            <h3 class="fw-bold mb-0">@Model.ProductsCount</h3>
+            <p class="text-muted mb-0">إجمالي المنتجات</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-tags fa-2x mb-2" style="color:var(--brand-red)"></i>
+            <h3 class="fw-bold mb-0">@Model.CategoriesCount</h3>
+            <p class="text-muted mb-0">الأقسام</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-circle-check fa-2x mb-2 text-success"></i>
+            <h3 class="fw-bold mb-0">@Model.AvailableProductsCount</h3>
+            <p class="text-muted mb-0">منتجات متوفرة</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-percent fa-2x mb-2" style="color:var(--brand-gold)"></i>
+            <h3 class="fw-bold mb-0">@Model.OffersCount</h3>
+            <p class="text-muted mb-0">عروض حالية</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-users fa-2x mb-2 text-info"></i>
+            <h3 class="fw-bold mb-0">@Model.CustomersCount</h3>
+            <p class="text-muted mb-0">طلبات العملاء</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-gift fa-2x mb-2" style="color:var(--brand-gold)"></i>
+            <h3 class="fw-bold mb-0">@Model.BundleOffersCount</h3>
+            <p class="text-muted mb-0">عروض مجمّعة</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-4 text-center">
+            <i class="fa-solid fa-bell fa-2x mb-2 text-danger"></i>
+            <h3 class="fw-bold mb-0">@Model.PendingOrdersCount</h3>
+            <p class="text-muted mb-0">طلبات بانتظار التنفيذ</p>
+        </div>
+    </div>
+</div>
+
+<h3 class="fw-bold mt-5 mb-4"><i class="fa-solid fa-clock me-2" style="color:var(--brand-gold)"></i>الآجل</h3>
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card stat-card p-4 text-center border-danger-subtle">
+            <i class="fa-solid fa-hand-holding-dollar fa-2x mb-2 text-danger"></i>
+            <h3 class="fw-bold mb-0">@Model.TotalCreditOutstanding.ToString("0.00") ج.م</h3>
+            <p class="text-muted mb-0">إجمالي المتبقي على العملاء (آجل)</p>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card stat-card p-4 text-center border-success-subtle">
+            <i class="fa-solid fa-sack-dollar fa-2x mb-2 text-success"></i>
+            <h3 class="fw-bold mb-0">@Model.TotalCreditPaid.ToString("0.00") ج.م</h3>
+            <p class="text-muted mb-0">إجمالي المسدد من الآجل</p>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex gap-3 mt-5">
+    <a asp-controller="Products" asp-action="Create" class="btn btn-brand"><i class="fa-solid fa-plus me-1"></i> إضافة منتج</a>
+    <a asp-controller="Categories" asp-action="Create" class="btn btn-outline-secondary"><i class="fa-solid fa-plus me-1"></i> إضافة قسم</a>
+    <a asp-controller="Offers" asp-action="Create" class="btn btn-outline-secondary"><i class="fa-solid fa-plus me-1"></i> إضافة عرض</a>
+    <a asp-controller="Orders" asp-action="Index" class="btn btn-outline-secondary"><i class="fa-solid fa-receipt me-1"></i> عرض الطلبات</a>
+    <a asp-controller="Orders" asp-action="Create" class="btn btn-outline-secondary"><i class="fa-solid fa-plus me-1"></i> تسجيل طلب آجل</a>
+    <a asp-controller="Payments" asp-action="Index" class="btn btn-outline-secondary"><i class="fa-solid fa-money-bill-wave me-1"></i> صفحة الدفع</a>
+</div>

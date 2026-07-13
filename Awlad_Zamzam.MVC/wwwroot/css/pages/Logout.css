@@ -1,0 +1,73 @@
+﻿.logout-wrapper {
+    min-height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.logout-card {
+    width: 500px;
+    max-width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,.08);
+    animation: fadeUp .6s ease;
+}
+
+.logout-icon {
+    font-size: 80px;
+    margin-bottom: 20px;
+    animation: bounce 2s infinite;
+}
+
+.logout-card h2 {
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.logout-card p {
+    color: #666;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.buttons {
+    margin-top: 35px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+    .buttons .btn {
+        min-width: 180px;
+        border-radius: 12px;
+        padding: 12px 20px;
+    }
+
+@keyframes bounce {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

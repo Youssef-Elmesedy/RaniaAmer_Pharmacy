@@ -1,0 +1,131 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - لوحة تحكم أولاد زمزم</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Uplodes/logo/7154d8e0-7ee2-4cfe-a7e8-f6827c1aa810.png" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        Func<string, string> isActive = c => currentController == c ? "active" : "";
+        var user = await UserManager.GetUserAsync(User);
+    }
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top admin-navbar">
+        <div class="container-fluid px-3 px-lg-4">
+            <a class="navbar-brand fw-bold" asp-controller="Dashboard" asp-action="Index">
+                <i class="fa-solid fa-drumstick-bite me-2"></i>لوحة تحكم أولاد زمزم
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="adminNav">
+                <ul class="navbar-nav me-auto gap-lg-1">
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Dashboard")" asp-controller="Dashboard" asp-action="Index">
+                            <i class="fa-solid fa-gauge me-1"></i> لوحة التحكم
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Products")" asp-controller="Products" asp-action="Index">
+                            <i class="fa-solid fa-drumstick-bite me-1"></i> المنتجات
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Categories")" asp-controller="Categories" asp-action="Index">
+                            <i class="fa-solid fa-tags me-1"></i> الأقسام
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Customers")" asp-controller="Customers" asp-action="Index">
+                            <i class="fa-solid fa-users me-1"></i> العملاء
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Offers")" asp-controller="Offers" asp-action="Index">
+                            <i class="fa-solid fa-gift me-1"></i> العروض
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Orders")" asp-controller="Orders" asp-action="Index">
+                            <i class="fa-solid fa-receipt me-1"></i> الطلبات
+                            @await Component.InvokeAsync("PendingOrdersBadge")
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Notifications")" asp-controller="Notifications" asp-action="Index">
+                            <i class="fa-solid fa-bell me-1"></i> الإشعارات
+                            @await Component.InvokeAsync("PendingOrdersBadge")
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("Payments")" asp-controller="Payments" asp-action="Index">
+                            <i class="fa-solid fa-money-bill-wave me-1"></i> المدفوعات
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav align-items-lg-center gap-lg-2">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fa-solid fa-house me-1"></i> الموقع
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="nav-link text-white-50">
+                            <i class="fa-solid fa-user-circle me-1"></i>
+                            @user?.FullName
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" class="px-lg-0 px-3 pb-2 pb-lg-0">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-light w-100">
+                                <i class="fa-solid fa-right-from-bracket me-1"></i> تسجيل الخروج
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-content p-3 p-lg-4">
+        <div id="toast-data" class="d-none"
+             data-success="@TempData["SuccessMessage"]"
+             data-error="@TempData["ErrorMessage"]"></div>
+
+        <div id="page-loader" class="page-loader">
+            <div class="spinner-border" style="color:var(--brand-red);width:3rem;height:3rem" role="status"></div>
+        </div>
+
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/admin-notifications.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

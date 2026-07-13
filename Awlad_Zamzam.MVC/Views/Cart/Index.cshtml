@@ -1,0 +1,77 @@
+@model CartViewModel
+@{
+    ViewData["Title"] = "سلة المشتريات";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/cart.css" asp-append-version="true" />
+}
+
+<div class="container py-5">
+    <h2 class="fw-bold mb-4"><i class="fa-solid fa-cart-shopping me-2"></i>سلة المشتريات</h2>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="text-center py-5">
+            <i class="fa-solid fa-cart-arrow-down fa-3x text-muted mb-3"></i>
+            <p class="text-muted">السلة فارغة</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-brand">تصفح المنتجات</a>
+        </div>
+    }
+    else
+    {
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>المنتج</th>
+                            <th>السعر</th>
+                            <th>الكمية</th>
+                            <th>الإجمالي</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td class="d-flex align-items-center gap-2">
+                                    <img src="@(item.ProductImagePath ?? "/images/seed/grills.svg")" style="width:50px;height:50px;object-fit:cover;border-radius:8px" />
+                                    @item.ProductName
+                                </td>
+                                <td>@item.UnitPrice.ToString("0.00") ج.م</td>
+                                <td style="width:140px">
+                                    <form asp-action="UpdateQuantity" method="post" class="d-flex gap-1">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control form-control-sm" style="width:70px" />
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-rotate"></i></button>
+                                    </form>
+                                </td>
+                                <td class="fw-bold">@item.LineTotal.ToString("0.00") ج.م</td>
+                                <td>
+                                    <form asp-action="Remove" method="post" class="js-delete-form">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="productId" value="@item.ProductId" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fa-solid fa-arrow-right me-1"></i> إضافة المزيد
+            </a>
+            <div class="text-end">
+                <div class="fs-5 mb-2">الإجمالي: <span class="fw-bold price-new">@Model.Total.ToString("0.00") ج.م</span></div>
+                <a asp-action="Checkout" class="btn btn-brand btn-lg px-5">إتمام الطلب</a>
+            </div>
+        </div>
+    }
+</div>

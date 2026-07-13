@@ -1,0 +1,137 @@
+@model CreditOrderFormViewModel
+@{
+    ViewData["Title"] = "تسجيل طلب آجل جديد";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-orders.css" asp-append-version="true" />
+}
+@{
+    var customerItems = Model.Customers.Select(c => new SelectListItem
+    {
+        Text = $"{c.Name} - {c.PhoneNumber}",
+        Value = c.Id.ToString()
+    });
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold mb-0 admin-page-title">تسجيل طلب آجل لعميل</h3>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-arrow-right me-1"></i> رجوع للطلبات
+    </a>
+</div>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-circle-user me-2"></i>العميل</h5>
+
+                <label class="form-label">بحث عن عميل موجود بالاسم أو الهاتف</label>
+                <input type="text" id="customerSearchBox" class="form-control mb-2" placeholder="اكتب للبحث..." autocomplete="off" />
+
+                <select asp-for="CustomerId"
+                        class="form-select mb-3"
+                        id="customerSelect"
+                        asp-items="customerItems">
+                    <option value="">-- عميل جديد (أدخل بياناته تحت) --</option>
+                </select>
+
+                <div id="newCustomerFields">
+                    <div class="alert alert-light border small mb-3">
+                        لو العميل مش موجود في القائمة، اكتب بياناته هنا وهيتسجل تلقائي.
+                    </div>
+
+                    <div class="mb-2">
+                        <label asp-for="NewCustomerName" class="form-label"></label>
+                        <input asp-for="NewCustomerName" class="form-control" />
+                        <span asp-validation-for="NewCustomerName" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="NewCustomerPhone" class="form-label"></label>
+                        <input asp-for="NewCustomerPhone" class="form-control" placeholder="01xxxxxxxxx" />
+                        <span asp-validation-for="NewCustomerPhone" class="text-danger"></span>
+                    </div>
+                    <div class="mb-2">
+                        <label asp-for="NewCustomerAddress" class="form-label"></label>
+                        <textarea asp-for="NewCustomerAddress" class="form-control" rows="2"></textarea>
+                        <span asp-validation-for="NewCustomerAddress" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <label asp-for="Notes" class="form-label"></label>
+                    <textarea asp-for="Notes" class="form-control" rows="2" placeholder="أي ملاحظات على الطلب..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-drumstick-bite me-2"></i>الأصناف</h5>
+                <span asp-validation-for="SelectedProductIds" class="text-danger d-block mb-2"></span>
+
+                <div class="row g-2 credit-order-products">
+                    @foreach (var product in Model.AllProducts)
+                    {
+                        var isChecked = Model.SelectedProductIds.Contains(product.Id);
+                        var quantity = Model.Quantities.GetValueOrDefault(product.Id, 1);
+
+                        <div class="col-md-6">
+                            <div class="border rounded-3 p-2 d-flex align-items-center gap-2">
+                                @if (isChecked)
+                                {
+                                    <input type="checkbox" class="form-check-input credit-product-check" name="SelectedProductIds" value="@product.Id" checked />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" class="form-check-input credit-product-check" name="SelectedProductIds" value="@product.Id" />
+                                }
+                                <img src="@(product.ImagePath ?? "/images/seed/grills.svg")" style="width:45px;height:45px;object-fit:cover;border-radius:6px" />
+                                <div class="flex-grow-1">
+                                    <div class="small fw-bold">@product.Name</div>
+                                    <div class="small text-muted">@product.Price.ToString("0.00") ج.م</div>
+                                </div>
+                                <input type="number" min="1" class="form-control form-control-sm" style="width:80px"
+                                       name="Quantity_@product.Id" value="@quantity" placeholder="الكمية" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-brand px-5">
+                    <i class="fa-solid fa-floppy-disk me-1"></i> تسجيل الطلب كآجل
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-5">إلغاء</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        // Simple client-side filter for the customer dropdown (server list already loaded)
+        document.getElementById('customerSearchBox').addEventListener('input', function () {
+            var term = this.value.trim().toLowerCase();
+            var select = document.getElementById('customerSelect');
+            for (var i = 0; i < select.options.length; i++) {
+                var opt = select.options[i];
+                if (!opt.value) continue;
+                opt.hidden = term.length > 0 && opt.text.toLowerCase().indexOf(term) === -1;
+            }
+        });
+
+        // Only require the "new customer" fields when no existing customer is selected
+        function toggleNewCustomerFields() {
+            var select = document.getElementById('customerSelect');
+            var fields = document.getElementById('newCustomerFields');
+            fields.style.display = select.value ? 'none' : 'block';
+        }
+        document.getElementById('customerSelect').addEventListener('change', toggleNewCustomerFields);
+        toggleNewCustomerFields();
+    </script>
+}

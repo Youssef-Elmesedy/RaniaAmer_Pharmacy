@@ -1,0 +1,44 @@
+@model List<CategoryViewModel>
+@{
+    ViewData["Title"] = "الأقسام";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-categories.css" asp-append-version="true" />
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold mb-0">الأقسام</h3>
+    <a asp-action="Create" class="btn btn-brand"><i class="fa-solid fa-plus me-1"></i> إضافة قسم</a>
+</div>
+
+<div class="row g-4">
+    @foreach (var category in Model)
+    {
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <img src="@category.Image" class="card-img-top" style="height:160px;object-fit:cover" alt="@category.Name" />
+                <div class="card-body">
+                    <h5 class="fw-bold">@category.Name</h5>
+                    <p class="text-muted mb-3">@category.ProductsCount منتج</p>
+                    <div class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-sm btn-outline-secondary flex-grow-1">
+                            <i class="fa-solid fa-pen me-1"></i> تعديل
+                        </a>
+                        <form asp-action="Delete" asp-route-id="@category.Id" method="post" class="js-delete-form flex-grow-1">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-danger w-100">
+                                <i class="fa-solid fa-trash me-1"></i> حذف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="text-center py-5 text-muted">لا توجد أقسام مضافة بعد</div>
+}

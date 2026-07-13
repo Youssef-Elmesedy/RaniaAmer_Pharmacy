@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - أولاد زمزم</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Uplodes/logo/7154d8e0-7ee2-4cfe-a7e8-f6827c1aa810.png" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top main-navbar">
+        <div class="container">
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                <i class="fa-solid fa-drumstick-bite me-2"></i>أولاد زمزم
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="mainNav">
+                <ul class="navbar-nav mx-auto text-center gap-2">
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    @await Component.InvokeAsync("CategoryNav")
+                    <li class="nav-item"><a class="nav-link" asp-controller="Offers" asp-action="Index">العروض</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Customer" asp-action="Index">تواصل معنا</a></li>
+                </ul>
+
+                <ul class="navbar-nav align-items-lg-center gap-lg-2">
+                    @await Component.InvokeAsync("CartSummary")
+
+                    @{
+                        var customerAuthResult = await Context.AuthenticateAsync(Awlad_Zamzam.MVC.Controllers.CustomerAccountController.SchemeName);
+                    }
+                    @if (customerAuthResult.Succeeded)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-circle-user me-1"></i>@customerAuthResult.Principal!.Identity!.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="CustomerAccount" asp-action="MyOrders"><i class="fa-solid fa-receipt me-2"></i>طلباتي</a></li>
+                                <li><a class="dropdown-item" asp-controller="CustomerAccount" asp-action="MyCreditOrders"><i class="fa-solid fa-clock me-2"></i>فواتير الآجل</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <form asp-controller="CustomerAccount" asp-action="Logout" method="post" class="px-3">
+                                        @* @Html.AntiForgeryToken() *@
+                                        <button type="submit" class="btn btn-sm btn-link p-0 text-danger">
+                                            <i class="fa-solid fa-right-from-bracket me-1"></i>تسجيل الخروج
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="CustomerAccount" asp-action="Login">
+                                <i class="fa-solid fa-user me-1"></i>تسجيل الدخول
+                            </a>
+                        </li>
+                    }
+
+                    <li class="nav-item">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <a class="nav-link btn btn-sm btn-outline-light px-3" asp-area="Admin" asp-controller="Dashboard" asp-action="Index" title="الرجوع للوحة التحكم">
+                                <i class="fa-solid fa-gauge me-1"></i>لوحة التحكم
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="nav-link opacity-50" asp-controller="Account" asp-action="Login" title="دخول الإدارة">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </a>
+                        }
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="toast-data" class="d-none"
+         data-success="@TempData["SuccessMessage"]"
+         data-error="@TempData["ErrorMessage"]"></div>
+
+    <div id="page-loader" class="page-loader">
+        <div class="spinner-border" style="color:var(--brand-red);width:3rem;height:3rem" role="status"></div>
+    </div>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer text-white pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <h5><i class="fa-solid fa-drumstick-bite me-2"></i>أولاد زمزم</h5>
+                    <p class="text-white-50">أجود أنواع اللحوم الطازجة والمشويات، بخبرة تمتد لسنوات نقدم لكم الجودة والثقة.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>روابط سريعة</h5>
+                    <div class="footer-links">
+                        <a asp-controller="Home" asp-action="Index">الرئيسية</a>
+                        <a asp-controller="Products" asp-action="Index">المنتجات</a>
+                        <a asp-controller="Customer" asp-action="Index">تواصل معنا</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>تواصل معنا</h5>
+                    <p class="text-white-50 mb-1"><i class="fa-solid fa-phone me-2"></i>01019463877</p>
+                    <p class="text-white-50 mb-1"><i class="fa-solid fa-location-dot me-2"></i>مدينه السادات المنطقه 3 برج المحمل</p>
+                    <p class="text-white-50"><i class="fa-solid fa-clock me-2"></i>يومياً 9 ص - 1 م</p>
+                </div>
+            </div>
+            <hr class="border-secondary" />
+            <p class="text-center text-white-50 mb-0">&copy; @DateTime.Now.Year أولاد زمزم. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/catalog-watch.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

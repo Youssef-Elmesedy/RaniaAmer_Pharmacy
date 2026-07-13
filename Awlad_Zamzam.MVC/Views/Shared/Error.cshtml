@@ -1,0 +1,14 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "حدث خطأ";
+}
+<div class="container py-5 text-center">
+    <i class="fa-solid fa-server fa-5x mb-4" style="color:var(--brand-red)"></i>
+    <h1 class="fw-bold">500</h1>
+    <p class="lead text-muted">عذراً، حدث خطأ غير متوقع في الخادم</p>
+    @if (Model.ShowRequestId)
+    {
+        <p class="text-muted"><small>Request ID: <code>@Model.RequestId</code></small></p>
+    }
+    <a asp-controller="Home" asp-action="Index" class="btn btn-brand mt-3">العودة للرئيسية</a>
+</div>

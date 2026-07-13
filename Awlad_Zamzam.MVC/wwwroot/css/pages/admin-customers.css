@@ -1,0 +1,9 @@
+/* Admin Customers */
+.table td.price-new,
+.table .fw-bold.price-new {
+    font-weight: 700;
+}
+
+.table tbody tr:hover {
+    background-color: #fbf6ee;
+}

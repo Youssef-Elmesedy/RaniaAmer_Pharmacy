@@ -1,0 +1,4 @@
+/* Customer login/register/orders pages */
+.card.border-0.shadow-sm.p-4 {
+    border-top: 3px solid var(--brand-red) !important;
+}

@@ -1,0 +1,107 @@
+@model CustomerListItemViewModel
+@{
+    ViewData["Title"] = "بيانات العميل";
+    var orders = ViewBag.Orders as List<OrderListItemViewModel> ?? new List<OrderListItemViewModel>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-customers.css" asp-append-version="true" />
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold mb-0">@Model.Name</h3>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fa-solid fa-arrow-right me-1"></i> رجوع
+    </a>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <div class="text-muted small">الهاتف</div>
+            <div class="fw-bold">@Model.PhoneNumber</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <div class="text-muted small">عدد الطلبات</div>
+            <div class="fw-bold">@Model.OrdersCount</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <div class="text-muted small">طلبات آجل</div>
+            <div class="fw-bold">@Model.CreditOrdersCount</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card stat-card p-3 text-center">
+            <div class="text-muted small">إجمالي المستحق (آجل)</div>
+            <div class="fw-bold price-new">@Model.TotalCreditDue.ToString("0.00") ج.م</div>
+        </div>
+    </div>
+</div>
+
+<p class="text-muted"><i class="fa-solid fa-location-dot me-1"></i>@Model.Address</p>
+
+<h5 class="fw-bold mt-4 mb-3">كل الطلبات</h5>
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>التاريخ</th>
+                    <th>عدد الأصناف</th>
+                    <th>الإجمالي</th>
+                    <th>النوع</th>
+                    <th>الحالة</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in orders)
+                {
+                    <tr class="@(order.IsCredit && order.Status == OrderStatus.Completed ? "table-warning" : "")">
+                        <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@order.ItemsCount</td>
+                        <td class="fw-bold">@order.Total.ToString("0.00") ج.م</td>
+                        <td>
+                            @if (order.Status == OrderStatus.Completed && order.IsCredit)
+                            {
+                                <span class="badge bg-warning text-dark">آجل</span>
+                            }
+                            else if (order.Status == OrderStatus.Completed)
+                            {
+                                <span class="badge bg-secondary">كاش</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                        <td>
+                            @if (order.Status == OrderStatus.Pending)
+                            {
+                                <span class="badge bg-danger">قيد الانتظار</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">تم التسليم</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-secondary">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (!orders.Any())
+{
+    <div class="text-center py-4 text-muted">لا توجد طلبات لهذا العميل</div>
+}
