@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "E:\\Awlad_Zamzam\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\controllers\\customeraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\controllers\\customeraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\views\\customeraccount\\loggedout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -26,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,20 +50,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Views\\Account\\Login.cshtml",
+              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-13T05:45:08.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Program.cs",
               "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Program.cs",
               "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Program.cs",
               "RelativeToolTip": "Awlad_Zamzam.MVC\\Program.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAwCwAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAiwI8AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-13T03:42:25.586Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "LoggedOut.cshtml",
               "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\CustomerAccount\\LoggedOut.cshtml",
               "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Views\\CustomerAccount\\LoggedOut.cshtml",
@@ -67,31 +84,30 @@
               "RelativeToolTip": "Awlad_Zamzam.MVC\\Views\\CustomerAccount\\LoggedOut.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-13T04:00:02.53Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-13T04:00:02.53Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Awlad_Zamzam.MVC\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAABkAAAAAAAAAAAAywDEAAABGAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAywDEAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-07-13T04:03:56.303Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "CustomerAccountController.cs",
               "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
               "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
               "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
               "RelativeToolTip": "Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAUwFIAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAUwFIAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-07-13T03:57:58.294Z",
               "EditorCaption": ""

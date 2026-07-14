@@ -4,6 +4,7 @@ using Awlad_Zamzam.MVC.Repository.Implementations;
 using Awlad_Zamzam.MVC.Repository.Interfaces;
 using Awlad_Zamzam.MVC.Services.Implementations;
 using Awlad_Zamzam.MVC.Services.Interfaces;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,16 @@ namespace Awlad_Zamzam.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Persist Data Protection keys to disk instead of the default behavior, which can
+            // regenerate the encryption keys on every app restart. Antiforgery tokens (and the
+            // CustomerAuth/Identity cookies) are encrypted with these keys - if they regenerate
+            // while a browser tab is still open on an older page, that page's form token and
+            // cookies stop matching the new keys and every POST from it (e.g. Logout) fails
+            // with a 400, even though nothing about the token itself is actually wrong.
+            builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys")))
+                .SetApplicationName("AwladZamzamMVC");
 
             // Configure antiforgery options (custom cookie name and header name)
             builder.Services.AddAntiforgery(options =>
@@ -118,9 +129,15 @@ namespace Awlad_Zamzam.MVC
             // browser back/forward-cache restore) confusingly look like "page not found".
             app.UseStatusCodePages(context =>
             {
-                if (context.HttpContext.Response.StatusCode == 404)
+                var response = context.HttpContext.Response;
+
+                if (response.StatusCode == 404)
                 {
-                    context.HttpContext.Response.Redirect("/Home/Error404");
+                    response.Redirect("/Home/Error404");
+                }
+                else if (response.StatusCode == 400)
+                {
+                    response.Redirect("/");
                 }
 
                 return Task.CompletedTask;

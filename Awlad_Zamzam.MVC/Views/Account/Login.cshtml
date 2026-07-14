@@ -15,47 +15,116 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body class="d-flex align-items-center" style="min-height:100vh;background:linear-gradient(135deg,var(--brand-red-dark),var(--brand-red))">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-5">
-                <div class="card border-0 shadow-lg p-4">
-                    <div class="text-center mb-4">
-                        <i class="fa-solid fa-drumstick-bite fa-3x" style="color:var(--brand-red)"></i>
-                        <h4 class="fw-bold mt-2">لوحة تحكم أولاد زمزم</h4>
+<body class="d-flex flex-column"
+      style="min-height:100vh;background:linear-gradient(135deg,var(--brand-red-dark),var(--brand-red))">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark shadow-sm"
+         style="background:rgba(0,0,0,.15);backdrop-filter:blur(10px);">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold"
+               asp-controller="Home"
+               asp-action="Index">
+                <i class="fa-solid fa-drumstick-bite me-2"></i>
+                أولاد زمزم
+            </a>
+
+            <span class="navbar-text text-white fw-bold">
+                <i class="fa-solid fa-user-shield me-2"></i>
+                تسجيل دخول الإدارة
+            </span>
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-outline-light">
+                <i class="fa-solid fa-house me-1"></i>
+                العودة للرئيسية
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="flex-grow-1 d-flex align-items-center">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+
+                    <div class="card border-0 shadow-lg p-4">
+                        <div class="text-center mb-4">
+                            <i class="fa-solid fa-drumstick-bite fa-3x"
+                               style="color:var(--brand-red)"></i>
+
+                            <h4 class="fw-bold mt-2">
+                                لوحة تحكم أولاد زمزم
+                            </h4>
+                        </div>
+
+                        <form asp-action="Login" method="post">
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="text-danger mb-3"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="UserName" class="form-label"></label>
+                                <input asp-for="UserName"
+                                       class="form-control"
+                                       placeholder="admin@awladzamzam.com" />
+                                <span asp-validation-for="UserName"
+                                      class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password"
+                                      class="text-danger"></span>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input asp-for="RememberMe"
+                                       class="form-check-input" />
+                                <label asp-for="RememberMe"
+                                       class="form-check-label"></label>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-brand w-100">
+                                <i class="fa-solid fa-right-to-bracket me-2"></i>
+                                دخول
+                            </button>
+
+                        </form>
                     </div>
 
-                    <form asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-                        <div class="mb-3">
-                            <label asp-for="UserName" class="form-label"></label>
-                            <input asp-for="UserName" class="form-control" placeholder="admin@awladzamzam.com" />
-                            <span asp-validation-for="UserName" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-check mb-3">
-                            <input asp-for="RememberMe" class="form-check-input" />
-                            <label asp-for="RememberMe" class="form-check-label"></label>
-                        </div>
-
-                        <button type="submit" class="btn btn-brand w-100">
-                            <i class="fa-solid fa-right-to-bracket me-2"></i>دخول
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
-    </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-white py-3"
+            style="background:rgba(0,0,0,.15);backdrop-filter:blur(10px);">
+
+        <div class="container">
+            <div class="mb-2">
+                <i class="fa-solid fa-phone me-2"></i>
+                01019463877
+            </div>
+
+            <small>
+                © @DateTime.Now.Year أولاد زمزم - جميع الحقوق محفوظة
+            </small>
+        </div>
+
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 </body>
 </html>

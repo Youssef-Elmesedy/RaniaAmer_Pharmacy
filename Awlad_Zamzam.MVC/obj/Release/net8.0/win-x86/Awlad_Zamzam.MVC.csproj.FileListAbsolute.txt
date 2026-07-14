@@ -130,3 +130,4 @@ E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Release\net8.0\win-x86\refint\Awlad_Zamzam.
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Release\net8.0\win-x86\Awlad_Zamzam.MVC.pdb
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Release\net8.0\win-x86\Awlad_Zamzam.MVC.genruntimeconfig.cache
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Release\net8.0\win-x86\ref\Awlad_Zamzam.MVC.dll
+E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Release\net8.0\win-x86\Awlad_Zamzam.MVC.sourcelink.json

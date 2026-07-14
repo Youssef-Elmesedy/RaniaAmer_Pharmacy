@@ -80,7 +80,7 @@ public class CustomerAccountController : Controller
     }
 
     [HttpPost]
-    //[ValidateAntiForgeryToken]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(SchemeName);

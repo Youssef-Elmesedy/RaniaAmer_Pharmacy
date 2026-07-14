@@ -13,6 +13,7 @@ wwwroot\css\pages\checkout.css
 wwwroot\css\pages\contact.css
 wwwroot\css\pages\customer-account.css
 wwwroot\css\pages\home.css
+wwwroot\css\pages\Logout.css
 wwwroot\css\pages\offers.css
 wwwroot\css\pages\products.css
 wwwroot\css\site.css
@@ -83,4 +84,3 @@ wwwroot\Uplodes\Products\79aa593e-13b1-44ef-a470-5b827d7135eb.jpg
 wwwroot\Uplodes\Products\a828b33b-e817-4e75-8c81-c94b059750a0.jpg
 wwwroot\Uplodes\Products\e48f3a1f-e514-4c8c-98fa-aea7963034c7.png
 wwwroot\Uplodes\Products\f0de2a36-d945-4f90-bf42-c908ac7fc91b.jpg
-wwwroot\css\pages\Logout.css

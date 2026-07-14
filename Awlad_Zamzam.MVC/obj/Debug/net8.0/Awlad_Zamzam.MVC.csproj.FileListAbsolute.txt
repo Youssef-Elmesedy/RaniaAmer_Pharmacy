@@ -123,6 +123,7 @@ E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\Awlad_Zamzam.MVC.csproj.CoreCo
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\Awlad_Zamzam.MVC.MvcApplicationPartsAssemblyInfo.cache
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\Awlad_Zamzam.MVC.RazorAssemblyInfo.cache
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\Awlad_Zamzam.MVC.RazorAssemblyInfo.cs
+E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\Awlad_Zamzam.MVC.sourcelink.json
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\rjimswa.dswa.cache.json
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 E:\Awlad_Zamzam\Awlad_Zamzam.MVC\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
