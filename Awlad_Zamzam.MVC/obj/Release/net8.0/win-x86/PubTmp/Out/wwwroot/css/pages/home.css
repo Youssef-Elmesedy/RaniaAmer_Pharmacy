@@ -1,6 +1,12 @@
 /* Home page specific styles */
 .hero-section {
     position: relative;
+    overflow: hidden;
+    padding: 110px 0;
+    margin: 10px;
+    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+    color: white;
+    border-radius: 30px;
 }
 
 .hero-section .display-4 {

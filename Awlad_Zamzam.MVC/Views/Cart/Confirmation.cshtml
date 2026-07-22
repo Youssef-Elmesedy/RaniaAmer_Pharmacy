@@ -3,13 +3,85 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/pages/cart.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/order-success.css" asp-append-version="true" />
 }
 
-<div class="container py-5 text-center">
-    <i class="fa-solid fa-circle-check fa-5x text-success mb-4"></i>
-    <h2 class="fw-bold">تم استلام طلبك بنجاح</h2>
-    <p class="text-muted">سنتواصل معك قريباً لتأكيد الطلب</p>
-    <p class="text-muted"><small>رقم الطلب: <code>@ViewBag.OrderId</code></small></p>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-brand mt-3">العودة للرئيسية</a>
+<div class="order-success-page">
+
+    <div class="container">
+
+        <div class="success-card">
+
+            <div class="success-icon">
+                <i class="fa-solid fa-check"></i>
+            </div>
+
+            <span class="success-badge">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                تم استلام الطلب بنجاح
+            </span>
+
+            <h1>
+                شكراً لك ❤️
+            </h1>
+
+            <p class="lead">
+                تم تسجيل طلبك بنجاح وسيقوم فريق أولاد زمزم بمراجعته والتواصل معك في أقرب وقت.
+            </p>
+
+            <div class="order-number">
+                <span>رقم الطلب</span>
+
+                <strong>
+                    #@ViewBag.OrderId
+                </strong>
+            </div>
+
+            <div class="next-step">
+
+                <div>
+                    <i class="fa-solid fa-phone"></i>
+                    سنتصل بك لتأكيد الطلب.
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-truck-fast"></i>
+                    سيتم تجهيز الطلب فور التأكيد.
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-clock"></i>
+                    يمكنك متابعة حالة الطلب من حسابك.
+                </div>
+
+            </div>
+
+            <div class="mt-5 d-flex flex-wrap justify-content-center gap-3">
+
+                <a asp-controller="CustomerAccount"
+                   asp-action="MyOrders"
+                   class="btn btn-brand btn-lg px-4">
+
+                    <i class="fa-solid fa-receipt me-2"></i>
+
+                    طلباتي
+
+                </a>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary btn-lg px-4">
+
+                    <i class="fa-solid fa-house me-2"></i>
+
+                    العودة للرئيسية
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

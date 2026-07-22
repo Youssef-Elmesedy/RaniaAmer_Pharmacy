@@ -13,7 +13,7 @@
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top main-navbar">
+    <nav class="navbar navbar-expand-lg sticky-top main-navbar">
         <div class="container">
             <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
                 <i class="fa-solid fa-drumstick-bite me-2"></i>أولاد زمزم
@@ -39,17 +39,26 @@
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                <i class="fa-solid fa-circle-user me-1"></i>@customerAuthResult.Principal!.Identity!.Name
+                                <i class="fa-solid fa-user-circle me-2"></i>
+
+                                <span class="fw-semibold">
+                                    @customerAuthResult.Principal.Identity.Name
+                                </span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4">
                                 <li><a class="dropdown-item" asp-controller="CustomerAccount" asp-action="MyOrders"><i class="fa-solid fa-receipt me-2"></i>طلباتي</a></li>
                                 <li><a class="dropdown-item" asp-controller="CustomerAccount" asp-action="MyCreditOrders"><i class="fa-solid fa-clock me-2"></i>فواتير الآجل</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li>
-                                    <form asp-controller="CustomerAccount" asp-action="Logout" method="post" class="px-3">
+                                    <form class="logout-form"
+                                          asp-controller="CustomerAccount"
+                                          asp-action="Logout"
+                                          method="post">
                                             @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-sm btn-link p-0 text-danger">
-                                            <i class="fa-solid fa-right-from-bracket me-1"></i>تسجيل الخروج
+                                        <button type="submit"
+                                                class="dropdown-item text-danger">
+                                            <i class="fa-solid fa-right-from-bracket me-2"></i>
+                                            تسجيل الخروج
                                         </button>
                                     </form>
                                 </li>
@@ -68,7 +77,7 @@
                     <li class="nav-item">
                         @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
-                            <a class="nav-link btn btn-sm btn-outline-light px-3" asp-area="Admin" asp-controller="Dashboard" asp-action="Index" title="الرجوع للوحة التحكم">
+                            <a class="btn btn-outline-light btn-sm px-3 rounded-pill" asp-area="Admin" asp-controller="Dashboard" asp-action="Index" title="الرجوع للوحة التحكم">
                                 <i class="fa-solid fa-gauge me-1"></i>لوحة التحكم
                             </a>
                         }
@@ -92,7 +101,7 @@
         <div class="spinner-border" style="color:var(--brand-red);width:3rem;height:3rem" role="status"></div>
     </div>
 
-    <main>
+    <main class="flex-grow-1">
         @RenderBody()
     </main>
 
@@ -113,9 +122,38 @@
                 </div>
                 <div class="col-md-4">
                     <h5>تواصل معنا</h5>
-                    <p class="text-white-50 mb-1"><i class="fa-solid fa-phone me-2"></i>01019463877</p>
-                    <p class="text-white-50 mb-1"><i class="fa-solid fa-location-dot me-2"></i>مدينه السادات المنطقه 3 برج المحمل</p>
-                    <p class="text-white-50"><i class="fa-solid fa-clock me-2"></i>يومياً 9 ص - 1 م</p>
+
+                    <p class="text-white-50 mb-1">
+                        <i class="fa-solid fa-phone me-2"></i>
+                        01019463877
+                    </p>
+
+                    <p class="text-white-50 mb-1">
+                        <i class="fa-solid fa-location-dot me-2"></i>
+                        مدينة السادات - المنطقة الثالثة
+                    </p>
+
+                    <p class="text-white-50">
+                        <i class="fa-solid fa-clock me-2"></i>
+                        يومياً 9 ص - 1 م
+                    </p>
+
+                    <div class="d-flex gap-3 mt-3">
+
+                        <a href="#" class="text-white fs-5">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+
+                        <a href="#" class="text-white fs-5">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+
+                        <a href="#" class="text-white fs-5">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+
+                    </div>
+
                 </div>
             </div>
             <hr class="border-secondary" />

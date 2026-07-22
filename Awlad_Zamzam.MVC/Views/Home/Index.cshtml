@@ -10,17 +10,68 @@
     <link rel="stylesheet" href="~/css/pages/home.css" asp-append-version="true" />
 }
 
-<section class="hero-section text-center">
-    <div class="container">
-        <h1 class="display-4 mb-3">أولاد زمزم</h1>
-        <p class="lead mb-4">أجود أنواع اللحوم النيئة والمصنعات والمشويات الطازجة، بخبرة تمتد لسنوات نقدّم لكم الجودة والثقة</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a asp-controller="Products" asp-action="Index" class="btn btn-brand btn-lg px-4">تصفح المنتجات</a>
-            <a asp-controller="Customer" asp-action="Index" class="btn btn-outline-brand btn-lg px-4">تواصل معنا</a>
-        </div>
-    </div>
-</section>
+<section class="hero-section">
 
+    <div class="container">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                <i class="fa-solid fa-fire"></i>
+                لحوم طازجة يومياً
+            </span>
+
+            <h1>أولاد زمزم</h1>
+
+            <p>
+                أجود أنواع اللحوم النيئة والمصنعات والمشويات الطازجة،
+                بخبرة تمتد لأكثر من 25 عاماً نقدم لكم الجودة والثقة.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn btn-brand">
+
+                    تصفح المنتجات
+
+                </a>
+
+                <a asp-controller="Customer"
+                   asp-action="Index"
+                   class="btn btn-outline-brand">
+
+                    تواصل معنا
+
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div class="stat">
+                    <h3>25+</h3>
+                    <span>سنة خبرة</span>
+                </div>
+
+                <div class="stat">
+                    <h3>5000+</h3>
+                    <span>عميل سعيد</span>
+                </div>
+
+                <div class="stat">
+                    <h3>100%</h3>
+                    <span>جودة مضمونة</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 <section class="container py-5">
     <div class="row text-center g-4">
         <div class="col-md-4">

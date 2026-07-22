@@ -15,11 +15,13 @@ wwwroot\css\pages\customer-account.css
 wwwroot\css\pages\home.css
 wwwroot\css\pages\Logout.css
 wwwroot\css\pages\offers.css
+wwwroot\css\pages\order-success.css
 wwwroot\css\pages\products.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\admin-notifications.js
 wwwroot\js\catalog-watch.js
+wwwroot\js\contact.js
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map

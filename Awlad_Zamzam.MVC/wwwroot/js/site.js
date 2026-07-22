@@ -86,3 +86,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+document.querySelectorAll(".logout-form").forEach(form => {
+
+    form.addEventListener("submit", function (e) {
+
+        e.preventDefault();
+
+        Swal.fire({
+
+            title: "تسجيل الخروج",
+
+            text: "هل تريد تسجيل الخروج؟",
+
+            icon: "question",
+
+            showCancelButton: true,
+
+            confirmButtonText: "نعم",
+
+            cancelButtonText: "إلغاء"
+
+        }).then(r => {
+
+            if (r.isConfirmed)
+
+                form.submit();
+
+        });
+
+    });
+
+});

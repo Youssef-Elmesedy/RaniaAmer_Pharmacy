@@ -25,53 +25,208 @@ main {
     flex-shrink: 0;
 }
 
+/* ================= NAVBAR ================= */
+
 .main-navbar {
-    background: linear-gradient(90deg, var(--brand-red-dark), var(--brand-red));
+    background: linear-gradient(90deg,#7d1818,#a32222);
+    margin: 10px auto;
+    max-width: 1950px;
+    width: calc(100% - 40px);
+    border-radius: 19px;
+    padding: 9px 20px;
+    box-shadow: 0px 9px 35px #6c757d;
+    overflow: visible;
 }
 
-.main-navbar .nav-link {
-    font-weight: 600;
-    transition: color .2s;
-}
+    .main-navbar .navbar-brand {
+        color: #fff !important;
+        font-size: 1.6rem;
+        font-weight: 800;
+    }
 
-.main-navbar .nav-link:hover {
-    color: var(--brand-gold) !important;
-}
+    .main-navbar .navbar-nav {
+        align-items: center;
+        gap: .3rem;
+    }
+
+    .main-navbar .nav-link {
+        color: #ffff !important;
+        font-weight: 80;
+        border-radius: 12px;
+        padding: .65rem 1rem;
+        transition: .25s;
+    }
+
+        .main-navbar .nav-link:hover {
+            background: rgba(255,255,255,.12);
+            color: #FFD54A !important;
+        }
+
+        .main-navbar .nav-link.active {
+            background: rgba(255,255,255,.18);
+            color: #FFD54A !important;
+        }
+
+    .main-navbar .btn-outline-light {
+        border-radius: 12px;
+    }
+
+    .main-navbar .dropdown-menu {
+        border: none;
+        border-radius: 16px;
+        margin-top: 15px;
+        overflow: hidden;
+        box-shadow: 0 25px 35px #6c757d;
+    }
+
+    .main-navbar .dropdown-item {
+        padding: .4rem 1.2rem;
+        transition: .2s;
+    }
+
+        .main-navbar .dropdown-item:hover {
+            background: #6c757d;
+            color: var(--brand-red);
+        }
+
+    .main-navbar .navbar-toggler {
+        border: none;
+        padding: .45rem .65rem;
+    }
+
+        .main-navbar .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+    .main-navbar .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+/* ================= HERO ================= */
 
 .hero-section {
-    background: linear-gradient(135deg, rgba(91,20,20,.92), rgba(139,30,30,.85)), url('/images/seed/grills.svg') center/cover;
-    color: #fff;
-    padding: 90px 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+    margin: 25px;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(rgba(25,0,0,.78),rgba(25,0,0,.78)), url("/Uplodes/logo/7154d8e0-7ee2-4cfe-a7e8-f6827c1aa810.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.hero-content {
+    max-width: 900px;
+    margin: auto;
+    z-index: 2;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 22px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    color: #FFD54A;
+    border-radius: 50px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
 }
 
 .hero-section h1 {
-    font-weight: 800;
+    font-size: clamp(3rem,7vw,5.5rem);
+    font-weight: 900;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 0 10px 25px rgba(0,0,0,.45);
 }
+
+.hero-section p {
+    font-size: 1.35rem;
+    color: #f3f3f3;
+    line-height: 2;
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 55px;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+    .hero-stats .stat {
+        width: 170px;
+        padding: 22px;
+        border-radius: 18px;
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,.15);
+        transition: .3s;
+    }
+
+        .hero-stats .stat:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,.14);
+        }
+
+    .hero-stats h3 {
+        color: #FFD54A;
+        font-size: 2rem;
+        margin-bottom: 8px;
+        font-weight: 800;
+    }
+
+    .hero-stats span {
+        color: white;
+        opacity: .9;
+    }
 
 .btn-brand {
-    background-color: var(--brand-gold);
-    border-color: var(--brand-gold);
-    color: #2b1a08;
+    background: var(--brand-gold);
+    color: #241500;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 42px;
     font-weight: 700;
+    transition: .3s;
 }
 
-.btn-brand:hover {
-    background-color: #c08e2f;
-    border-color: #c08e2f;
-    color: #2b1a08;
-}
+    .btn-brand:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 18px 35px rgba(212,161,61,.35);
+    }
 
 .btn-outline-brand {
-    border-color: #fff;
+    border: 2px solid #fff;
     color: #fff;
+    border-radius: 50px;
+    padding: 14px 42px;
     font-weight: 700;
+    transition: .3s;
 }
 
-.btn-outline-brand:hover {
-    background-color: #fff;
-    color: var(--brand-red);
-}
+    .btn-outline-brand:hover {
+        background: #fff;
+        color: var(--brand-red);
+    }
 
+/*Icone Stayle*/
 .feature-icon {
     width: 70px;
     height: 70px;
@@ -244,12 +399,23 @@ main {
 
 @media (max-width: 767.98px) {
     .hero-section {
-        padding: 50px 0;
+        min-height: 550px;
+        margin: 12px;
+        border-radius: 18px;
     }
 
-    .hero-section h1 {
-        font-size: 2rem;
+        .hero-section p {
+            font-size: 1rem;
+            padding: 0 15px;
+        }
+
+    .hero-stats {
+        gap: 15px;
     }
+
+        .hero-stats .stat {
+            width: 140px;
+        }
 
     .stat-card h3 {
         font-size: 1.3rem;
@@ -288,3 +454,12 @@ select[style*="width"] {
 .table-responsive {
     -webkit-overflow-scrolling: touch;
 }
+.site-footer a {
+    color: white;
+    transition: .25s;
+}
+
+    .site-footer a:hover {
+        color: var(--brand-gold);
+        transform: translateY(-3px);
+    }
