@@ -33,7 +33,10 @@
                         <td><img src="@(product.ImagePath ?? "/images/seed/grills.svg")" style="width:60px;height:60px;object-fit:cover;border-radius:8px" /></td>
                         <td>@product.Name</td>
                         <td>@product.Category?.Name</td>
-                        <td>@product.Price.ToString("0.00") ج.م</td>
+                        <td>
+                            @product.Price.ToString("0.00") ج.م
+                            <span class="badge bg-secondary-subtle text-dark">@(product.SaleUnit == Awlad_Zamzam.MVC.Models.Enums.SaleUnit.Kilogram ? "/ كجم" : "/ قطعة")</span>
+                        </td>
                         <td>
                             @if (product.DiscountPercentage > 0)
                             {

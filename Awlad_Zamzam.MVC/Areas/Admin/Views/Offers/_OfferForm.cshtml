@@ -45,7 +45,7 @@
                 <img src="@(product.ImagePath ?? "/images/seed/grills.svg")" style="width:45px;height:45px;object-fit:cover;border-radius:6px" />
                 <div class="flex-grow-1">
                     <div class="small fw-bold">@product.Name</div>
-                    <div class="small text-muted">السعر الأصلي: @product.Price.ToString("0.00")</div>
+                    <div class="small text-muted">السعر الأصلي: @product.Price.ToString("0.00") / @product.UnitLabel</div>
                 </div>
                 <input type="number" step="0.01" class="form-control form-control-sm" style="width:100px"
                        name="SpecialPrice_@product.Id" value="@specialPrice.ToString("0.00")" placeholder="سعر العرض" />

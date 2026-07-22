@@ -73,7 +73,7 @@ public class ProductService : IProductService
             : null;
 
         var product = Product.Create(
-            model.Name, model.Description, model.Price, model.DiscountPercentage, imagePath, category.Id);
+            model.Name, model.Description, model.Price, model.SaleUnit, model.DiscountPercentage, imagePath, category.Id);
 
         if (!model.IsAvailable)
             product.MarkAsUnavailable();
@@ -102,7 +102,7 @@ public class ProductService : IProductService
             imagePath = await _imageService.SaveImageAsync(model.ImageFile, "Products");
         }
 
-        product.Update(model.Name, model.Description, model.Price, model.DiscountPercentage, imagePath, model.CategoryId);
+        product.Update(model.Name, model.Description, model.Price, model.SaleUnit, model.DiscountPercentage, imagePath, model.CategoryId);
 
         if (model.IsAvailable)
             product.MarkAsAvailable();
@@ -141,6 +141,7 @@ public class ProductService : IProductService
         Name = p.Name,
         Description = p.Description,
         Price = p.Price,
+        SaleUnit = p.SaleUnit,
         DiscountPercentage = p.DiscountPercentage,
         ImagePath = p.ImagePath,
         IsAvailable = p.IsAvailable,

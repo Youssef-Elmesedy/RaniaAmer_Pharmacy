@@ -40,12 +40,19 @@
                                     <img src="@(item.ProductImagePath ?? "/images/seed/grills.svg")" style="width:50px;height:50px;object-fit:cover;border-radius:8px" />
                                     @item.ProductName
                                 </td>
-                                <td>@item.UnitPrice.ToString("0.00") ج.م</td>
-                                <td style="width:140px">
+                                <td>@item.UnitPrice.ToString("0.00") ج.م / @item.UnitLabel</td>
+                                <td style="width:150px">
                                     <form asp-action="UpdateQuantity" method="post" class="d-flex gap-1">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="productId" value="@item.ProductId" />
-                                        <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control form-control-sm" style="width:70px" />
+                                        @if (item.IsSoldByWeight)
+                                        {
+                                            <input type="number" name="quantity" value="@item.Quantity.ToString("0.##")" min="0.25" step="0.25" class="form-control form-control-sm" style="width:80px" />
+                                        }
+                                        else
+                                        {
+                                            <input type="number" name="quantity" value="@item.Quantity.ToString("0")" min="1" step="1" class="form-control form-control-sm" style="width:80px" />
+                                        }
                                         <button type="submit" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-rotate"></i></button>
                                     </form>
                                 </td>

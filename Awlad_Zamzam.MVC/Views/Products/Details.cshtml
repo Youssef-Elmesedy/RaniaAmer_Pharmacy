@@ -46,6 +46,7 @@
                     <span class="price-old fs-5">@Model.Price.ToString("0.00") ج.م</span>
                 }
                 <span class="price-new fs-3 ms-2">@priceAfter.ToString("0.00") ج.م</span>
+                <span class="text-muted">/ @(Model.SaleUnit == SaleUnit.Kilogram ? "كجم" : "قطعة")</span>
             </div>
 
             @if (Model.IsAvailable)
@@ -55,8 +56,17 @@
                     <input type="hidden" name="productId" value="@Model.Id" />
                     <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
                     <div>
-                        <label class="form-label mb-1">الكمية</label>
-                        <input type="number" name="quantity" value="1" min="1" class="form-control" style="width:100px" />
+                        <label class="form-label mb-1">
+                            الكمية @(Model.SaleUnit == SaleUnit.Kilogram ? "(كجم)" : "")
+                        </label>
+                        @if (Model.SaleUnit == SaleUnit.Kilogram)
+                        {
+                            <input type="number" name="quantity" value="1" min="0.25" step="0.25" class="form-control" style="width:100px" />
+                        }
+                        else
+                        {
+                            <input type="number" name="quantity" value="1" min="1" step="1" class="form-control" style="width:100px" />
+                        }
                     </div>
                     <button type="submit" class="btn btn-brand btn-lg px-5">
                         <i class="fa-solid fa-cart-plus me-2"></i>أضف للسلة

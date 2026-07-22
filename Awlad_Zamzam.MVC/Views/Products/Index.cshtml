@@ -81,6 +81,7 @@
                                     <span class="price-old">@product.Price.ToString("0.00") ج.م</span>
                                 }
                                 <span class="price-new ms-2">@product.PriceAfterDiscount.ToString("0.00") ج.م</span>
+                                <span class="text-muted small">/ @product.UnitLabel</span>
                             </div>
                             <div class="d-flex gap-2">
                                 <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-secondary flex-grow-1">التفاصيل</a>

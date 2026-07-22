@@ -1,3 +1,4 @@
+using System.Globalization;
 using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Models.ViewModels;
 using Awlad_Zamzam.MVC.Services.Interfaces;
@@ -122,7 +123,7 @@ public class OffersController : Controller
         {
             var key = $"SpecialPrice_{productId}";
             if (Request.Form.TryGetValue(key, out var value) &&
-                decimal.TryParse(value, out var price))
+                decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var price))
             {
                 model.SpecialPrices[productId] = price;
             }

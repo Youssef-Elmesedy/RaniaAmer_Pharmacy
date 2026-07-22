@@ -55,9 +55,9 @@ public class Order : BaseEntity
         };
     }
 
-    public void AddItem(Guid productId, string productName, decimal unitPrice, int quantity, string? note)
+    public void AddItem(Guid productId, string productName, decimal unitPrice, SaleUnit saleUnit, decimal quantity, string? note)
     {
-        _items.Add(OrderItem.Create(Id, productId, productName, unitPrice, quantity, note));
+        _items.Add(OrderItem.Create(Id, productId, productName, unitPrice, saleUnit, quantity, note));
         UpdatedAt = DateTime.UtcNow;
     }
 

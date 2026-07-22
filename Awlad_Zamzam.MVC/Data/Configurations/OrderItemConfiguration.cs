@@ -19,7 +19,12 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
         builder.Property(i => i.UnitPrice)
             .HasColumnType("decimal(18,2)");
 
+        builder.Property(i => i.SaleUnit)
+            .HasConversion<int>()
+            .IsRequired();
+
         builder.Property(i => i.Quantity)
+            .HasColumnType("decimal(18,3)")
             .IsRequired();
 
         builder.Property(i => i.Note)

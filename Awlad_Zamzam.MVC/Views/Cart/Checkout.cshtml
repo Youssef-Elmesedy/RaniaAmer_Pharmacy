@@ -17,7 +17,7 @@
                 @foreach (var item in Model.Cart.Items)
                 {
                     <div class="d-flex justify-content-between small mb-2">
-                        <span>@item.ProductName × @item.Quantity</span>
+                        <span>@item.ProductName × @item.Quantity.ToString("0.##") @item.UnitLabel</span>
                         <span>@item.LineTotal.ToString("0.00") ج.م</span>
                     </div>
                 }

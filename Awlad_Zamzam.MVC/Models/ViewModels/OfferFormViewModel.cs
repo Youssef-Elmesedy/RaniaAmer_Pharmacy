@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Awlad_Zamzam.MVC.Models.Enums;
 
 namespace Awlad_Zamzam.MVC.Models.ViewModels;
 
@@ -32,5 +33,8 @@ public class ProductSelectItem
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public decimal Price { get; set; }
+    public SaleUnit SaleUnit { get; set; } = SaleUnit.Piece;
     public string? ImagePath { get; set; }
+
+    public string UnitLabel => SaleUnit == SaleUnit.Kilogram ? "كجم" : "قطعة";
 }

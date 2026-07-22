@@ -34,6 +34,14 @@
     </div>
 
     <div class="col-md-4">
+        <label asp-for="SaleUnit" class="form-label"></label>
+        <select asp-for="SaleUnit" class="form-select"
+                asp-items="Html.GetEnumSelectList<Awlad_Zamzam.MVC.Models.Enums.SaleUnit>()"></select>
+        <span asp-validation-for="SaleUnit" class="text-danger"></span>
+        <div class="form-text">وحدة "Kilogram" = يُباع بالكيلو (زي اللحوم الطازجة)</div>
+    </div>
+
+    <div class="col-md-4">
         <label asp-for="DiscountPercentage" class="form-label"></label>
         <input asp-for="DiscountPercentage" class="form-control" type="number" />
         <span asp-validation-for="DiscountPercentage" class="text-danger"></span>

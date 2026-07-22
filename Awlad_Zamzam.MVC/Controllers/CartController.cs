@@ -28,7 +28,7 @@ public class CartController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Add(Guid productId, int quantity = 1, string? note = null, string? returnUrl = null)
+    public async Task<IActionResult> Add(Guid productId, decimal quantity = 1, string? note = null, string? returnUrl = null)
     {
         try
         {
@@ -48,7 +48,7 @@ public class CartController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateQuantity(Guid productId, int quantity)
+    public async Task<IActionResult> UpdateQuantity(Guid productId, decimal quantity)
     {
         await _cartService.UpdateQuantityAsync(productId, quantity);
         return RedirectToAction(nameof(Index));

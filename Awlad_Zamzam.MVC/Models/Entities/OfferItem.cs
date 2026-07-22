@@ -17,11 +17,24 @@ public class OfferItem : BaseEntity
     {
     }
 
-    internal static OfferItem Create(Guid offerId, Guid productId, decimal specialPrice) => new()
+    internal static OfferItem Create(
+    Offer offer,
+    Guid productId,
+    decimal specialPrice)
     {
-        OfferId = offerId,
-        ProductId = productId,
-        SpecialPrice = specialPrice,
-        CreatedAt = DateTime.UtcNow
-    };
+        return new OfferItem
+        {
+            Offer = offer,
+            OfferId = offer.Id,
+            ProductId = productId,
+            SpecialPrice = specialPrice,
+            CreatedAt = DateTime.UtcNow
+        };
+    }
+
+    public void UpdatePrice(decimal specialPrice)
+    {
+        SpecialPrice = specialPrice;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

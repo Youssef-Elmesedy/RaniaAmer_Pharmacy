@@ -1,3 +1,5 @@
+using Awlad_Zamzam.MVC.Models.Enums;
+
 namespace Awlad_Zamzam.MVC.Models.ViewModels;
 
 public class ProductViewModel
@@ -6,6 +8,7 @@ public class ProductViewModel
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
+    public SaleUnit SaleUnit { get; set; } = SaleUnit.Piece;
     public int DiscountPercentage { get; set; }
     public string? ImagePath { get; set; }
     public bool IsAvailable { get; set; }
@@ -18,4 +21,10 @@ public class ProductViewModel
             : Price;
 
     public bool HasDiscount => DiscountPercentage > 0;
+
+    public bool IsSoldByWeight => SaleUnit == SaleUnit.Kilogram;
+
+    public string UnitLabel => SaleUnit == SaleUnit.Kilogram ? "كجم" : "قطعة";
+
+    public string PriceUnitLabel => SaleUnit == SaleUnit.Kilogram ? "ج.م / كجم" : "ج.م / قطعة";
 }

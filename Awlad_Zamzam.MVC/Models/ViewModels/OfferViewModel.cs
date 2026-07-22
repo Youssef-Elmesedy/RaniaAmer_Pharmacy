@@ -19,6 +19,9 @@ public class OfferItemViewModel
     public Guid ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public string? ProductImagePath { get; set; }
+    public Enums.SaleUnit SaleUnit { get; set; } = Enums.SaleUnit.Piece;
     public decimal OriginalPrice { get; set; }
     public decimal SpecialPrice { get; set; }
+
+    public string UnitLabel => SaleUnit == Enums.SaleUnit.Kilogram ? "كجم" : "قطعة";
 }

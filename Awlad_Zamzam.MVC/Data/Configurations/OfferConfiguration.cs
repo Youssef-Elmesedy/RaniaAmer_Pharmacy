@@ -34,5 +34,12 @@ public class OfferConfiguration : IEntityTypeConfiguration<Offer>
             .WithOne(i => i.Offer)
             .HasForeignKey(i => i.OfferId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(x => x.Items)
+       .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Metadata
+               .FindNavigation(nameof(Offer.Items))!
+               .SetField("_items");
     }
 }

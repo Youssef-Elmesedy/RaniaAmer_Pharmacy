@@ -28,7 +28,7 @@ public class CreditOrderFormViewModel
 
     public List<Guid> SelectedProductIds { get; set; } = new();
 
-    public Dictionary<Guid, int> Quantities { get; set; } = new();
+    public Dictionary<Guid, decimal> Quantities { get; set; } = new();
 
     public List<CustomerSelectItem> Customers { get; set; } = new();
 

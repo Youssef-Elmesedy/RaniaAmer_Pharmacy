@@ -1,3 +1,4 @@
+using System.Globalization;
 using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Models.ViewModels;
 using Awlad_Zamzam.MVC.Repository.Interfaces;
@@ -159,6 +160,7 @@ public class OrdersController : Controller
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
+                SaleUnit = p.SaleUnit,
                 ImagePath = p.ImagePath
             })
             .ToList();
@@ -170,7 +172,8 @@ public class OrdersController : Controller
         foreach (var productId in model.SelectedProductIds)
         {
             var key = $"Quantity_{productId}";
-            if (Request.Form.TryGetValue(key, out var value) && int.TryParse(value, out var qty))
+            if (Request.Form.TryGetValue(key, out var value) &&
+                decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out var qty))
             {
                 model.Quantities[productId] = qty;
             }

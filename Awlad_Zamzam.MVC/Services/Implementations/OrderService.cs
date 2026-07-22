@@ -81,7 +81,7 @@ public class OrderService : IOrderService
         var order = Order.Create(customer.Id, model.Notes);
 
         foreach (var item in cart.Items)
-            order.AddItem(item.ProductId, item.ProductName, item.UnitPrice, item.Quantity, item.Note);
+            order.AddItem(item.ProductId, item.ProductName, item.UnitPrice, item.SaleUnit, item.Quantity, item.Note);
 
         await _orderRepository.AddAsync(order);
         await _orderRepository.SaveChangesAsync();
@@ -139,7 +139,7 @@ public class OrderService : IOrderService
             if (product == null) continue;
 
             var quantity = model.Quantities[productId];
-            order.AddItem(product.Id, product.Name, product.Price, quantity, null);
+            order.AddItem(product.Id, product.Name, product.Price, product.SaleUnit, quantity, null);
         }
 
         // This is a direct admin entry of a credit sale, so it's recorded as already delivered on credit
@@ -191,6 +191,7 @@ public class OrderService : IOrderService
             {
                 ProductName = i.ProductName,
                 UnitPrice = i.UnitPrice,
+                SaleUnit = i.SaleUnit,
                 Quantity = i.Quantity,
                 Note = i.Note
             }).ToList(),
@@ -318,6 +319,6 @@ public class OrderService : IOrderService
         OrderDate = o.OrderDate,
         Total = o.Total,
         AmountPaid = o.AmountPaid,
-        ItemsCount = o.Items.Sum(i => i.Quantity)
+        ItemsCount = o.Items.Count
     };
 }

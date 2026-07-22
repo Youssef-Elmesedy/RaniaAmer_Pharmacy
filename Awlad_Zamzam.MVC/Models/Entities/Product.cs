@@ -1,4 +1,5 @@
-﻿using Awlad_Zamzam.MVC.Models.Exceptions;
+using Awlad_Zamzam.MVC.Models.Enums;
+using Awlad_Zamzam.MVC.Models.Exceptions;
 
 namespace Awlad_Zamzam.MVC.Models.Entities;
 
@@ -11,6 +12,9 @@ public class Product : BaseEntity
     public string Description { get; private set; } = string.Empty;
 
     public decimal Price { get; private set; }
+
+    // Price is per-Kilogram when SaleUnit is Kilogram (e.g. fresh meat), or per-Piece otherwise
+    public SaleUnit SaleUnit { get; private set; } = SaleUnit.Piece;
 
     public int DiscountPercentage { get; private set; }
 
@@ -26,7 +30,7 @@ public class Product : BaseEntity
     {
     }
 
-    public static Product Create(string name, string description, decimal price, int discountPercentage, string? imagePath, Guid categoryId)
+    public static Product Create(string name, string description, decimal price, SaleUnit saleUnit, int discountPercentage, string? imagePath, Guid categoryId)
     {
         Validate(name, description, price, discountPercentage, categoryId);
 
@@ -36,6 +40,7 @@ public class Product : BaseEntity
             NormalizedName = name.Trim().ToUpperInvariant(),
             Description = description.Trim(),
             Price = price,
+            SaleUnit = saleUnit,
             DiscountPercentage = discountPercentage,
             ImagePath = imagePath,
             CategoryId = categoryId,
@@ -44,7 +49,7 @@ public class Product : BaseEntity
         };
     }
 
-    public void Update(string name, string description, decimal price, int discountPercentage, string? imagePath, Guid categoryId)
+    public void Update(string name, string description, decimal price, SaleUnit saleUnit, int discountPercentage, string? imagePath, Guid categoryId)
     {
         Validate(name, description, price, discountPercentage, categoryId);
 
@@ -52,6 +57,7 @@ public class Product : BaseEntity
         NormalizedName = name.Trim().ToUpperInvariant();
         Description = description.Trim();
         Price = price;
+        SaleUnit = saleUnit;
         DiscountPercentage = discountPercentage;
         ImagePath = imagePath;
         CategoryId = categoryId;
@@ -76,24 +82,24 @@ public class Product : BaseEntity
     private static void Validate(string name, string description, decimal price, int discountPercentage, Guid categoryId)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new BusinessException("Product name cannot be empty.", nameof(name));
+            throw new BusinessException("اسم المنتج مطلوب", nameof(name));
 
         if (name.Length > 50)
-            throw new BusinessException("Product name cannot exceed 50 characters.", nameof(name));
+            throw new BusinessException("اسم المنتج لا يجب أن يتجاوز 50 حرف", nameof(name));
 
         if (string.IsNullOrWhiteSpace(description))
-            throw new BusinessException("Description cannot be empty.", nameof(description));
+            throw new BusinessException("الوصف مطلوب", nameof(description));
 
         if (description.Length > 100)
-            throw new BusinessException("Description cannot exceed 100 characters.", nameof(description));
+            throw new BusinessException("الوصف لا يجب أن يتجاوز 100 حرف", nameof(description));
 
         if (discountPercentage < 0 || discountPercentage > 100)
-            throw new BusinessException("Discount percentage must be between 0 and 100.", nameof(discountPercentage));
+            throw new BusinessException("نسبة الخصم يجب أن تكون بين 0 و 100", nameof(discountPercentage));
 
         if (price <= 0)
-            throw new BusinessException("Price must be greater than zero.", nameof(price));
+            throw new BusinessException("السعر يجب أن يكون أكبر من صفر", nameof(price));
 
         if (categoryId == Guid.Empty)
-            throw new BusinessException("Category is required.", nameof(categoryId));
+            throw new BusinessException("القسم مطلوب", nameof(categoryId));
     }
 }

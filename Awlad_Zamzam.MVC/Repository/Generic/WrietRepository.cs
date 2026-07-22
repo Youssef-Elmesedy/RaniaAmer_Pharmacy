@@ -45,6 +45,41 @@ public class WriteRepository<TEntity> : IWriteRepository<TEntity> where TEntity 
 
     public async Task<int> SaveChangesAsync()
     {
-        return await _context.SaveChangesAsync();
+        try
+        {
+            foreach (var entry in _context.ChangeTracker.Entries<OfferItem>())
+            {
+                Console.WriteLine("--------------------------------");
+                Console.WriteLine($"Id       : {entry.Entity.Id}");
+                Console.WriteLine($"State    : {entry.State}");
+                Console.WriteLine($"IsKeySet : {entry.IsKeySet}");
+                Console.WriteLine($"OfferId  : {entry.Entity.OfferId}");
+                Console.WriteLine($"Created  : {entry.Entity.CreatedAt}");
+
+                foreach (var reference in entry.References)
+                {
+                    Console.WriteLine($"{reference.Metadata.Name} Loaded={reference.IsLoaded}");
+                }
+            }
+
+            return await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            foreach (var entry in ex.Entries)
+            {
+                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}");
+                Console.WriteLine($"State : {entry.State}");
+
+                var dbValues = await entry.GetDatabaseValuesAsync();
+
+                if (dbValues == null)
+                    Console.WriteLine("Database Values: NULL (row not found)");
+                else
+                    Console.WriteLine("Database Values: FOUND");
+            }
+
+            throw;
+        }
     }
 }

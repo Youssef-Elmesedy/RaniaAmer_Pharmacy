@@ -1,3 +1,4 @@
+using Awlad_Zamzam.MVC.Data;
 using Awlad_Zamzam.MVC.Models.Entities;
 using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Models.ViewModels;
@@ -16,17 +17,19 @@ public class OfferService : IOfferService
     private readonly IProductRepository _productRepository;
     private readonly IMemoryCache _cache;
     private readonly ICatalogChangeTracker _catalogChangeTracker;
-
+    public readonly ApplicationDbContext _context;
     public OfferService(
         IOfferRepository offerRepository,
         IProductRepository productRepository,
         IMemoryCache cache,
-        ICatalogChangeTracker catalogChangeTracker)
+        ICatalogChangeTracker catalogChangeTracker,
+        ApplicationDbContext context)
     {
         _offerRepository = offerRepository;
         _productRepository = productRepository;
         _cache = cache;
         _catalogChangeTracker = catalogChangeTracker;
+        _context = context;
     }
 
     public async Task<List<OfferViewModel>> GetActiveOffersAsync()
@@ -118,9 +121,13 @@ public class OfferService : IOfferService
         offer.ReplaceItems(model.SelectedProductIds.Select(id =>
             (id, model.SpecialPrices.GetValueOrDefault(id))));
 
+        foreach (var e in _context.ChangeTracker.Entries<OfferItem>())
+        {
+            Console.WriteLine($"{e.Entity.Id} => {e.State}");
+        }
+
         if (model.IsActive) offer.Activate(); else offer.Deactivate();
 
-        await _offerRepository.UpdateAsync(offer);
         await _offerRepository.SaveChangesAsync();
 
         InvalidateCache();
@@ -161,6 +168,7 @@ public class OfferService : IOfferService
                 Id = p.Id,
                 Name = p.Name,
                 Price = p.Price,
+                SaleUnit = p.SaleUnit,
                 ImagePath = p.ImagePath
             }).ToList();
     }
@@ -177,6 +185,7 @@ public class OfferService : IOfferService
             ProductId = i.ProductId,
             ProductName = i.Product?.Name ?? string.Empty,
             ProductImagePath = i.Product?.ImagePath,
+            SaleUnit = i.Product?.SaleUnit ?? Models.Enums.SaleUnit.Piece,
             OriginalPrice = i.Product?.Price ?? 0,
             SpecialPrice = i.SpecialPrice
         }).ToList()

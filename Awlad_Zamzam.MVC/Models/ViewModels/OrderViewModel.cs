@@ -42,10 +42,13 @@ public class OrderItemViewModel
 {
     public string ProductName { get; set; } = string.Empty;
     public decimal UnitPrice { get; set; }
-    public int Quantity { get; set; }
+    public SaleUnit SaleUnit { get; set; } = SaleUnit.Piece;
+    public decimal Quantity { get; set; }
     public string? Note { get; set; }
 
     public decimal LineTotal => UnitPrice * Quantity;
+
+    public string UnitLabel => SaleUnit == SaleUnit.Kilogram ? "كجم" : "قطعة";
 }
 
 public class OrderPaymentViewModel

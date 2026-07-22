@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Awlad_Zamzam.MVC.Models.Enums;
 using Microsoft.AspNetCore.Http;
 
 namespace Awlad_Zamzam.MVC.Models.ViewModels;
@@ -21,6 +22,10 @@ public class ProductFormViewModel
     [Range(0.01, 100000, ErrorMessage = "السعر يجب أن يكون أكبر من صفر")]
     [Display(Name = "السعر")]
     public decimal Price { get; set; }
+
+    [Required(ErrorMessage = "وحدة البيع مطلوبة")]
+    [Display(Name = "يُباع بـ")]
+    public SaleUnit SaleUnit { get; set; } = SaleUnit.Piece;
 
     [Range(0, 100, ErrorMessage = "نسبة الخصم يجب أن تكون بين 0 و 100")]
     [Display(Name = "نسبة الخصم %")]

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Awlad_Zamzam.MVC.Models.Enums;
 using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Models.ViewModels;
 using Awlad_Zamzam.MVC.Repository.Interfaces;
@@ -40,6 +41,7 @@ public class CartService : ICartService
                 ProductId = product.Id,
                 ProductName = product.Name,
                 ProductImagePath = product.ImagePath,
+                SaleUnit = product.SaleUnit,
                 UnitPrice = product.DiscountPercentage > 0
                     ? Math.Round(product.Price - (product.Price * product.DiscountPercentage / 100), 2)
                     : product.Price,
@@ -51,7 +53,7 @@ public class CartService : ICartService
         return new CartViewModel { Items = items };
     }
 
-    public async Task AddItemAsync(Guid productId, int quantity, string? note)
+    public async Task AddItemAsync(Guid productId, decimal quantity, string? note)
     {
         if (quantity <= 0)
             throw new BusinessException("الكمية يجب أن تكون أكبر من صفر", nameof(quantity));
@@ -61,6 +63,9 @@ public class CartService : ICartService
 
         if (!product.IsAvailable)
             throw new BusinessException("هذا المنتج غير متوفر حالياً", nameof(productId));
+
+        if (product.SaleUnit == SaleUnit.Piece && quantity != Math.Floor(quantity))
+            throw new BusinessException("الكمية يجب أن تكون رقم صحيح لهذا المنتج (يُباع بالقطعة)", nameof(quantity));
 
         var lines = GetLines();
         var existing = lines.FirstOrDefault(l => l.ProductId == productId);
@@ -78,7 +83,7 @@ public class CartService : ICartService
         SaveLines(lines);
     }
 
-    public Task UpdateQuantityAsync(Guid productId, int quantity)
+    public Task UpdateQuantityAsync(Guid productId, decimal quantity)
     {
         var lines = GetLines();
         var existing = lines.FirstOrDefault(l => l.ProductId == productId);
@@ -120,7 +125,7 @@ public class CartService : ICartService
     private class CartLine
     {
         public Guid ProductId { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public string? Note { get; set; }
     }
 }

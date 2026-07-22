@@ -54,8 +54,8 @@
                     {
                         <tr>
                             <td>@item.ProductName</td>
-                            <td>@item.UnitPrice.ToString("0.00") ج.م</td>
-                            <td>@item.Quantity</td>
+                            <td>@item.UnitPrice.ToString("0.00") ج.م / @item.UnitLabel</td>
+                            <td>@item.Quantity.ToString("0.##") @item.UnitLabel</td>
                             <td class="fw-bold">@item.LineTotal.ToString("0.00") ج.م</td>
                             <td class="text-muted small">@item.Note</td>
                         </tr>
