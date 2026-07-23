@@ -12,6 +12,12 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.HasKey(c => c.Id);
 
+        builder.HasIndex(x => new
+        {
+            x.NormalizedName,
+            x.PhoneNumber
+        }).IsUnique();
+
         builder.Property(c => c.Name)
             .IsRequired()
             .HasMaxLength(50);
@@ -40,5 +46,13 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.HasIndex(c => c.PhoneNumber)
             .IsUnique();
+
+        builder.Property(c => c.SecurityQuestion)
+            .HasMaxLength(200);
+
+        builder.Property(c => c.SecurityAnswerHash)
+            .HasMaxLength(300);
+
+        builder.Property(c => c.SecurityAnswerUpdatedAt);
     }
 }

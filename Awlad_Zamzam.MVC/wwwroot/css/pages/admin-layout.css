@@ -1,0 +1,248 @@
+﻿/*==================================================
+    Admin Layout
+==================================================*/
+
+:root {
+    --admin-bg: #f5f6fa;
+    --admin-card: #ffffff;
+    --admin-text: #2d3436;
+    --admin-muted: #7f8c8d;
+    --admin-shadow: 0 10px 35px rgba(0,0,0,.08);
+}
+
+/*==================================================
+    Body
+==================================================*/
+
+body {
+    font-family: 'Cairo',sans-serif;
+    background: var(--admin-bg);
+    color: var(--admin-text);
+}
+
+/*==================================================
+    Navbar
+==================================================*/
+
+.admin-navbar {
+    background: linear-gradient(135deg, var(--brand-red-dark), var(--brand-red));
+    box-shadow: 0 10px 30px rgba(0,0,0,.12);
+    padding: .9rem 0;
+}
+
+    .admin-navbar .navbar-brand {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: #fff;
+    }
+
+        .admin-navbar .navbar-brand i {
+            color: var(--brand-gold);
+        }
+
+    /*==================================================
+    Nav Links
+==================================================*/
+
+    .admin-navbar .nav-link {
+        color: rgba(255,255,255,.85);
+        border-radius: 12px;
+        padding: .7rem 1rem;
+        transition: .3s;
+        font-weight: 600;
+    }
+
+        .admin-navbar .nav-link i {
+            width: 22px;
+            text-align: center;
+        }
+
+        .admin-navbar .nav-link:hover {
+            background: rgba(255,255,255,.12);
+            color: #fff;
+        }
+
+        .admin-navbar .nav-link.active {
+            background: #fff;
+            color: var(--brand-red);
+            font-weight: 700;
+        }
+
+            .admin-navbar .nav-link.active i {
+                color: var(--brand-red);
+            }
+
+    /*==================================================
+    User
+==================================================*/
+
+    .admin-navbar .text-white-50 {
+        color: #fff !important;
+        opacity: .9;
+        font-weight: 600;
+    }
+
+    /*==================================================
+    Logout
+==================================================*/
+
+    .admin-navbar .btn-outline-light {
+        border-radius: 30px;
+        padding: .45rem 1rem;
+        transition: .3s;
+    }
+
+        .admin-navbar .btn-outline-light:hover {
+            background: #fff;
+            color: var(--brand-red);
+        }
+
+/*==================================================
+    Content
+==================================================*/
+
+.admin-content {
+    min-height: calc(100vh - 78px);
+    padding-top: 30px;
+}
+
+/*==================================================
+    Cards
+==================================================*/
+
+.card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: var(--admin-shadow);
+    transition: .3s;
+}
+
+    .card:hover {
+        transform: translateY(-3px);
+    }
+
+/*==================================================
+    Tables
+==================================================*/
+
+.table {
+    margin-bottom: 0;
+}
+
+    .table thead {
+        background: #fafafa;
+    }
+
+        .table thead th {
+            color: var(--brand-red);
+            font-weight: 700;
+            border-bottom: 2px solid #eee;
+        }
+
+    .table tbody tr {
+        transition: .25s;
+    }
+
+        .table tbody tr:hover {
+            background: #fff8f8;
+        }
+
+/*==================================================
+    Buttons
+==================================================*/
+
+.btn {
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.btn-brand {
+    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+    color: #fff;
+    border: none;
+}
+
+    .btn-brand:hover {
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+/*==================================================
+    Forms
+==================================================*/
+
+.form-control,
+.form-select {
+    border-radius: 12px;
+    min-height: 48px;
+    border: 1px solid #ddd;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--brand-red);
+        box-shadow: 0 0 0 .2rem rgba(220,53,69,.12);
+    }
+
+/*==================================================
+    Loader
+==================================================*/
+
+.page-loader {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,255,255,.7);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: .4s;
+}
+
+/*==================================================
+    Scrollbar
+==================================================*/
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--brand-red);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/*==================================================
+    Responsive
+==================================================*/
+
+@media(max-width:992px) {
+
+    .admin-navbar {
+        padding: .7rem 0;
+    }
+
+        .admin-navbar .nav-link {
+            margin: .2rem 0;
+        }
+
+    .admin-content {
+        padding: 20px 10px;
+    }
+}
+
+@media(max-width:576px) {
+
+    .admin-navbar .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .admin-navbar .btn-outline-light {
+        width: 100%;
+    }
+}

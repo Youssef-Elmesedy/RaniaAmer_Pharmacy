@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\Awlad_Zamzam\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\services\\implementations\\customerauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\services\\implementations\\customerauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\controllers\\customeraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\controllers\\customeraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\repository\\implementations\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\repository\\implementations\\customerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\repository\\interfaces\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\repository\\interfaces\\icustomerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\models\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +30,78 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ICustomerRepository.cs",
+              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Repository\\Interfaces\\ICustomerRepository.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Repository\\Interfaces\\ICustomerRepository.cs",
+              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Repository\\Interfaces\\ICustomerRepository.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Repository\\Interfaces\\ICustomerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T04:42:56.474Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomerRepository.cs",
+              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Repository\\Implementations\\CustomerRepository.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Repository\\Implementations\\CustomerRepository.cs",
+              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Repository\\Implementations\\CustomerRepository.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Repository\\Implementations\\CustomerRepository.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAmwDIAAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T04:42:25.658Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Models\\Entities\\Customer.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Models\\Entities\\Customer.cs",
+              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Models\\Entities\\Customer.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Models\\Entities\\Customer.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAwwGMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T04:39:38.307Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomerAuthService.cs",
+              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T04:38:09.347Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CustomerAccountController.cs",
+              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAywJQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T04:38:47.342Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"

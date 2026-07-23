@@ -7,4 +7,6 @@ public interface ICustomerRepository : IReadRepository<Customer>, IWriteReposito
     Task<bool> ExistsByPhoneAsync(string phoneNumber);
 
     Task<Customer?> GetByPhoneAsync(string phoneNumber);
+
+    Task<Customer?> GetByNameAndPhoneAsync(string name, string phone);
 }

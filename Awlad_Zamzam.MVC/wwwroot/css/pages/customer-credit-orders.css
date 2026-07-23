@@ -1,0 +1,316 @@
+﻿/* ==========================================================
+   Customer Credit Orders
+========================================================== */
+
+:root {
+    --page-bg: #f8f9fc;
+    --card-bg: #ffffff;
+    --border: #ececec;
+    --text: #2d3436;
+    --muted: #7b8794;
+    --shadow: 0 15px 40px rgba(0,0,0,.08);
+    --shadow-hover: 0 20px 55px rgba(0,0,0,.12);
+}
+
+.credit-page {
+    min-height: 100vh;
+    background: var(--page-bg);
+    padding: 45px 0;
+}
+
+/* ==========================================================
+   Header
+========================================================== */
+
+.credit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 35px;
+}
+
+    .credit-header h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+        color: var(--brand-red);
+    }
+
+        .credit-header h2 i {
+            margin-left: 10px;
+        }
+
+    .credit-header p {
+        color: var(--muted);
+        margin: 0;
+        font-size: 15px;
+    }
+
+/* ==========================================================
+   Stats
+========================================================== */
+
+.stat-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: .35s;
+    height: 100%;
+}
+
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .stat-card i {
+        width: 75px;
+        height: 75px;
+        margin: auto;
+        margin-bottom: 18px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg,var(--brand-red),var(--brand-red-dark));
+        color: white;
+        font-size: 30px;
+    }
+
+    .stat-card h3 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--brand-red);
+        margin-bottom: 8px;
+    }
+
+    .stat-card span {
+        color: var(--muted);
+    }
+
+/* ==========================================================
+   Table Card
+========================================================== */
+
+.table-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+    .table thead {
+        background: #fafafa;
+    }
+
+        .table thead th {
+            color: var(--brand-red);
+            font-weight: 700;
+            border-bottom: 2px solid #eee;
+            white-space: nowrap;
+        }
+
+    .table tbody td {
+        vertical-align: middle;
+    }
+
+    .table tbody tr {
+        transition: .25s;
+    }
+
+        .table tbody tr:hover {
+            background: #fff8f8;
+        }
+
+    .table tfoot td {
+        background: #fafafa;
+        font-size: 18px;
+        padding: 18px;
+    }
+
+/* ==========================================================
+   Badges
+========================================================== */
+
+.badge {
+    padding: 10px 18px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .badge i {
+        margin-left: 6px;
+    }
+
+/* ==========================================================
+   View Button
+========================================================== */
+
+.btn-view {
+    border-radius: 50px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg,var(--brand-red),var(--brand-red-dark));
+    color: white;
+    border: none;
+    transition: .3s;
+    font-weight: 600;
+}
+
+    .btn-view:hover {
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(220,53,69,.25);
+    }
+
+/* ==========================================================
+   Empty State
+========================================================== */
+
+.empty-card {
+    background: white;
+    border-radius: 24px;
+    text-align: center;
+    padding: 80px 20px;
+    box-shadow: var(--shadow);
+}
+
+    .empty-card i {
+        font-size: 75px;
+        color: var(--brand-red);
+        margin-bottom: 25px;
+    }
+
+    .empty-card h4 {
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
+
+    .empty-card p {
+        color: var(--muted);
+        margin-bottom: 0;
+    }
+
+/* ==========================================================
+   Buttons
+========================================================== */
+
+.btn-outline-secondary {
+    border-radius: 50px;
+    padding: 10px 25px;
+    transition: .3s;
+}
+
+    .btn-outline-secondary:hover {
+        transform: translateY(-2px);
+    }
+
+/* ==========================================================
+   Animation
+========================================================== */
+
+.stat-card,
+.table-card,
+.empty-card {
+    animation: fadeUp .6s ease;
+}
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ==========================================================
+   Responsive
+========================================================== */
+
+@media (max-width:992px) {
+
+    .credit-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width:768px) {
+
+    .credit-page {
+        padding: 30px 0;
+    }
+
+    .credit-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .stat-card {
+        padding: 25px;
+    }
+
+        .stat-card i {
+            width: 65px;
+            height: 65px;
+            font-size: 26px;
+        }
+
+        .stat-card h3 {
+            font-size: 1.6rem;
+        }
+
+    .table thead {
+        display: none;
+    }
+
+    .table,
+    .table tbody,
+    .table tr,
+    .table td {
+        display: block;
+        width: 100%;
+    }
+
+        .table tr {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table td {
+            text-align: left;
+            padding: 8px 0;
+            border: none;
+        }
+
+        .table tfoot {
+            display: block;
+        }
+}
+
+@media (max-width:576px) {
+
+    .credit-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .btn-view {
+        width: 100%;
+    }
+
+    .empty-card {
+        padding: 60px 15px;
+    }
+}

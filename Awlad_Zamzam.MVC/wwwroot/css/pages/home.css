@@ -1,22 +1,2 @@
 /* Home page specific styles */
-.hero-section {
-    position: relative;
-    overflow: hidden;
-    padding: 110px 0;
-    margin: 10px;
-    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
-    color: white;
-    border-radius: 30px;
-}
 
-.hero-section .display-4 {
-    text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
-}
-
-.feature-icon {
-    transition: transform .25s ease;
-}
-
-.feature-icon:hover {
-    transform: translateY(-4px) scale(1.05);
-}

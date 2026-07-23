@@ -1,4 +1,5 @@
 @model CustomerLoginViewModel
+
 @{
     ViewData["Title"] = "تسجيل الدخول";
 }
@@ -7,36 +8,149 @@
     <link rel="stylesheet" href="~/css/pages/customer-account.css" asp-append-version="true" />
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card border-0 shadow-sm p-4">
-                <h3 class="fw-bold mb-4 text-center">تسجيل الدخول</h3>
+<div class="customer-login-page">
 
-                <form asp-action="Login" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-                    <div class="mb-3">
-                        <label asp-for="PhoneNumber" class="form-label"></label>
-                        <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <button type="submit" class="btn btn-brand w-100">
-                        <i class="fa-solid fa-right-to-bracket me-2"></i>دخول
-                    </button>
-                </form>
-
-                <p class="text-center mt-3 mb-0">
-                    ليس لديك حساب؟ <a asp-action="Register">إنشاء حساب جديد</a>
-                </p>
-            </div>
-        </div>
+    <div class="login-bg">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
+
+    <div class="container">
+
+        <div class="row justify-content-center align-items-center min-vh-100">
+
+            <div class="col-xl-5 col-lg-6 col-md-8">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="back-home">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                    العودة للرئيسية
+
+                </a>
+
+                <div class="login-card">
+
+                    <div class="text-center mb-5">
+
+                        <div class="logo-circle">
+
+                            <i class="fa-solid fa-user"></i>
+
+                        </div>
+
+                        <h2 class="fw-bold mt-4">
+                            أهلاً بك
+                        </h2>
+
+                        <p class="text-muted">
+                            سجل دخولك للوصول إلى حسابك
+                        </p>
+
+                    </div>
+
+                    <form asp-action="Login" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="input-group-custom mb-4">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            <input asp-for="PhoneNumber"
+                                   class="form-control"
+                                   placeholder="01xxxxxxxxx" />
+
+                        </div>
+
+                        <span asp-validation-for="PhoneNumber"
+                              class="text-danger"></span>
+
+                        <div class="input-group-custom password-box mb-4">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   id="passwordInput"
+                                   placeholder="كلمة المرور" />
+
+                            <button type="button"
+                                    id="togglePassword">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                        <span asp-validation-for="Password"
+                              class="text-danger"></span>
+
+                        <button type="submit"
+                                class="btn-login">
+
+                            <i class="fa-solid fa-right-to-bracket me-2"></i>
+
+                            تسجيل الدخول
+
+                        </button>
+
+                    </form>
+
+                    <div class="register-box">
+
+                        ليس لديك حساب؟
+
+                        <a asp-action="Register">
+                            إنشاء حساب جديد
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        const toggle = document.getElementById("togglePassword");
+        const password = document.getElementById("passwordInput");
+
+        toggle.onclick = function() {
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                toggle.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+
+            }
+            else {
+
+                password.type = "password";
+
+                toggle.innerHTML = '<i class="fa-solid fa-eye"></i>';
+
+            }
+
+        };
+
+    </script>
+
+}

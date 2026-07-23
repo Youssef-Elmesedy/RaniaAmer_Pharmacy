@@ -30,6 +30,17 @@ public class CustomerRegisterViewModel
     [Compare(nameof(Password), ErrorMessage = "كلمتا المرور غير متطابقتين")]
     [Display(Name = "تأكيد كلمة المرور")]
     public string ConfirmPassword { get; set; } = string.Empty;
+
+    // سؤال الأمان
+    [Required(ErrorMessage = "اختر سؤال الأمان")]
+    [Display(Name = "سؤال الأمان")]
+    public string SecurityQuestion { get; set; } = string.Empty;
+
+    // إجابة سؤال الأمان
+    [Required(ErrorMessage = "أدخل إجابة سؤال الأمان")]
+    [StringLength(100, ErrorMessage = "الإجابة طويلة جداً")]
+    [Display(Name = "إجابة سؤال الأمان")]
+    public string SecurityAnswer { get; set; } = string.Empty;
 }
 
 public class CustomerLoginViewModel

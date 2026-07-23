@@ -109,12 +109,13 @@ main {
     overflow: hidden;
     border-radius: 30px;
     margin: 25px;
-    min-height: 700px;
+    min-height: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(25,0,0,.78),rgba(25,0,0,.78)), url("/Uplodes/logo/7154d8e0-7ee2-4cfe-a7e8-f6827c1aa810.png");
+    background: linear-gradient(135deg, var(--brand-red), var(--brand-red-dark));
+    color: white;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -153,6 +154,88 @@ main {
     line-height: 2;
     max-width: 800px;
     margin: 0 auto 40px;
+}
+
+/* ================= Floating Shapes ================= */
+
+.hero-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+    .hero-shapes span {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,.08);
+        backdrop-filter: blur(6px);
+        animation: floatCircle 16s ease-in-out infinite;
+    }
+
+        /* Circle 1 */
+
+        .hero-shapes span:nth-child(1) {
+            width: 420px;
+            height: 420px;
+            top: -170px;
+            left: -120px;
+            animation-duration: 18s;
+        }
+
+        /* Circle 2 */
+
+        .hero-shapes span:nth-child(2) {
+            width: 280px;
+            height: 280px;
+            top: 10%;
+            right: -90px;
+            animation-duration: 14s;
+            animation-delay: 2s;
+        }
+
+        /* Circle 3 */
+
+        .hero-shapes span:nth-child(3) {
+            width: 220px;
+            height: 220px;
+            bottom: -80px;
+            left: 18%;
+            animation-duration: 17s;
+            animation-delay: 1s;
+        }
+
+        /* Circle 4 */
+
+        .hero-shapes span:nth-child(4) {
+            width: 160px;
+            height: 160px;
+            bottom: 60px;
+            right: 20%;
+            animation-duration: 12s;
+        }
+
+@keyframes floatCircle {
+
+    0% {
+        transform: translateY(0) translateX(0) rotate(0);
+    }
+
+    25% {
+        transform: translateY(-25px) translateX(20px) rotate(6deg);
+    }
+
+    50% {
+        transform: translateY(20px) translateX(-20px) rotate(-6deg);
+    }
+
+    75% {
+        transform: translateY(-15px) translateX(10px) rotate(4deg);
+    }
+
+    100% {
+        transform: translateY(0) translateX(0) rotate(0);
+    }
 }
 
 .hero-buttons {
@@ -238,6 +321,10 @@ main {
     justify-content: center;
     font-size: 28px;
     margin: 0 auto 15px;
+}
+
+.feature-icon:hover {
+    transform: translateY(-4px) scale(1.05);
 }
 
 .product-card {

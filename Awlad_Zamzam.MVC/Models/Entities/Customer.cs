@@ -17,6 +17,13 @@ public class Customer : BaseEntity
 
     public bool HasAccount => !string.IsNullOrEmpty(PasswordHash);
 
+    // Optional security question and answer for password recovery
+    public string? SecurityQuestion { get; private set; }
+
+    public string? SecurityAnswerHash { get; private set; }
+
+    public DateTime? SecurityAnswerUpdatedAt { get; private set; }
+
     private Customer() { }
 
     public static Customer Create(string name, string phoneNumber, string address)
@@ -73,5 +80,20 @@ public class Customer : BaseEntity
 
         if (string.IsNullOrWhiteSpace(address))
             throw new BusinessException("Address cannot be null or empty.", nameof(address));
+    }
+
+    public void SetSecurityQuestion(string question, string answerHash)
+    {
+        if (string.IsNullOrWhiteSpace(question))
+            throw new BusinessException("يجب اختيار سؤال الأمان.", nameof(question));
+
+        if (string.IsNullOrWhiteSpace(answerHash))
+            throw new BusinessException("إجابة سؤال الأمان غير صحيحة.", nameof(answerHash));
+
+        SecurityQuestion = question.Trim();
+        SecurityAnswerHash = answerHash;
+        SecurityAnswerUpdatedAt = DateTime.UtcNow;
+
+        UpdatedAt = DateTime.UtcNow;
     }
 }

@@ -1,71 +1,261 @@
 @model List<OrderListItemViewModel>
+
 @{
     ViewData["Title"] = "فواتير الآجل";
+
+    var totalRemaining = Model.Sum(x => x.RemainingBalance);
+    var totalPaid = Model.Sum(x => x.AmountPaid);
+    var paidCount = Model.Count(x => x.IsFullyPaid);
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/pages/customer-account.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/pages/customer-credit-orders.css"
+          asp-append-version="true" />
 }
 
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold mb-0"><i class="fa-solid fa-clock me-2"></i>فواتير الآجل</h3>
-        <a asp-action="MyOrders" class="btn btn-outline-secondary">كل الطلبات</a>
+<div class="credit-page">
+
+    <div class="container">
+
+        <!-- Hero -->
+
+        <div class="credit-header">
+
+            <div>
+
+                <h2>
+
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+
+                    فواتير الآجل
+
+                </h2>
+
+                <p>
+
+                    يمكنك متابعة جميع الفواتير المستحقة وسدادها.
+
+                </p>
+
+            </div>
+
+            <a asp-action="MyOrders"
+               class="btn btn-outline-secondary">
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+                كل الطلبات
+
+            </a>
+
+        </div>
+
+        <!-- Stats -->
+
+        <div class="row g-4 mb-5">
+
+            <div class="col-md-4">
+
+                <div class="stat-card">
+
+                    <i class="fa-solid fa-file-lines"></i>
+
+                    <h3>@Model.Count</h3>
+
+                    <span>عدد الفواتير</span>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="stat-card">
+
+                    <i class="fa-solid fa-wallet"></i>
+
+                    <h3>@totalRemaining.ToString("0.00") ج.م</h3>
+
+                    <span>المتبقي عليك</span>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="stat-card">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <h3>@paidCount</h3>
+
+                    <span>الفواتير المسددة</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-card">
+
+                <i class="fa-solid fa-file-circle-xmark"></i>
+
+                <h4>لا توجد فواتير آجل</h4>
+
+                <p>
+
+                    جميع طلباتك الحالية مسددة.
+
+                </p>
+
+            </div>
+        }
+        else
+        {
+
+            <div class="table-card">
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>التاريخ</th>
+
+                                <th>الأصناف</th>
+
+                                <th>الإجمالي</th>
+
+                                <th>المدفوع</th>
+
+                                <th>المتبقي</th>
+
+                                <th></th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var order in Model)
+                            {
+
+                                <tr>
+
+                                    <td>
+
+                                        @order.OrderDate.ToString("yyyy/MM/dd")
+
+                                        <br>
+
+                                        <small>
+
+                                            @order.OrderDate.ToString("hh:mm tt")
+
+                                        </small>
+
+                                    </td>
+
+                                    <td>
+
+                                        @order.ItemsCount
+
+                                    </td>
+
+                                    <td class="fw-bold">
+
+                                        @order.Total.ToString("0.00") ج.م
+
+                                    </td>
+
+                                    <td>
+
+                                        @order.AmountPaid.ToString("0.00") ج.م
+
+                                    </td>
+
+                                    <td>
+
+                                        @if (order.IsFullyPaid)
+                                        {
+                                            <span class="badge bg-success">
+
+                                                <i class="fa-solid fa-check"></i>
+
+                                                مسدد
+
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+
+                                                @order.RemainingBalance.ToString("0.00") ج.م
+
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td>
+
+                                        <a asp-action="OrderDetails"
+                                           asp-route-id="@order.Id"
+                                           class="btn btn-view">
+
+                                            <i class="fa-solid fa-eye"></i>
+
+                                            التفاصيل
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        </tbody>
+
+                        <tfoot>
+
+                            <tr>
+
+                                <td colspan="4"
+                                    class="text-end fw-bold">
+
+                                    إجمالي المبلغ المتبقي
+
+                                </td>
+
+                                <td colspan="2"
+                                    class="fw-bold text-danger">
+
+                                    @totalRemaining.ToString("0.00") ج.م
+
+                                </td>
+
+                            </tr>
+
+                        </tfoot>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        }
+
     </div>
 
-    @if (!Model.Any())
-    {
-        <div class="text-center py-5 text-muted">لا توجد فواتير آجل</div>
-    }
-    else
-    {
-        <div class="card border-0 shadow-sm">
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>التاريخ</th>
-                            <th>عدد الأصناف</th>
-                            <th>الإجمالي</th>
-                            <th>المدفوع</th>
-                            <th>المتبقي</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var order in Model)
-                        {
-                            <tr>
-                                <td>@order.OrderDate.ToString("yyyy-MM-dd HH:mm")</td>
-                                <td>@order.ItemsCount</td>
-                                <td class="fw-bold">@order.Total.ToString("0.00") ج.م</td>
-                                <td>@order.AmountPaid.ToString("0.00") ج.م</td>
-                                <td class="fw-bold @(order.IsFullyPaid ? "text-success" : "text-danger")">
-                                    @if (order.IsFullyPaid)
-                                    {
-                                        <span><i class="fa-solid fa-circle-check me-1"></i>مسدد</span>
-                                    }
-                                    else
-                                    {
-                                        @order.RemainingBalance.ToString("0.00")<text> ج.م</text>
-                                    }
-                                </td>
-                                <td>
-                                    <a asp-action="OrderDetails" asp-route-id="@order.Id" class="btn btn-sm btn-outline-secondary">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="4" class="text-end fw-bold">إجمالي المتبقي عليك</td>
-                            <td class="fw-bold price-new" colspan="2">@Model.Sum(o => o.RemainingBalance).ToString("0.00") ج.م</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    }
 </div>

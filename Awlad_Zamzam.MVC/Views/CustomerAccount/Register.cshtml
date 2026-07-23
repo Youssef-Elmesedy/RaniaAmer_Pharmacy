@@ -1,60 +1,262 @@
 @model CustomerRegisterViewModel
+
 @{
     ViewData["Title"] = "إنشاء حساب";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/pages/customer-account.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/pages/customer-register.css" asp-append-version="true" />
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm p-4">
-                <h3 class="fw-bold mb-4 text-center">إنشاء حساب عميل</h3>
+<div class="customer-register-page">
 
-                <form asp-action="Register" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="PhoneNumber" class="form-label"></label>
-                        <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Address" class="form-label"></label>
-                        <textarea asp-for="Address" class="form-control" rows="2"></textarea>
-                        <span asp-validation-for="Address" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
-
-                    <button type="submit" class="btn btn-brand w-100">
-                        <i class="fa-solid fa-user-plus me-2"></i>إنشاء الحساب
-                    </button>
-                </form>
-
-                <p class="text-center mt-3 mb-0">
-                    عندك حساب بالفعل؟ <a asp-action="Login">تسجيل الدخول</a>
-                </p>
-            </div>
-        </div>
+    <div class="register-bg">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
+
+    <div class="container">
+
+        <div class="row justify-content-center align-items-center min-vh-100">
+
+            <div class="col-xl-6 col-lg-7 col-md-9">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="back-home">
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                    العودة للرئيسية
+
+                </a>
+
+                <div class="login-card">
+
+                    <div class="text-center mb-5">
+
+                        <div class="logo-circle">
+
+                            <i class="fa-solid fa-user-plus"></i>
+
+                        </div>
+
+                        <h2 class="fw-bold mt-4">
+                            إنشاء حساب جديد
+                        </h2>
+
+                        <p class="text-muted">
+                            أنشئ حسابك للاستفادة من خدمات أولاد زمزم
+                        </p>
+
+                    </div>
+
+                    <form asp-action="Register" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+                        <!-- الاسم -->
+
+                        <div class="input-group-custom mb-4">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            <input asp-for="Name"
+                                   class="form-control"
+                                   placeholder="الاسم بالكامل" />
+
+                        </div>
+
+                        <span asp-validation-for="Name"
+                              class="text-danger"></span>
+
+                        <!-- الهاتف -->
+
+                        <div class="input-group-custom mb-4">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                            <input asp-for="PhoneNumber"
+                                   class="form-control"
+                                   placeholder="01xxxxxxxxx" />
+
+                        </div>
+
+                        <span asp-validation-for="PhoneNumber"
+                              class="text-danger"></span>
+
+                        <!-- العنوان -->
+
+                        <div class="input-group-custom mb-4">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <textarea asp-for="Address"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="العنوان"></textarea>
+
+                        </div>
+
+                        <span asp-validation-for="Address"
+                              class="text-danger"></span>
+
+                        <!-- سؤال الأمان -->
+                        <!-- سؤال الأمان -->
+
+                        <div class="input-group-custom mb-4">
+
+                            <i class="fa-solid fa-shield-halved input-icon"></i>
+
+                            <select asp-for="SecurityQuestion" class="form-control">
+
+                                <option value="">اختر سؤال الأمان</option>
+
+                                <option>ما اسم أول معلم لك؟</option>
+
+                                <option>ما هو لونك المفضل؟</option>
+
+                                <option>ما اسم أول صديق لك؟</option>
+
+                                <option>ما اسم مدينتك التي ولدت بها؟</option>
+
+                                <option>ما هو اسم والدتك الأول؟</option>
+
+                            </select>
+
+                        </div>
+
+                        <span asp-validation-for="SecurityQuestion" class="text-danger"></span>
+
+
+                        <!-- إجابة سؤال الأمان -->
+
+                        <div class="input-group-custom mb-4">
+
+                            <i class="fa-solid fa-key"></i>
+
+                            <input asp-for="SecurityAnswer"
+                                   class="form-control"
+                                   placeholder="اكتب إجابة سؤال الأمان" />
+
+                        </div>
+
+                        <span asp-validation-for="SecurityAnswer"
+                              class="text-danger"></span>
+
+                        <!-- كلمة المرور -->
+
+                        <div class="input-group-custom password-box mb-4">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   id="passwordInput"
+                                   placeholder="كلمة المرور" />
+
+                            <button type="button"
+                                    id="togglePassword">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                        <span asp-validation-for="Password"
+                              class="text-danger"></span>
+
+                        <!-- تأكيد كلمة المرور -->
+
+                        <div class="input-group-custom password-box mb-4">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input asp-for="ConfirmPassword"
+                                   class="form-control"
+                                   id="confirmPasswordInput"
+                                   placeholder="تأكيد كلمة المرور" />
+
+                            <button type="button"
+                                    id="toggleConfirmPassword">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </button>
+
+                        </div>
+
+                        <span asp-validation-for="ConfirmPassword"
+                              class="text-danger"></span>
+
+                        <button type="submit"
+                                class="btn-register">
+
+                            <i class="fa-solid fa-user-plus me-2"></i>
+
+                            إنشاء الحساب
+
+                        </button>
+
+                    </form>
+
+                    <div class="Login-box">
+
+                        لديك حساب بالفعل؟
+
+                        <a asp-action="Login">
+                            تسجيل الدخول
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        function togglePassword(buttonId, inputId) {
+
+            const button = document.getElementById(buttonId);
+            const input = document.getElementById(inputId);
+
+            button.onclick = function() {
+
+                if (input.type === "password") {
+
+                    input.type = "text";
+
+                    this.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+
+                } else {
+
+                    input.type = "password";
+
+                    this.innerHTML = '<i class="fa-solid fa-eye"></i>';
+
+                }
+
+            }
+
+        }
+
+        togglePassword("togglePassword", "passwordInput");
+        togglePassword("toggleConfirmPassword", "confirmPasswordInput");
+
+    </script>
+
+}

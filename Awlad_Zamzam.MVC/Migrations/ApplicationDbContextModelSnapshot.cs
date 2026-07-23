@@ -168,6 +168,17 @@ namespace Awlad_Zamzam.MVC.Migrations
                         .HasMaxLength(11)
                         .HasColumnType("nvarchar(11)");
 
+                    b.Property<string>("SecurityAnswerHash")
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime?>("SecurityAnswerUpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SecurityQuestion")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -176,6 +187,9 @@ namespace Awlad_Zamzam.MVC.Migrations
                     b.HasIndex("NormalizedName");
 
                     b.HasIndex("PhoneNumber")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedName", "PhoneNumber")
                         .IsUnique();
 
                     b.ToTable("Customers", (string)null);

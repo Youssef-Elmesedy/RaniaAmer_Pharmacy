@@ -21,26 +21,39 @@ public class CustomerAuthService : ICustomerAuthService
     {
         var existing = await _customerRepository.GetByPhoneAsync(model.PhoneNumber.Trim());
 
-        Customer customer;
-
-        if (existing == null)
-        {
-            customer = Customer.Create(model.Name, model.PhoneNumber, model.Address);
-            await _customerRepository.AddAsync(customer);
-        }
-        else
+        if (existing != null)
         {
             if (existing.HasAccount)
-                throw new BusinessException("رقم الهاتف مسجل بالفعل، يمكنك تسجيل الدخول مباشرة", nameof(model.PhoneNumber));
+                throw new BusinessException("رقم الهاتف مسجل بالفعل، يمكنك تسجيل الدخول مباشرة.", nameof(model.PhoneNumber));
+
+            if (!string.Equals(existing.Name.Trim(), model.Name.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                throw new BusinessException("رقم الهاتف مسجل باسم عميل آخر.", nameof(model.Name));
+            }
 
             existing.Update(model.Name, model.PhoneNumber, model.Address);
-            customer = existing;
-            await _customerRepository.UpdateAsync(customer);
+
+            var hash = _passwordHasher.HashPassword(existing, model.Password);
+            existing.SetPassword(hash);
+
+            await _customerRepository.UpdateAsync(existing);
+            await _customerRepository.SaveChangesAsync();
+
+            return existing;
         }
 
-        var hash = _passwordHasher.HashPassword(customer, model.Password);
-        customer.SetPassword(hash);
+        var customer = Customer.Create(model.Name, model.PhoneNumber, model.Address);
 
+        var passwordHash = _passwordHasher.HashPassword(customer, model.Password);
+        customer.SetPassword(passwordHash);
+
+        var answerHash = _passwordHasher.HashPassword(customer, model.SecurityAnswer);
+
+        customer.SetSecurityQuestion(
+            model.SecurityQuestion,
+            answerHash);
+
+        await _customerRepository.AddAsync(customer);
         await _customerRepository.SaveChangesAsync();
 
         return customer;
