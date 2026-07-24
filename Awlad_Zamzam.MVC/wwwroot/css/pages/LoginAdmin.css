@@ -1,15 +1,36 @@
-﻿.login-page {
-    font-family: 'Cairo',sans-serif;
-    background: linear-gradient(135deg,#991b1b,#dc2626);
-    overflow: hidden;
-    position: relative;
+﻿/* ==========================================================
+   LOGIN PAGE STYLESHEET (ENHANCED & MODERN)
+   ========================================================== */
+
+:root {
+    --login-bg-start: #991b1b;
+    --login-bg-end: #dc2626;
+    --login-card-bg: rgba(255, 255, 255, 0.96);
+    --login-text: #2d3436;
+    --login-muted: #777777;
+    --login-border: #e2e8f0;
 }
 
+.login-page {
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(135deg, var(--login-bg-start), var(--login-bg-end));
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==========================================================
+   Background Shapes & Animation
+   ========================================================== */
 .background-shapes span {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255,255,255,.08);
+    background: rgba(255, 255, 255, 0.08);
     animation: float 12s infinite ease-in-out;
+    pointer-events: none;
 }
 
     .background-shapes span:nth-child(1) {
@@ -24,6 +45,7 @@
         height: 250px;
         bottom: -70px;
         right: 10%;
+        animation-delay: -4s;
     }
 
     .background-shapes span:nth-child(3) {
@@ -31,26 +53,36 @@
         height: 180px;
         top: 20%;
         right: -70px;
+        animation-delay: -8s;
     }
 
 @keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
 
     50% {
         transform: translateY(-25px) rotate(15deg);
     }
 }
 
+/* ==========================================================
+   Login Card
+   ========================================================== */
 .login-card {
-    background: rgba(255,255,255,.95);
+    background: var(--login-card-bg);
     backdrop-filter: blur(15px);
-    border-radius: 30px;
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 28px;
     padding: 45px;
-    box-shadow: 0 30px 80px rgba(0,0,0,.2);
-    animation: fade .8s;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+    animation: fade 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    position: relative;
+    z-index: 2;
 }
 
 @keyframes fade {
-
     from {
         opacity: 0;
         transform: translateY(40px);
@@ -62,21 +94,30 @@
     }
 }
 
+/* ==========================================================
+   Logo Circle
+   ========================================================== */
 .logo-circle {
     width: 90px;
     height: 90px;
-    margin: auto;
+    margin: 0 auto 25px;
     border-radius: 50%;
-    background: linear-gradient(135deg,#dc2626,#991b1b);
-    color: white;
+    background: linear-gradient(135deg, var(--login-bg-end), var(--login-bg-start));
+    color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 36px;
+    box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+    border: 3px solid #ffffff;
 }
 
+/* ==========================================================
+   Input Groups & Form Controls
+   ========================================================== */
 .input-group-custom {
     position: relative;
+    margin-bottom: 20px;
 }
 
     .input-group-custom > i {
@@ -84,50 +125,128 @@
         top: 50%;
         right: 18px;
         transform: translateY(-50%);
-        color: #999;
+        color: var(--login-muted);
+        font-size: 1.1rem;
+        z-index: 10;
+        pointer-events: none;
     }
 
     .input-group-custom input {
-        height: 58px;
-        border-radius: 15px;
+        height: 56px;
+        border-radius: 14px;
         padding-right: 50px;
+        padding-left: 20px;
+        border: 1px solid var(--login-border);
+        background: #f8f9fa;
+        font-size: 0.98rem;
+        font-weight: 500;
+        transition: all 0.25s ease;
     }
 
         .input-group-custom input:focus {
+            background: #ffffff;
             border-color: #dc2626;
-            box-shadow: 0 0 0 .2rem rgba(220,38,38,.15);
+            box-shadow: 0 0 0 0.25rem rgba(220, 38, 38, 0.15);
         }
 
-.password-box button {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: none;
-    color: #777;
+/* ==========================================================
+   Password Toggle Button
+   ========================================================== */
+.password-box {
+    position: relative;
 }
 
+    .password-box button {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: none;
+        color: var(--login-muted);
+        cursor: pointer;
+        padding: 5px;
+        transition: color 0.2s ease;
+        z-index: 10;
+    }
+
+        .password-box button:hover {
+            color: var(--login-bg-end);
+        }
+
+/* ==========================================================
+   Login Button
+   ========================================================== */
 .btn-login {
     width: 100%;
-    height: 58px;
+    height: 56px;
     border: none;
-    border-radius: 15px;
-    background: linear-gradient(135deg,#dc2626,#991b1b);
-    color: #fff;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--login-bg-end), var(--login-bg-start));
+    color: #ffffff;
     font-weight: 700;
-    transition: .3s;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 22px rgba(220, 38, 38, 0.25);
+    cursor: pointer;
 }
 
     .btn-login:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 15px 35px rgba(220,38,38,.35);
+        transform: translateY(-3px);
+        box-shadow: 0 14px 30px rgba(220, 38, 38, 0.35);
     }
 
-@media(max-width:768px) {
+/* ==========================================================
+   Back Home Button
+   ========================================================== */
+.back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition: all 0.3s ease;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    z-index: 10;
+}
+
+    .back-home:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.22);
+        transform: translateX(-3px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .back-home i {
+        transition: transform 0.3s ease;
+    }
+
+    .back-home:hover i {
+        transform: translateX(4px);
+    }
+
+/* ==========================================================
+   Responsive Adaptations
+   ========================================================== */
+@media (max-width: 768px) {
+    .login-page {
+        padding: 20px;
+        align-items: center;
+    }
 
     .login-card {
-        padding: 30px 25px;
+        padding: 30px 20px;
+        border-radius: 22px;
+        width: 100%;
     }
 
     .logo-circle {
@@ -135,34 +254,34 @@
         height: 75px;
         font-size: 28px;
     }
-}
-.back-home {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-    padding: 12px 22px;
-    border-radius: 50px;
-    background: rgba(255,255,255,.12);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.25);
-    transition: all .3s ease;
+
+    .back-home {
+        top: 15px;
+        right: 15px;
+        padding: 8px 16px;
+        font-size: 0.85rem;
+    }
 }
 
-    .back-home:hover {
-        color: #fff;
-        background: rgba(255,255,255,.22);
-        transform: translateX(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,.15);
+@media (max-width: 400px) {
+    .login-card {
+        padding: 24px 16px;
     }
 
-    .back-home i {
-        transition: .3s;
+    .logo-circle {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+        margin-bottom: 15px;
     }
 
-    .back-home:hover i {
-        transform: translateX(4px);
+    .input-group-custom input,
+    .btn-login {
+        height: 48px;
+        font-size: 0.9rem;
     }
+
+    .back-home span {
+        display: none;
     }
+}

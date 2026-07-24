@@ -71,3 +71,30 @@
         transform: translateY(0);
     }
 }
+
+@media (max-width: 576px) {
+    .logout-wrapper {
+        padding: 20px 15px;
+    }
+
+    .logout-card {
+        padding: 30px 20px;
+    }
+
+    .logout-icon {
+        font-size: 56px;
+    }
+
+    .logout-card p {
+        font-size: 15px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+        .buttons .btn {
+            width: 100%;
+            min-width: 0;
+        }
+}

@@ -1,47 +1,52 @@
 @model ProductListViewModel
 @{
-    ViewData["Title"] = "المنتجات";
+    ViewData["Title"] = "قائمة المنتجات";
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/pages/products.css" asp-append-version="true" />
 }
 
-<div class="bg-white border-bottom py-4 mb-4">
+<div class="bg-white border-bottom py-4 mb-4 shadow-sm">
     <div class="container">
-        <h2 class="fw-bold mb-3">قائمة المنتجات</h2>
+        <h2 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-utensils me-2 text-danger"></i>قائمة المنتجات الطازجة</h2>
 
-        <div class="d-flex flex-wrap gap-2 mb-3">
+        <!-- تصنيفات الأقسام (أزرار دائرية) -->
+        <div class="d-flex flex-wrap gap-2 mb-4">
             <a asp-action="Index"
-               class="btn category-pill @(Model.CurrentCategoryId == null ? "btn-brand" : "btn-outline-secondary")">
+               class="btn category-pill rounded-pill px-4 py-2 fw-semibold @(Model.CurrentCategoryId == null ? "btn-brand shadow-sm" : "btn-light border text-dark")">
                 الكل
             </a>
             @foreach (var category in Model.Categories)
             {
                 <a asp-action="Index" asp-route-categoryId="@category.Id" asp-route-search="@Model.SearchTerm" asp-route-sortOrder="@Model.SortOrder"
-                   class="btn category-pill @(Model.CurrentCategoryId == category.Id ? "btn-brand" : "btn-outline-secondary")">
+                   class="btn category-pill rounded-pill px-4 py-2 fw-semibold @(Model.CurrentCategoryId == category.Id ? "btn-brand shadow-sm" : "btn-light border text-dark")">
                     @category.Name
                 </a>
             }
         </div>
 
-        <form method="get" class="row g-2">
+        <!-- نموذج البحث والترتيب -->
+        <form method="get" class="row g-3">
             @if (Model.CurrentCategoryId != null)
             {
                 <input type="hidden" name="categoryId" value="@Model.CurrentCategoryId" />
             }
-            <div class="col-md-6">
-                <input type="text" name="search" value="@Model.SearchTerm" class="form-control js-live-search" placeholder="بحث عن منتج..." autocomplete="off" />
+            <div class="col-12 col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                    <input type="text" name="search" value="@Model.SearchTerm" class="form-control border-start-0 ps-0 js-live-search shadow-none" placeholder="ابحث عن منتجك المفضل..." autocomplete="off" />
+                </div>
             </div>
-            <div class="col-md-4">
-                <select class="form-select" onchange="this.form.submit()" asp-for="SortOrder">
-                    <option value="default">الأحدث</option>
+            <div class="col-12 col-md-4">
+                <select class="form-select shadow-none" onchange="this.form.submit()" asp-for="SortOrder">
+                    <option value="default">ترتيب حسب: الأحدث</option>
                     <option value="price_asc">السعر: من الأقل للأعلى</option>
                     <option value="price_desc">السعر: من الأعلى للأقل</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-brand w-100"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+            <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-brand w-100 fw-bold py-2 shadow-sm"><i class="fa-solid fa-filter me-1"></i> تصفية</button>
             </div>
         </form>
     </div>
@@ -50,9 +55,13 @@
 <div class="container pb-5">
     @if (!Model.Products.Any())
     {
-        <div class="text-center py-5">
-            <i class="fa-solid fa-box-open fa-3x text-muted mb-3"></i>
-            <p class="text-muted">لا توجد منتجات مطابقة لبحثك</p>
+        <div class="text-center py-5 card border-0 shadow-sm p-5 rounded-4">
+            <div class="products-empty-icon mb-4 text-muted">
+                <i class="fa-solid fa-box-open fa-2x"></i>
+            </div>
+            <h4 class="fw-bold text-dark mb-2">عذراً، لا توجد منتجات مطابقة لبحثك</h4>
+            <p class="text-muted mb-4">جرب البحث بكلمات أخرى أو تصفح الأقسام المختلفة.</p>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">عرض كل المنتجات</a>
         </div>
     }
     else
@@ -60,39 +69,44 @@
         <div class="row g-4">
             @foreach (var product in Model.Products)
             {
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="card product-card @(product.IsAvailable ? "" : "card-unavailable")">
-                        @if (product.HasDiscount)
-                        {
-                            <span class="badge badge-offer position-absolute m-2">خصم @product.DiscountPercentage%</span>
-                        }
-                        @if (!product.IsAvailable)
-                        {
-                            <span class="badge badge-unavailable position-absolute m-2 top-0 end-0">غير متوفر</span>
-                        }
-                        <img src="@(product.ImagePath ?? "/images/seed/grills.svg")" class="card-img-top" alt="@product.Name" />
-                        <div class="card-body d-flex flex-column">
-                            <span class="badge bg-secondary-subtle text-dark mb-2 align-self-start">@product.CategoryName</span>
-                            <h6 class="fw-bold">@product.Name</h6>
-                            <p class="text-muted small flex-grow-1">@product.Description</p>
-                            <div class="mb-2">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column @(product.IsAvailable ? "" : "card-unavailable opacity-75")">
+                        <div class="position-relative overflow-hidden bg-light" style="height: 190px;">
+                            @if (product.HasDiscount)
+                            {
+                                <span class="badge badge-offer position-absolute top-0 start-0 m-2 px-2.5 py-1.5 shadow-sm">خصم @product.DiscountPercentage%</span>
+                            }
+                            @if (!product.IsAvailable)
+                            {
+                                <span class="badge badge-unavailable position-absolute top-0 end-0 m-2 px-2.5 py-1.5 shadow-sm bg-dark text-white">غير متوفر</span>
+                            }
+                            <img src="@(product.ImagePath ?? "/images/seed/grills.svg")" class="card-img-top w-100 h-100 object-fit-cover" alt="@product.Name" />
+                        </div>
+
+                        <div class="card-body d-flex flex-column p-4">
+                            <span class="badge bg-light text-secondary border mb-2 align-self-start px-2.5 py-1 rounded-pill extra-small">@product.CategoryName</span>
+                            <h6 class="fw-bold text-dark mb-1">@product.Name</h6>
+                            <p class="text-muted extra-small flex-grow-1 line-clamp-2 mb-3">@product.Description</p>
+
+                            <div class="mb-3">
                                 @if (product.HasDiscount)
                                 {
-                                    <span class="price-old">@product.Price.ToString("0.00") ج.م</span>
+                                    <span class="price-old text-muted text-decoration-line-through small me-2">@product.Price.ToString("N2") ج.م</span>
                                 }
-                                <span class="price-new ms-2">@product.PriceAfterDiscount.ToString("0.00") ج.م</span>
-                                <span class="text-muted small">/ @product.UnitLabel</span>
+                                <span class="price-new fw-bold fs-5 text-danger">@product.PriceAfterDiscount.ToString("N2") ج.م</span>
+                                <span class="text-muted extra-small">/ @product.UnitLabel</span>
                             </div>
-                            <div class="d-flex gap-2">
-                                <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-secondary flex-grow-1">التفاصيل</a>
+
+                            <div class="d-flex gap-2 mt-auto">
+                                <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-outline-secondary flex-grow-1 rounded-pill py-2 small fw-semibold">التفاصيل</a>
                                 @if (product.IsAvailable)
                                 {
-                                    <form asp-controller="Cart" asp-action="Add" method="post" class="flex-grow-1">
+                                    <form asp-controller="Cart" asp-action="Add" method="post" class="flex-grow-0">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="productId" value="@product.Id" />
                                         <input type="hidden" name="quantity" value="1" />
                                         <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
-                                        <button type="submit" class="btn btn-brand w-100">
+                                        <button type="submit" class="btn btn-brand rounded-pill px-3 py-2 shadow-sm" title="إضافة للسلة">
                                             <i class="fa-solid fa-cart-plus"></i>
                                         </button>
                                     </form>
@@ -106,12 +120,12 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="mt-5">
+            <nav class="mt-5" aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                            <a class="page-link"
+                            <a class="page-link rounded-circle mx-1 d-flex align-items-center justify-content-center shadow-none" style="width: 40px; height: 40px;"
                                asp-action="Index"
                                asp-route-categoryId="@Model.CurrentCategoryId"
                                asp-route-search="@Model.SearchTerm"

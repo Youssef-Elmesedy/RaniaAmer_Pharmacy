@@ -380,3 +380,14 @@
     </div>
 
 </div>
+
+@section Scripts {
+    <script>
+        // إذا رجع المستخدم للصفحة عن طريق زر الرجوع في المتصفح بعد الخروج، يتم عمل Refresh آلي
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+}

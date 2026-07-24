@@ -1,15 +1,80 @@
-/* Admin Offers */
-.offer-product-check:checked + img {
-    outline: 2px solid var(--brand-gold);
+/* ================= ADMIN OFFERS PAGE ================= */
+
+/* Offer Card Styling */
+.offer-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background-color: #ffffff;
+}
+
+    .offer-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+    }
+
+.offer-items-wrap {
+    background-color: #f8f9fa;
+    border: 1px dashed #dee2e6;
+}
+
+.extra-small {
+    font-size: 0.78rem;
+}
+
+/* Product Form Selection Items */
+.offer-product-item {
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background-color: #ffffff;
+}
+
+    .offer-product-item:hover {
+        border-color: var(--brand-gold, #d4a13d) !important;
+    }
+
+    .offer-product-item.selected-product {
+        border-color: var(--brand-gold, #d4a13d) !important;
+        background-color: #fffdf8;
+    }
+
+.product-thumb {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border: 1px solid #eee;
+}
+
+.offer-product-check:checked + .product-thumb {
+    outline: 2px solid var(--brand-gold, #d4a13d);
     outline-offset: 2px;
-    border-radius: 6px;
 }
 
-.border.rounded-3.p-2.d-flex.align-items-center.gap-2 {
-    transition: border-color .15s ease, background-color .15s ease;
+.special-price-input {
+    width: 105px;
 }
 
-.border.rounded-3.p-2.d-flex.align-items-center.gap-2:hover {
-    border-color: var(--brand-gold) !important;
-    background-color: #fffaf0;
+/* Empty State Feature Icon */
+.offer-empty-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(139, 30, 30, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .product-thumb {
+        width: 40px;
+        height: 40px;
+    }
+
+    .special-price-input {
+        width: 85px;
+    }
+
+    .offer-empty-icon {
+        width: 64px;
+        height: 64px;
+    }
 }

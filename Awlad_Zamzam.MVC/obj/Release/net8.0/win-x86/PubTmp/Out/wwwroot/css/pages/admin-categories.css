@@ -1,9 +1,132 @@
-/* Admin Categories */
-.card img.card-img-top {
-    filter: saturate(1.08);
-    transition: transform .3s ease;
+/* ================= ADMIN CATEGORIES PAGE ================= */
+
+/* Category Cards */
+.category-card {
+    border-radius: 16px;
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover img.card-img-top {
-    transform: scale(1.05);
+    .category-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12) !important;
+    }
+
+.card-img-wrapper {
+    height: 180px;
+    background-color: #f8f9fa;
+}
+
+.category-card .category-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.05);
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.category-card:hover .category-img {
+    transform: scale(1.08);
+    filter: saturate(1.15);
+}
+
+.category-card .card-body {
+    background-color: #ffffff;
+}
+
+/* Category Action Buttons */
+.category-card .btn-outline-secondary,
+.category-card .btn-outline-danger {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 6px 12px;
+    transition: all 0.2s ease;
+}
+
+    .category-card .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
+
+    .category-card .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: #ffffff;
+    }
+
+/* Empty State Styling */
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(139, 30, 30, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ================= CATEGORY FORM STYLES ================= */
+
+/* Form Input Groups */
+.input-group-text {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: #6c757d;
+}
+
+.form-control {
+    border-radius: 10px;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+}
+
+    .form-control:focus {
+        border-color: var(--brand-red, #8b1e1e);
+        box-shadow: 0 0 0 0.25rem rgba(139, 30, 30, 0.15);
+    }
+
+/* Image Upload Preview Thumbnails */
+.img-thumbnail {
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    transition: border-color 0.3s ease, transform 0.2s ease;
+}
+
+    .img-thumbnail:hover {
+        transform: scale(1.03);
+    }
+
+#imagePreviewContainer .img-thumbnail {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .card-img-wrapper {
+        height: 140px;
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .category-card .btn-outline-secondary,
+    .category-card .btn-outline-danger {
+        padding: 5px 9px;
+        font-size: 0.85rem;
+    }
 }

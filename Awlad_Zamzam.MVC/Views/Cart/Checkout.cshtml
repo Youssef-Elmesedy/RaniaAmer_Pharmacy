@@ -8,92 +8,109 @@
 }
 
 <div class="container py-5">
-    <h2 class="fw-bold mb-4">إتمام الطلب</h2>
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1"><i class="fa-solid fa-bag-shopping me-2 text-danger"></i>إتمام الطلب</h2>
+        <p class="text-muted small mb-0">راجع منتجات سلتك وأكد بيانات التوصيل الخاصة بك</p>
+    </div>
 
-    <div class="row g-5">
-        <div class="col-md-5 order-md-2">
-            <div class="card border-0 shadow-sm p-4">
-                <h5 class="fw-bold mb-3">ملخص الطلب</h5>
-                @foreach (var item in Model.Cart.Items)
-                {
-                    <div class="d-flex justify-content-between small mb-2">
-                        <span>@item.ProductName × @item.Quantity.ToString("0.##") @item.UnitLabel</span>
-                        <span>@item.LineTotal.ToString("0.00") ج.م</span>
+    <div class="row g-4">
+        <!-- ملخص الطلب -->
+        <div class="col-12 col-lg-5 order-lg-2">
+            <div class="card border-0 shadow-sm p-4 checkout-card">
+                <h5 class="fw-bold mb-3 pb-2 border-bottom"><i class="fa-solid fa-receipt me-2 text-muted"></i>ملخص الطلب</h5>
+
+                <div class="cart-items-list mb-3" style="max-height: 320px; overflow-y: auto;">
+                    @foreach (var item in Model.Cart.Items)
+                    {
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom border-light">
+                            <div>
+                                <div class="fw-semibold text-dark">@item.ProductName</div>
+                                <div class="extra-small text-muted">الكمية: @item.Quantity.ToString("0.##") @item.UnitLabel</div>
+                            </div>
+                            <div class="fw-bold text-dark">@item.LineTotal.ToString("N2") ج.م</div>
+                        </div>
+                    }
+                </div>
+
+                <div class="checkout-summary-box mt-2">
+                    <div class="d-flex justify-content-between fw-bold fs-5 text-dark">
+                        <span>الإجمالي النهائي</span>
+                        <span class="text-danger">@Model.Cart.Total.ToString("N2") ج.م</span>
                     </div>
-                }
-                <hr />
-                <div class="d-flex justify-content-between fw-bold fs-5">
-                    <span>الإجمالي</span>
-                    <span class="price-new">@Model.Cart.Total.ToString("0.00") ج.م</span>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-7 order-md-1">
-            <div class="card border-0 shadow-sm p-4">
+        <!-- نموذج إتمام الطلب -->
+        <div class="col-12 col-lg-7 order-lg-1">
+            <div class="card border-0 shadow-sm p-4 checkout-card">
                 <form asp-action="Checkout" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-3" role="alert"></div>
                     <input type="hidden" asp-for="IsLoggedIn" />
 
                     @if (Model.IsLoggedIn)
                     {
-                        <div class="alert alert-light border mb-4">
-                            <i class="fa-solid fa-circle-user me-1"></i>
-                            الطلب هيتسجل باسم <strong>@Model.Name</strong> - @Model.PhoneNumber
+                        <div class="alert alert-success bg-success bg-opacity-10 border-success border-opacity-25 rounded-3 mb-4 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-circle-user fs-4 text-success"></i>
+                            <div>
+                                <div class="small text-muted">أهلاً بك، يتم الطلب باسم:</div>
+                                <div class="fw-bold text-dark">@Model.Name - <span dir="ltr" class="d-inline-block">@Model.PhoneNumber</span></div>
+                            </div>
                         </div>
                         <input type="hidden" asp-for="Name" />
                         <input type="hidden" asp-for="PhoneNumber" />
 
                         <div class="mb-3">
-                            <label asp-for="Address" class="form-label"></label>
-                            <textarea asp-for="Address" class="form-control" rows="2"
+                            <label asp-for="Address" class="form-label fw-semibold">عنوان التوصيل</label>
+                            <textarea asp-for="Address" class="form-control checkout-form-control" rows="2"
                                       placeholder="@Model.SavedAddress"></textarea>
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                            <div class="form-text">
-                                اتركه فارغاً لاستخدام عنوانك المحفوظ: <strong>@Model.SavedAddress</strong>
+                            <span asp-validation-for="Address" class="text-danger extra-small"></span>
+                            <div class="form-text extra-small text-muted mt-1">
+                                <i class="fa-solid fa-circle-info me-1"></i>اتركه فارغاً لاستخدام عنوانك المحفوظ: <strong>@Model.SavedAddress</strong>
                             </div>
                         </div>
                     }
                     else
                     {
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <label asp-for="Name" class="form-label fw-semibold">الاسم الكامل</label>
+                            <input asp-for="Name" class="form-control checkout-form-control" placeholder="اكتب اسمك الكريم..." />
+                            <span asp-validation-for="Name" class="text-danger extra-small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="PhoneNumber" class="form-label"></label>
-                            <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            <label asp-for="PhoneNumber" class="form-label fw-semibold">رقم الهاتف (للتواصل والتوصيل)</label>
+                            <input asp-for="PhoneNumber" class="form-control checkout-form-control" placeholder="01xxxxxxxxx" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger extra-small"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label asp-for="Address" class="form-label"></label>
-                            <textarea asp-for="Address" class="form-control" rows="2"></textarea>
-                            <span asp-validation-for="Address" class="text-danger"></span>
+                            <label asp-for="Address" class="form-label fw-semibold">عنوان التوصيل بالتفصيل</label>
+                            <textarea asp-for="Address" class="form-control checkout-form-control" rows="2" placeholder="المنطقة، الشارع، رقم الحلة أو العمارة..."></textarea>
+                            <span asp-validation-for="Address" class="text-danger extra-small"></span>
                         </div>
 
-                        <div class="alert alert-light border small mb-3">
-                            <i class="fa-solid fa-circle-info me-1"></i>
-                            <a asp-controller="CustomerAccount" asp-action="Login">سجّل دخولك</a>
-                            عشان مش تكتب بياناتك في كل مرة.
+                        <div class="alert alert-info bg-info bg-opacity-10 border-info border-opacity-25 rounded-3 small mb-4 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-info fs-5"></i>
+                            <div>
+                                هل لديك حساب معنا؟ <a asp-controller="CustomerAccount" asp-action="Login" class="fw-bold text-decoration-none">سجّل دخولك</a> لتوفير وقت كتابة البيانات في كل مرة.
+                            </div>
                         </div>
                     }
 
-                    <div class="mb-3">
-                        <label asp-for="Notes" class="form-label"></label>
-                        <textarea asp-for="Notes" class="form-control" rows="2" placeholder="أي ملاحظات على الطلب..."></textarea>
-                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    <div class="mb-4">
+                        <label asp-for="Notes" class="form-label fw-semibold">ملاحظات على الطلب (اختياري)</label>
+                        <textarea asp-for="Notes" class="form-control checkout-form-control" rows="2" placeholder="مثال: بدون بقدونس، زيادة شطة، التوصيل في وقت كذا..."></textarea>
+                        <span asp-validation-for="Notes" class="text-danger extra-small"></span>
                     </div>
 
-                    <div class="alert alert-light border small mb-4">
-                        <i class="fa-solid fa-circle-info me-1"></i>
-                        سيتم تحديد نوع السداد (كاش / آجل) من قِبل المحل عند تسليم الطلب.
+                    <div class="alert alert-warning bg-warning bg-opacity-10 border-warning border-opacity-25 rounded-3 small mb-4 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-warning fs-5"></i>
+                        <span>سيتم تحديد نوع السداد (كاش / آجل) من قِبل المحل عند تسليم الطلب.</span>
                     </div>
 
-                    <button type="submit" class="btn btn-brand w-100 btn-lg">
-                        <i class="fa-solid fa-check me-2"></i>تأكيد الطلب
+                    <button type="submit" class="btn btn-brand w-100 btn-lg rounded-3 py-3 fw-bold">
+                        <i class="fa-solid fa-circle-check me-2"></i>تأكيد وإرسال الطلب الآن
                     </button>
                 </form>
             </div>

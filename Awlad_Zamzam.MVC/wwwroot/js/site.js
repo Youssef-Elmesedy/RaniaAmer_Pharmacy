@@ -85,35 +85,50 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 450);
         });
     });
+
+    // Auto-close the mobile navbar menu when tapping/clicking outside it
+    // (covers both the customer navbar "#mainNav" and the admin navbar "#adminNav")
+    document.querySelectorAll('.navbar-toggler[data-bs-target]').forEach(function (toggler) {
+        var targetSelector = toggler.getAttribute('data-bs-target');
+        var collapseEl = targetSelector ? document.querySelector(targetSelector) : null;
+        if (!collapseEl) return;
+
+        document.addEventListener('click', function (e) {
+            var isOpen = collapseEl.classList.contains('show');
+            if (!isOpen) return;
+
+            var clickedInsideMenu = collapseEl.contains(e.target);
+            var clickedToggler = toggler.contains(e.target);
+
+            if (clickedInsideMenu || clickedToggler) return;
+
+            if (window.bootstrap && bootstrap.Collapse) {
+                bootstrap.Collapse.getOrCreateInstance(collapseEl).hide();
+            }
+        });
+    });
 });
 document.querySelectorAll(".logout-form").forEach(form => {
-
     form.addEventListener("submit", function (e) {
+        if (form.dataset.confirmed === "true") {
+            return;
+        }
 
         e.preventDefault();
 
         Swal.fire({
-
             title: "تسجيل الخروج",
-
             text: "هل تريد تسجيل الخروج؟",
-
             icon: "question",
-
             showCancelButton: true,
-
             confirmButtonText: "نعم",
-
-            cancelButtonText: "إلغاء"
-
+            cancelButtonText: "إلغاء",
+            confirmButtonColor: "#8b1e1e"
         }).then(r => {
-
-            if (r.isConfirmed)
-
+            if (r.isConfirmed) {
+                form.dataset.confirmed = "true";
                 form.submit();
-
+            }
         });
-
     });
-
 });

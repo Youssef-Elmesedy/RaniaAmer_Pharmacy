@@ -291,7 +291,8 @@
         padding: 22px 18px;
     }
 
-    .input-group-custom input {
+    .input-group-custom input,
+    .input-group-custom select {
         height: 54px;
     }
 

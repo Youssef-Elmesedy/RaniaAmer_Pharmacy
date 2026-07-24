@@ -1,0 +1,261 @@
+@model CustomerProfileViewModel
+
+@{
+    ViewData["Title"] = "الملف الشخصي";
+    var activeTab = ViewData["ActiveProfileTab"] as string ?? "info";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/customer-account.css" asp-append-version="true" />
+}
+
+<div class="customer-login-page">
+    <div class="login-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100 py-5">
+            <div class="col-xl-7 col-lg-8 col-md-10">
+
+                <a asp-action="MyOrders" class="back-home">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    العودة للطلبات
+                </a>
+
+                <div class="login-card">
+
+                    <!-- Header Section -->
+                    <div class="text-center mb-4">
+                        <div class="logo-circle">
+                            @Model.Name.Substring(0, 1)
+                        </div>
+                        <h2 class="fw-bold mt-3">@Model.Name</h2>
+                        <p class="text-muted">
+                            <i class="fa-solid fa-phone ms-1"></i>
+                            @Model.PhoneNumber
+                        </p>
+                    </div>
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success d-flex align-items-center mb-4">
+                            <i class="fa-solid fa-circle-check ms-2"></i>
+                            <div>@TempData["SuccessMessage"]</div>
+                        </div>
+                    }
+
+                    <!-- Profile Tabs Header -->
+                    <ul class="nav nav-pills custom-profile-tabs mb-4 justify-content-center">
+                        <li class="nav-item">
+                            <button class="nav-link @(activeTab == "info" ? "active" : "")"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#info">
+                                <i class="fa-solid fa-user me-1"></i>
+                                البيانات الشخصية
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link @(activeTab == "password" ? "active" : "")"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#password">
+                                <i class="fa-solid fa-lock me-1"></i>
+                                كلمة المرور
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link @(activeTab == "security" ? "active" : "")"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#security">
+                                <i class="fa-solid fa-shield-halved me-1"></i>
+                                سؤال الأمان
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Profile Tabs Content -->
+                    <div class="tab-content">
+
+                        <!-- Tab 1: المعلومات الشخصية -->
+                        <div class="tab-pane fade @(activeTab == "info" ? "show active" : "")" id="info">
+                            <form asp-action="EditProfile" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom">
+                                        <i class="fa-solid fa-user"></i>
+                                        <input asp-for="EditProfile.Name" class="form-control" placeholder="الاسم بالكامل" />
+                                    </div>
+                                    <span asp-validation-for="EditProfile.Name" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom">
+                                        <i class="fa-solid fa-phone"></i>
+                                        <input asp-for="EditProfile.PhoneNumber" class="form-control" placeholder="رقم الهاتف" />
+                                    </div>
+                                    <span asp-validation-for="EditProfile.PhoneNumber" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="input-group-custom">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        <textarea asp-for="EditProfile.Address" class="form-control" rows="3" placeholder="العنوان"></textarea>
+                                    </div>
+                                    <span asp-validation-for="EditProfile.Address" class="text-danger"></span>
+                                </div>
+
+                                <button type="submit" class="btn-login">
+                                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                                    حفظ التعديلات
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Tab 2: كلمة المرور -->
+                        <div class="tab-pane fade @(activeTab == "password" ? "show active" : "")" id="password">
+                            <form asp-action="ChangePassword" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom password-box">
+                                        <i class="fa-solid fa-lock"></i>
+                                        <input asp-for="ChangePassword.CurrentPassword" type="password" class="form-control" id="currPass" placeholder="كلمة المرور الحالية" />
+                                        <button type="button" onclick="togglePass('currPass', this)">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ChangePassword.CurrentPassword" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom password-box">
+                                        <i class="fa-solid fa-key"></i>
+                                        <input asp-for="ChangePassword.NewPassword" type="password" class="form-control" id="newPass" placeholder="كلمة المرور الجديدة" />
+                                        <button type="button" onclick="togglePass('newPass', this)">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="input-group-custom password-box">
+                                        <i class="fa-solid fa-check-double"></i>
+                                        <input asp-for="ChangePassword.ConfirmNewPassword" type="password" class="form-control" id="confirmPass" placeholder="تأكيد كلمة المرور الجديدة" />
+                                        <button type="button" onclick="togglePass('confirmPass', this)">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ChangePassword.ConfirmNewPassword" class="text-danger"></span>
+                                </div>
+
+                                <button type="submit" class="btn-login">
+                                    <i class="fa-solid fa-key me-2"></i>
+                                    تغيير كلمة المرور
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Tab 3: سؤال الأمان -->
+                        <div class="tab-pane fade @(activeTab == "security" ? "show active" : "")" id="security">
+
+                            @if (!string.IsNullOrWhiteSpace(Model.SecurityQuestion))
+                            {
+                                <div class="security-info-box mb-4 p-3 border-radius-15 bg-light d-flex align-items-center">
+                                    <i class="fa-solid fa-shield-halved fs-3 text-danger me-3 ms-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">سؤال الأمان الحالي</small>
+                                        <h6 class="m-0 fw-bold">@Model.SecurityQuestion</h6>
+                                    </div>
+                                </div>
+                            }
+
+                            <form asp-action="ChangeSecurityQuestion" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom password-box">
+                                        <i class="fa-solid fa-lock"></i>
+                                        <input asp-for="ChangeSecurityQuestion.CurrentPassword" type="password" class="form-control" id="secPass" placeholder="كلمة المرور الحالية للتأكيد" />
+                                        <button type="button" onclick="togglePass('secPass', this)">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="ChangeSecurityQuestion.CurrentPassword" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                        <select asp-for="ChangeSecurityQuestion.SecurityQuestion" class="form-select">
+                                            <option value="">اختر سؤال الأمان</option>
+                                            @foreach (var q in SecurityQuestions.All)
+                                            {
+                                                <option value="@q">@q</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <span asp-validation-for="ChangeSecurityQuestion.SecurityQuestion" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="input-group-custom">
+                                        <i class="fa-solid fa-comment-dots"></i>
+                                        <input asp-for="ChangeSecurityQuestion.SecurityAnswer" class="form-control" placeholder="الإجابة" />
+                                    </div>
+                                    <span asp-validation-for="ChangeSecurityQuestion.SecurityAnswer" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="input-group-custom">
+                                        <i class="fa-solid fa-check"></i>
+                                        <input asp-for="ChangeSecurityQuestion.ConfirmSecurityAnswer" class="form-control" placeholder="تأكيد الإجابة" />
+                                    </div>
+                                    <span asp-validation-for="ChangeSecurityQuestion.ConfirmSecurityAnswer" class="text-danger"></span>
+                                </div>
+
+                                <button type="submit" class="btn-login">
+                                    <i class="fa-solid fa-shield-halved me-2"></i>
+                                    حفظ سؤال الأمان
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePass(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                if (input.type === "password") {
+                    input.type = "text";
+                    btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                } else {
+                    input.type = "password";
+                    btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // إذا رجع المستخدم للصفحة عن طريق زر الرجوع في المتصفح بعد الخروج، يتم عمل Refresh آلي
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+}
+

@@ -1,4 +1,91 @@
-/* Checkout page specific styles */
+/* ==========================================================================
+   CHECKOUT PAGE STYLESHEET (ENHANCED)
+   ========================================================================== */
+
+:root {
+    --checkout-border-color: #e9ecef;
+    --checkout-card-bg: #ffffff;
+}
+
+/* --- Checkout Form Switches & Interactive Elements --- */
 .form-check.form-switch.p-3.bg-light {
-    border: 1px dashed var(--brand-gold);
+    border: 1.5px dashed var(--brand-gold, #d4a13d) !important;
+    background-color: #fffdf8 !important;
+    border-radius: 14px !important;
+    transition: all 0.25s ease;
+}
+
+    .form-check.form-switch.p-3.bg-light:hover {
+        border-color: var(--brand-red, #8b1e1e) !important;
+        box-shadow: 0 4px 12px rgba(212, 161, 61, 0.08);
+    }
+
+.form-check-input:checked {
+    background-color: var(--brand-red, #8b1e1e);
+    border-color: var(--brand-red, #8b1e1e);
+}
+
+.form-check-input:focus {
+    border-color: var(--brand-gold, #d4a13d);
+    box-shadow: 0 0 0 0.25rem rgba(212, 161, 61, 0.15);
+}
+
+/* --- Checkout Sections & Cards --- */
+.checkout-card {
+    border-radius: 16px !important;
+    border: 1px solid var(--checkout-border-color) !important;
+    background-color: var(--checkout-card-bg);
+    transition: box-shadow 0.25s ease;
+}
+
+    .checkout-card:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+/* --- Checkout Input Fields --- */
+.checkout-form-control {
+    border-radius: 10px;
+    border: 1.5px solid #dee2e6;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+    .checkout-form-control:focus {
+        border-color: var(--brand-gold, #d4a13d);
+        box-shadow: 0 0 0 0.2rem rgba(212, 161, 61, 0.15);
+    }
+
+/* --- Order Summary Box --- */
+.checkout-summary-box {
+    background-color: #f8f9fa;
+    border-radius: 14px;
+    border: 1px solid #edf0f2;
+    padding: 1.5rem;
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 992px) {
+    .checkout-summary-box {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .checkout-card {
+        border-radius: 12px !important;
+    }
+
+    .checkout-summary-box {
+        padding: 1rem;
+    }
+
+    .checkout-form-control {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .form-check.form-switch.p-3.bg-light {
+        padding: 0.75rem !important;
+    }
 }

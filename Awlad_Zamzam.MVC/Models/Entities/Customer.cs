@@ -15,14 +15,13 @@ public class Customer : BaseEntity
     // Null until the customer registers a login for themselves (guest orders don't require one)
     public string? PasswordHash { get; private set; }
 
-    public bool HasAccount => !string.IsNullOrEmpty(PasswordHash);
-
-    // Optional security question and answer for password recovery
     public string? SecurityQuestion { get; private set; }
 
     public string? SecurityAnswerHash { get; private set; }
 
-    public DateTime? SecurityAnswerUpdatedAt { get; private set; }
+    public bool HasAccount => !string.IsNullOrEmpty(PasswordHash);
+
+    public bool HasSecurityQuestion => !string.IsNullOrEmpty(SecurityQuestion) && !string.IsNullOrEmpty(SecurityAnswerHash);
 
     private Customer() { }
 
@@ -64,6 +63,22 @@ public class Customer : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
+    public void SetSecurityQuestion(string question, string answerHash)
+    {
+        if (string.IsNullOrWhiteSpace(question))
+            throw new BusinessException("سؤال الأمان مطلوب.", nameof(question));
+
+        if (question.Length > 200)
+            throw new BusinessException("سؤال الأمان لا يجب أن يتجاوز 200 حرف.", nameof(question));
+
+        if (string.IsNullOrWhiteSpace(answerHash))
+            throw new BusinessException("إجابة سؤال الأمان مطلوبة.", nameof(answerHash));
+
+        SecurityQuestion = question.Trim();
+        SecurityAnswerHash = answerHash;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     private static void Validate(string name, string phoneNumber, string address)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -80,20 +95,5 @@ public class Customer : BaseEntity
 
         if (string.IsNullOrWhiteSpace(address))
             throw new BusinessException("Address cannot be null or empty.", nameof(address));
-    }
-
-    public void SetSecurityQuestion(string question, string answerHash)
-    {
-        if (string.IsNullOrWhiteSpace(question))
-            throw new BusinessException("يجب اختيار سؤال الأمان.", nameof(question));
-
-        if (string.IsNullOrWhiteSpace(answerHash))
-            throw new BusinessException("إجابة سؤال الأمان غير صحيحة.", nameof(answerHash));
-
-        SecurityQuestion = question.Trim();
-        SecurityAnswerHash = answerHash;
-        SecurityAnswerUpdatedAt = DateTime.UtcNow;
-
-        UpdatedAt = DateTime.UtcNow;
     }
 }

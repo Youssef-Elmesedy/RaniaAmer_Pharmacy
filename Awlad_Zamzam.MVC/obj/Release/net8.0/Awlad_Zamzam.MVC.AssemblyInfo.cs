@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Awlad_Zamzam.MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3dba1af58cb07f008825560406515da994809641")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da626ddb12d58b7298cfee0b069476e85ac44ea2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Awlad_Zamzam.MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Awlad_Zamzam.MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

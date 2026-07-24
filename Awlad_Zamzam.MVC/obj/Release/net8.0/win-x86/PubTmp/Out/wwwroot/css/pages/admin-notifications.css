@@ -1,9 +1,54 @@
-/* Admin Notifications */
-.card.border-0.shadow-sm.p-3.d-flex.flex-row {
-    border-right: 4px solid var(--brand-red) !important;
-    transition: transform .15s ease;
+/* ================= ADMIN NOTIFICATIONS PAGE ================= */
+
+/* Notification Cards */
+.notification-card {
+    border-inline-start: 4px solid var(--brand-red, #8b1e1e) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: #ffffff;
 }
 
-.card.border-0.shadow-sm.p-3.d-flex.flex-row:hover {
-    transform: translateX(-4px);
+    .notification-card:hover {
+        transform: translateX(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+    }
+
+/* Icons */
+.notification-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Empty State Styling */
+.notification-empty-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(139, 30, 30, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive Fixes */
+@media (max-width: 575.98px) {
+    .notification-card {
+        border-inline-start-width: 4px;
+    }
+}
+
+@media (max-width: 576px) {
+    .notification-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+
+    .notification-empty-icon {
+        width: 64px;
+        height: 64px;
+    }
 }

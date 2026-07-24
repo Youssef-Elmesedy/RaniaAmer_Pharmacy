@@ -19,17 +19,12 @@ namespace Awlad_Zamzam.MVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            // Persist Data Protection keys to disk instead of the default behavior, which can
-            // regenerate the encryption keys on every app restart. Antiforgery tokens (and the
-            // CustomerAuth/Identity cookies) are encrypted with these keys - if they regenerate
-            // while a browser tab is still open on an older page, that page's form token and
-            // cookies stop matching the new keys and every POST from it (e.g. Logout) fails
-            // with a 400, even though nothing about the token itself is actually wrong.
+            // Persist Data Protection keys to disk
             builder.Services.AddDataProtection()
                 .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys")))
                 .SetApplicationName("AwladZamzamMVC");
 
-            // Configure antiforgery options (custom cookie name and header name)
+            // Configure antiforgery options
             builder.Services.AddAntiforgery(options =>
             {
                 options.Cookie.Name = "AwladZamzam.AntiForgery";
@@ -65,7 +60,7 @@ namespace Awlad_Zamzam.MVC
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             });
 
-            // Separate cookie scheme for customer logins (independent from the Admin Identity system)
+            // Separate cookie scheme for customer logins
             builder.Services.AddAuthentication()
             .AddCookie(Controllers.CustomerAccountController.SchemeName, options =>
             {
@@ -74,20 +69,22 @@ namespace Awlad_Zamzam.MVC
 
                 options.Cookie.Name = "CustomerAuth";
                 options.Cookie.HttpOnly = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+                                             ? CookieSecurePolicy.SameAsRequest
+                                             : CookieSecurePolicy.Always;
                 options.Cookie.SameSite = SameSiteMode.Lax;
 
                 options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 options.SlidingExpiration = true;
             });
 
-            // In-memory caching (category list, active offers, pending-orders count)
+            // Memory caching
             builder.Services.AddMemoryCache();
 
-            // Shared "catalog version" counter so public pages can detect admin changes and auto-refresh
+            // Catalog change tracker
             builder.Services.AddSingleton<ICatalogChangeTracker, CatalogChangeTracker>();
 
-            // Session (used for the guest shopping cart - there is no customer login)
+            // Session
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
@@ -123,10 +120,7 @@ namespace Awlad_Zamzam.MVC
                 app.UseHsts();
             }
 
-            // Only route actual 404s to the branded "not found" page. Previously ALL
-            // error status codes (400/401/403/etc.) were re-executed to /Home/Error404,
-            // which made unrelated problems (e.g. a stale antiforgery token from a
-            // browser back/forward-cache restore) confusingly look like "page not found".
+            // Route ONLY 404 to the custom error page (Removed the status 400 redirect to root)
             app.UseStatusCodePages(context =>
             {
                 var response = context.HttpContext.Response;
@@ -135,28 +129,33 @@ namespace Awlad_Zamzam.MVC
                 {
                     response.Redirect("/Home/Error404");
                 }
-                else if (response.StatusCode == 400)
-                {
-                    response.Redirect("/");
-                }
 
                 return Task.CompletedTask;
             });
 
             app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
-            // Configure cookie policy to ensure cookies are secure and have appropriate SameSite settings
             app.UseCookiePolicy(new CookiePolicyOptions
             {
-                Secure = CookieSecurePolicy.Always,
+                // السماح للـ Cookies بالعمل حسب البروتوكول الحالي (HTTP أو HTTPS)
+                Secure = app.Environment.IsDevelopment()
+                         ? CookieSecurePolicy.SameAsRequest
+                         : CookieSecurePolicy.Always,
                 MinimumSameSitePolicy = SameSiteMode.Lax
             });
 
             app.UseRouting();
-
             app.UseSession();
+
+            // Prevent browser bfcache storage for secure views
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                context.Response.Headers["Pragma"] = "no-cache";
+                context.Response.Headers["Expires"] = "0";
+                await next();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -169,7 +168,7 @@ namespace Awlad_Zamzam.MVC
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            // Apply pending migrations and seed the admin user + default categories
+            // Apply pending migrations and seed data
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;

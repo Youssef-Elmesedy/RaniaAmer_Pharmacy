@@ -21,39 +21,29 @@ public class CustomerAuthService : ICustomerAuthService
     {
         var existing = await _customerRepository.GetByPhoneAsync(model.PhoneNumber.Trim());
 
-        if (existing != null)
+        Customer customer;
+
+        if (existing == null)
+        {
+            customer = Customer.Create(model.Name, model.PhoneNumber, model.Address);
+            await _customerRepository.AddAsync(customer);
+        }
+        else
         {
             if (existing.HasAccount)
-                throw new BusinessException("رقم الهاتف مسجل بالفعل، يمكنك تسجيل الدخول مباشرة.", nameof(model.PhoneNumber));
-
-            if (!string.Equals(existing.Name.Trim(), model.Name.Trim(), StringComparison.OrdinalIgnoreCase))
-            {
-                throw new BusinessException("رقم الهاتف مسجل باسم عميل آخر.", nameof(model.Name));
-            }
+                throw new BusinessException("رقم الهاتف مسجل بالفعل، يمكنك تسجيل الدخول مباشرة", nameof(model.PhoneNumber));
 
             existing.Update(model.Name, model.PhoneNumber, model.Address);
-
-            var hash = _passwordHasher.HashPassword(existing, model.Password);
-            existing.SetPassword(hash);
-
-            await _customerRepository.UpdateAsync(existing);
-            await _customerRepository.SaveChangesAsync();
-
-            return existing;
+            customer = existing;
+            await _customerRepository.UpdateAsync(customer);
         }
 
-        var customer = Customer.Create(model.Name, model.PhoneNumber, model.Address);
+        var hash = _passwordHasher.HashPassword(customer, model.Password);
+        customer.SetPassword(hash);
 
-        var passwordHash = _passwordHasher.HashPassword(customer, model.Password);
-        customer.SetPassword(passwordHash);
+        var answerHash = _passwordHasher.HashPassword(customer, NormalizeAnswer(model.SecurityAnswer));
+        customer.SetSecurityQuestion(model.SecurityQuestion, answerHash);
 
-        var answerHash = _passwordHasher.HashPassword(customer, model.SecurityAnswer);
-
-        customer.SetSecurityQuestion(
-            model.SecurityQuestion,
-            answerHash);
-
-        await _customerRepository.AddAsync(customer);
         await _customerRepository.SaveChangesAsync();
 
         return customer;
@@ -72,4 +62,100 @@ public class CustomerAuthService : ICustomerAuthService
             ? customer
             : null;
     }
+
+    public async Task<string?> GetSecurityQuestionAsync(string phoneNumber)
+    {
+        var customer = await _customerRepository.GetByPhoneAsync(phoneNumber.Trim());
+
+        if (customer == null || !customer.HasAccount || !customer.HasSecurityQuestion)
+            return null;
+
+        return customer.SecurityQuestion;
+    }
+
+    public async Task<bool> ResetPasswordAsync(ResetPasswordViewModel model)
+    {
+        var customer = await _customerRepository.GetByPhoneAsync(model.PhoneNumber.Trim());
+
+        if (customer == null || !customer.HasAccount || !customer.HasSecurityQuestion)
+            return false;
+
+        var answerResult = _passwordHasher.VerifyHashedPassword(
+            customer, customer.SecurityAnswerHash!, NormalizeAnswer(model.SecurityAnswer));
+
+        if (answerResult != PasswordVerificationResult.Success && answerResult != PasswordVerificationResult.SuccessRehashNeeded)
+            return false;
+
+        var newHash = _passwordHasher.HashPassword(customer, model.NewPassword);
+        customer.SetPassword(newHash);
+
+        await _customerRepository.UpdateAsync(customer);
+        await _customerRepository.SaveChangesAsync();
+
+        return true;
+    }
+
+    public Task<Customer?> GetProfileAsync(Guid customerId) => _customerRepository.GetByIdAsync(customerId);
+
+    public async Task UpdateProfileAsync(Guid customerId, EditProfileViewModel model)
+    {
+        var customer = await _customerRepository.GetByIdAsync(customerId)
+            ?? throw new BusinessException("العميل غير موجود", nameof(customerId));
+
+        var phone = model.PhoneNumber.Trim();
+
+        if (phone != customer.PhoneNumber)
+        {
+            var phoneTaken = await _customerRepository.ExistsByPhoneAsync(phone);
+            if (phoneTaken)
+                throw new BusinessException("رقم الهاتف مستخدم بالفعل من حساب آخر", nameof(model.PhoneNumber));
+        }
+
+        customer.Update(model.Name, phone, model.Address);
+
+        await _customerRepository.UpdateAsync(customer);
+        await _customerRepository.SaveChangesAsync();
+    }
+
+    public async Task ChangePasswordAsync(Guid customerId, ChangePasswordViewModel model)
+    {
+        var customer = await _customerRepository.GetByIdAsync(customerId)
+            ?? throw new BusinessException("العميل غير موجود", nameof(customerId));
+
+        if (!customer.HasAccount)
+            throw new BusinessException("لا يوجد حساب لهذا العميل", nameof(customerId));
+
+        var currentResult = _passwordHasher.VerifyHashedPassword(customer, customer.PasswordHash!, model.CurrentPassword);
+
+        if (currentResult != PasswordVerificationResult.Success && currentResult != PasswordVerificationResult.SuccessRehashNeeded)
+            throw new BusinessException("كلمة المرور الحالية غير صحيحة", nameof(model.CurrentPassword));
+
+        var newHash = _passwordHasher.HashPassword(customer, model.NewPassword);
+        customer.SetPassword(newHash);
+
+        await _customerRepository.UpdateAsync(customer);
+        await _customerRepository.SaveChangesAsync();
+    }
+
+    public async Task ChangeSecurityQuestionAsync(Guid customerId, ChangeSecurityQuestionViewModel model)
+    {
+        var customer = await _customerRepository.GetByIdAsync(customerId)
+            ?? throw new BusinessException("العميل غير موجود", nameof(customerId));
+
+        if (!customer.HasAccount)
+            throw new BusinessException("لا يوجد حساب لهذا العميل", nameof(customerId));
+
+        var currentResult = _passwordHasher.VerifyHashedPassword(customer, customer.PasswordHash!, model.CurrentPassword);
+
+        if (currentResult != PasswordVerificationResult.Success && currentResult != PasswordVerificationResult.SuccessRehashNeeded)
+            throw new BusinessException("كلمة المرور الحالية غير صحيحة", nameof(model.CurrentPassword));
+
+        var answerHash = _passwordHasher.HashPassword(customer, NormalizeAnswer(model.SecurityAnswer));
+        customer.SetSecurityQuestion(model.SecurityQuestion, answerHash);
+
+        await _customerRepository.UpdateAsync(customer);
+        await _customerRepository.SaveChangesAsync();
+    }
+
+    private static string NormalizeAnswer(string answer) => answer.Trim().ToUpperInvariant();
 }

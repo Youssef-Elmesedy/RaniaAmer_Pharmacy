@@ -1,89 +1,139 @@
 @model DashboardViewModel
 @{
-    ViewData["Title"] = "لوحة التحكم";
+    ViewData["Title"] = "لوحة التحكم - التصميم الحديث";
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/pages/admin-dashboard.css" asp-append-version="true" />
 }
 
-<h3 class="fw-bold mb-4">نظرة عامة</h3>
-
-<div class="row g-4">
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-drumstick-bite fa-2x mb-2" style="color:var(--brand-red)"></i>
-            <h3 class="fw-bold mb-0">@Model.ProductsCount</h3>
-            <p class="text-muted mb-0">إجمالي المنتجات</p>
+<!-- الترويسة والترحيب -->
+<div class="dashboard-header p-4 rounded-4 text-white mb-4 position-relative overflow-hidden">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 position-relative z-1">
+        <div>
+            <h3 class="fw-bold mb-1">أهلاً بك في لوحة التحكم 👋</h3>
+            <p class="mb-0 opacity-75">إليك ملخص سريع لأداء متجر أولاد زمزم اليوم</p>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-tags fa-2x mb-2" style="color:var(--brand-red)"></i>
-            <h3 class="fw-bold mb-0">@Model.CategoriesCount</h3>
-            <p class="text-muted mb-0">الأقسام</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-circle-check fa-2x mb-2 text-success"></i>
-            <h3 class="fw-bold mb-0">@Model.AvailableProductsCount</h3>
-            <p class="text-muted mb-0">منتجات متوفرة</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-percent fa-2x mb-2" style="color:var(--brand-gold)"></i>
-            <h3 class="fw-bold mb-0">@Model.OffersCount</h3>
-            <p class="text-muted mb-0">عروض حالية</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-users fa-2x mb-2 text-info"></i>
-            <h3 class="fw-bold mb-0">@Model.CustomersCount</h3>
-            <p class="text-muted mb-0">طلبات العملاء</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-gift fa-2x mb-2" style="color:var(--brand-gold)"></i>
-            <h3 class="fw-bold mb-0">@Model.BundleOffersCount</h3>
-            <p class="text-muted mb-0">عروض مجمّعة</p>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="card stat-card p-4 text-center">
-            <i class="fa-solid fa-bell fa-2x mb-2 text-danger"></i>
-            <h3 class="fw-bold mb-0">@Model.PendingOrdersCount</h3>
-            <p class="text-muted mb-0">طلبات بانتظار التنفيذ</p>
+        <div class="d-flex gap-2">
+            <a asp-controller="Orders" asp-action="Create" class="btn btn-warning fw-bold text-dark rounded-pill px-4">
+                <i class="fa-solid fa-plus me-1"></i> طلب آجل جديد
+            </a>
         </div>
     </div>
 </div>
 
-<h3 class="fw-bold mt-5 mb-4"><i class="fa-solid fa-clock me-2" style="color:var(--brand-gold)"></i>الآجل</h3>
 <div class="row g-4">
-    <div class="col-md-6">
-        <div class="card stat-card p-4 text-center border-danger-subtle">
-            <i class="fa-solid fa-hand-holding-dollar fa-2x mb-2 text-danger"></i>
-            <h3 class="fw-bold mb-0">@Model.TotalCreditOutstanding.ToString("0.00") ج.م</h3>
-            <p class="text-muted mb-0">إجمالي المتبقي على العملاء (آجل)</p>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card stat-card p-4 text-center border-success-subtle">
-            <i class="fa-solid fa-sack-dollar fa-2x mb-2 text-success"></i>
-            <h3 class="fw-bold mb-0">@Model.TotalCreditPaid.ToString("0.00") ج.م</h3>
-            <p class="text-muted mb-0">إجمالي المسدد من الآجل</p>
-        </div>
-    </div>
-</div>
+    <!-- القسم الرئيسي: الإحصائيات والأرقام -->
+    <div class="col-12 col-xl-8">
 
-<div class="d-flex gap-3 mt-5">
-    <a asp-controller="Products" asp-action="Create" class="btn btn-brand"><i class="fa-solid fa-plus me-1"></i> إضافة منتج</a>
-    <a asp-controller="Categories" asp-action="Create" class="btn btn-outline-secondary"><i class="fa-solid fa-plus me-1"></i> إضافة قسم</a>
-    <a asp-controller="Offers" asp-action="Create" class="btn btn-outline-secondary"><i class="fa-solid fa-plus me-1"></i> إضافة عرض</a>
-    <a asp-controller="Orders" asp-action="Index" class="btn btn-outline-secondary"><i class="fa-solid fa-receipt me-1"></i> عرض الطلبات</a>
-    <a asp-controller="Orders" asp-action="Create" class="btn btn-outline-secondary"><i class="fa-solid fa-plus me-1"></i> تسجيل طلب آجل</a>
-    <a asp-controller="Payments" asp-action="Index" class="btn btn-outline-secondary"><i class="fa-solid fa-money-bill-wave me-1"></i> صفحة الدفع</a>
+        <!-- كروت الحسابات والآجل المتميزة -->
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-md-6">
+                <div class="card credit-card-flat credit-danger p-4 rounded-4 border-0 shadow-sm h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2">المستحقات الحالية</span>
+                        <div class="icon-circle bg-danger text-white"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    </div>
+                    <h2 class="fw-bold text-danger mb-1">@Model.TotalCreditOutstanding.ToString("N2") <small class="fs-6">ج.م</small></h2>
+                    <p class="text-muted small mb-0">إجمالي المبلغ المتبقي على العملاء (آجل)</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="card credit-card-flat credit-success p-4 rounded-4 border-0 shadow-sm h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">تم تحصيله</span>
+                        <div class="icon-circle bg-success text-white"><i class="fa-solid fa-sack-dollar"></i></div>
+                    </div>
+                    <h2 class="fw-bold text-success mb-1">@Model.TotalCreditPaid.ToString("N2") <small class="fs-6">ج.م</small></h2>
+                    <p class="text-muted small mb-0">إجمالي المبالغ المسددة من الآجل</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- شبكة المنتجات والعروض -->
+        <h6 class="fw-bold text-secondary mb-3"><i class="fa-solid fa-shapes me-2"></i>المتجر والمخزون</h6>
+        <div class="row g-3 mb-4">
+            <div class="col-6 col-md-4">
+                <div class="card widget-card p-3 rounded-4 border-0 shadow-sm">
+                    <div class="widget-icon text-danger mb-2"><i class="fa-solid fa-drumstick-bite fs-4"></i></div>
+                    <h4 class="fw-bold mb-0">@Model.ProductsCount</h4>
+                    <span class="text-muted small">إجمالي المنتجات</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="card widget-card p-3 rounded-4 border-0 shadow-sm">
+                    <div class="widget-icon text-success mb-2"><i class="fa-solid fa-circle-check fs-4"></i></div>
+                    <h4 class="fw-bold mb-0">@Model.AvailableProductsCount</h4>
+                    <span class="text-muted small">منتجات متوفرة</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="card widget-card p-3 rounded-4 border-0 shadow-sm">
+                    <div class="widget-icon text-warning mb-2"><i class="fa-solid fa-tags fs-4"></i></div>
+                    <h4 class="fw-bold mb-0">@Model.CategoriesCount</h4>
+                    <span class="text-muted small">الأقسام المتاحة</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="card widget-card p-3 rounded-4 border-0 shadow-sm">
+                    <div class="widget-icon text-primary mb-2"><i class="fa-solid fa-percent fs-4"></i></div>
+                    <h4 class="fw-bold mb-0">@Model.OffersCount</h4>
+                    <span class="text-muted small">عروض حالية</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="card widget-card p-3 rounded-4 border-0 shadow-sm">
+                    <div class="widget-icon text-dark mb-2"><i class="fa-solid fa-gift fs-4"></i></div>
+                    <h4 class="fw-bold mb-0">@Model.BundleOffersCount</h4>
+                    <span class="text-muted small">عروض مجمّعة</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="card widget-card p-3 rounded-4 border-0 shadow-sm">
+                    <div class="widget-icon text-info mb-2"><i class="fa-solid fa-users fs-4"></i></div>
+                    <h4 class="fw-bold mb-0">@Model.CustomersCount</h4>
+                    <span class="text-muted small">عملاء المتجر</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- الشريط الجانبي: الطلبات المعلقة والأوامر السريعة -->
+    <div class="col-12 col-xl-4">
+        <!-- كارت تنبيه الطلبات معلقة -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 @(Model.PendingOrdersCount > 0 ? "bg-danger text-white" : "bg-white")">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="fw-bold mb-1 @(Model.PendingOrdersCount > 0 ? "text-white" : "text-dark")">الطلبات بانتظار التنفيذ</h6>
+                    <p class="small mb-0 @(Model.PendingOrdersCount > 0 ? "text-white-50" : "text-muted")">تحتاج إلى مراجعة وتأكيد</p>
+                </div>
+                <div class="display-6 fw-bold">@Model.PendingOrdersCount</div>
+            </div>
+            <hr class="@(Model.PendingOrdersCount > 0 ? "border-white border-opacity-25" : "") my-3" />
+            <a asp-controller="Orders" asp-action="Index" class="btn btn-sm @(Model.PendingOrdersCount > 0 ? "btn-light text-danger" : "btn-outline-danger") w-100 fw-bold">
+                عرض كل الطلبات <i class="fa-solid fa-arrow-left ms-1"></i>
+            </a>
+        </div>
+
+        <!-- قائمة الوصول السريع السريعة العمودية -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-bolt text-warning me-2"></i>إجراءات سريعة</h6>
+            <div class="d-flex flex-column gap-2">
+                <a asp-controller="Products" asp-action="Create" class="btn btn-light text-start fw-semibold py-2 rounded-3 border-0">
+                    <i class="fa-solid fa-plus text-danger me-2"></i> إضافة منتج جديد
+                </a>
+                <a asp-controller="Categories" asp-action="Create" class="btn btn-light text-start fw-semibold py-2 rounded-3 border-0">
+                    <i class="fa-solid fa-plus text-warning me-2"></i> إضافة قسم جديد
+                </a>
+                <a asp-controller="Offers" asp-action="Create" class="btn btn-light text-start fw-semibold py-2 rounded-3 border-0">
+                    <i class="fa-solid fa-plus text-primary me-2"></i> إنشاء عرض جديد
+                </a>
+                <a asp-controller="Payments" asp-action="Index" class="btn btn-light text-start fw-semibold py-2 rounded-3 border-0">
+                    <i class="fa-solid fa-money-bill-wave text-success me-2"></i> إدارة المدفوعات
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,5 +1,6 @@
+@model int
 @{
-    ViewData["Title"] = "تم استلام الطلب";
+    ViewData["Title"] = "تم استلام الطلب بنجاح";
 }
 
 @section Styles {
@@ -7,81 +8,58 @@
 }
 
 <div class="order-success-page">
-
-    <div class="container">
-
-        <div class="success-card">
-
-            <div class="success-icon">
+    <div class="container py-4">
+        <div class="success-card shadow-sm border-0">
+            <!-- أيقونة النجاح المتحركة -->
+            <div class="success-icon mb-4">
                 <i class="fa-solid fa-check"></i>
             </div>
 
-            <span class="success-badge">
+            <!-- شارة الحالة -->
+            <div class="success-badge mb-3">
                 <i class="fa-solid fa-circle-check me-2"></i>
                 تم استلام الطلب بنجاح
-            </span>
+            </div>
 
-            <h1>
-                شكراً لك ❤️
+            <h1 class="fw-bold text-dark mb-3">
+                شكراً لك على طلبك ❤️
             </h1>
 
-            <p class="lead">
-                تم تسجيل طلبك بنجاح وسيقوم فريق أولاد زمزم بمراجعته والتواصل معك في أقرب وقت.
+            <p class="lead text-muted fs-6 mb-4">
+                تم تسجيل طلبك بنجاح في النظام، وسيقوم فريق مطعم أولاد زمزم بمراجعته وتجهيزه والتواصل معك في أقرب وقت.
             </p>
 
-            <div class="order-number">
-                <span>رقم الطلب</span>
-
-                <strong>
-                    #@ViewBag.OrderId
-                </strong>
+            <!-- صندوق رقم الطلب -->
+            <div class="order-number-box mx-auto mb-4 p-3 rounded-4">
+                <span class="text-muted small d-block mb-1">رقم الطلب الخاص بك</span>
+                <strong class="fs-3 text-danger">#@Model</strong>
             </div>
 
-            <div class="next-step">
-
-                <div>
-                    <i class="fa-solid fa-phone"></i>
-                    سنتصل بك لتأكيد الطلب.
+            <!-- الخطوات التالية -->
+            <div class="next-steps-grid text-start mx-auto mb-5" style="max-width: 500px;">
+                <div class="next-step-item d-flex align-items-center gap-3 p-3 rounded-3 mb-2.5">
+                    <div class="step-icon text-danger fs-5"><i class="fa-solid fa-phone"></i></div>
+                    <div class="small fw-semibold text-dark">سنتصل بك هاتفياً قريباً لتأكيد تفاصيل الطلب.</div>
                 </div>
-
-                <div>
-                    <i class="fa-solid fa-truck-fast"></i>
-                    سيتم تجهيز الطلب فور التأكيد.
+                <div class="next-step-item d-flex align-items-center gap-3 p-3 rounded-3 mb-2.5">
+                    <div class="step-icon text-danger fs-5"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="small fw-semibold text-dark">سيتم تجهيز طلبك بعناية تامة فور التأكيد.</div>
                 </div>
-
-                <div>
-                    <i class="fa-solid fa-clock"></i>
-                    يمكنك متابعة حالة الطلب من حسابك.
+                <div class="next-step-item d-flex align-items-center gap-3 p-3 rounded-3">
+                    <div class="step-icon text-danger fs-5"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="small fw-semibold text-dark">يمكنك متابعة حالة ومشتريات طلباتك مباشرة من حسابك.</div>
                 </div>
-
             </div>
 
-            <div class="mt-5 d-flex flex-wrap justify-content-center gap-3">
-
-                <a asp-controller="CustomerAccount"
-                   asp-action="MyOrders"
-                   class="btn btn-brand btn-lg px-4">
-
-                    <i class="fa-solid fa-receipt me-2"></i>
-
-                    طلباتي
-
+            <!-- الأزرار التوجيهية -->
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a asp-controller="CustomerAccount" asp-action="MyOrders" class="btn btn-brand btn-lg px-4 rounded-3">
+                    <i class="fa-solid fa-receipt me-2"></i> متابعة طلباتي
                 </a>
-
-                <a asp-controller="Home"
-                   asp-action="Index"
-                   class="btn btn-outline-secondary btn-lg px-4">
-
-                    <i class="fa-solid fa-house me-2"></i>
-
-                    العودة للرئيسية
-
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-lg px-4 rounded-3">
+                    <i class="fa-solid fa-house me-2"></i> العودة للرئيسية
                 </a>
-
             </div>
-
         </div>
-
     </div>
-
 </div>

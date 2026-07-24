@@ -3,30 +3,55 @@
 <input type="hidden" asp-for="Id" />
 <input type="hidden" asp-for="ExistingImage" />
 
-<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 shadow-sm mb-3"></div>
 
-<div class="row g-3">
-    <div class="col-md-6">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-
-    <div class="col-md-6">
-        <label asp-for="ImageFile" class="form-label"></label>
-        <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
-    </div>
-
-    @if (!string.IsNullOrWhiteSpace(Model.ExistingImage))
-    {
-        <div class="col-md-6">
-            <label class="form-label d-block">الصورة الحالية</label>
-            <img src="@Model.ExistingImage" style="width:100px;height:100px;object-fit:cover;border-radius:8px" />
+<div class="row g-4">
+    <!-- اسم القسم -->
+    <div class="col-12 col-md-6">
+        <label asp-for="Name" class="form-label fw-semibold text-dark">اسم القسم <span class="text-danger">*</span></label>
+        <div class="input-group">
+            <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-tag text-muted"></i></span>
+            <input asp-for="Name" class="form-control border-start-0 ps-0" placeholder="أدخل اسم القسم هنا..." />
         </div>
-    }
+        <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+    </div>
+
+    <!-- رفع الصورة -->
+    <div class="col-12 col-md-6">
+        <label asp-for="ImageFile" class="form-label fw-semibold text-dark">صورة القسم</label>
+        <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" id="categoryImageInput" />
+        <span class="text-muted small d-block mt-1">يُفضل رفع صورة بأبعاد مربعة وحجم أقل من 2 ميجابايت.</span>
+    </div>
+
+    <!-- معاينة الصورة الحالية والجديدة -->
+    <div class="col-12">
+        <div class="d-flex flex-wrap gap-4 align-items-center">
+            @if (!string.IsNullOrWhiteSpace(Model?.ExistingImage))
+            {
+                <div>
+                    <label class="form-label fw-semibold text-muted small d-block">الصورة الحالية</label>
+                    <div class="position-relative d-inline-block">
+                        <img src="@Model.ExistingImage" class="img-thumbnail rounded-3 shadow-sm" style="width: 110px; height: 110px; object-fit: cover;" alt="الصورة الحالية" />
+                    </div>
+                </div>
+            }
+
+            <div id="imagePreviewContainer" class="d-none">
+                <label class="form-label fw-semibold text-success small d-block">المعاينة الحالية للجديدة</label>
+                <div class="position-relative d-inline-block">
+                    <img id="imagePreview" src="#" class="img-thumbnail rounded-3 shadow-sm border-success" style="width: 110px; height: 110px; object-fit: cover;" alt="معاينة الصورة" />
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="mt-4 d-flex gap-2">
-    <button type="submit" class="btn btn-brand px-5"><i class="fa-solid fa-floppy-disk me-1"></i> حفظ</button>
-    <a asp-action="Index" class="btn btn-outline-secondary px-5">إلغاء</a>
+<!-- الأزرار -->
+<div class="mt-4 pt-3 border-top d-flex flex-wrap gap-2">
+    <button type="submit" class="btn btn-brand px-4">
+        <i class="fa-solid fa-floppy-disk me-1"></i> حفظ البيانات
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary px-4">
+        <i class="fa-solid fa-xmark me-1"></i> إلغاء
+    </a>
 </div>
