@@ -1,3 +1,4 @@
+using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,16 @@ public class CustomersController : Controller
 {
     private readonly ICustomerService _customerService;
     private readonly IOrderService _orderService;
+    private readonly ILogger<CustomersController> _logger;
 
-    public CustomersController(ICustomerService customerService, IOrderService orderService)
+    public CustomersController(
+        ICustomerService customerService,
+        IOrderService orderService,
+        ILogger<CustomersController> logger)
     {
         _customerService = customerService;
         _orderService = orderService;
+        _logger = logger;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -31,5 +37,27 @@ public class CustomersController : Controller
 
         ViewBag.Orders = await _orderService.GetByCustomerAsync(id);
         return View(customer);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await _customerService.DeleteAsync(id);
+            TempData["SuccessMessage"] = "تم حذف العميل بنجاح";
+        }
+        catch (BusinessException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error while deleting a customer.");
+            TempData["ErrorMessage"] = "حدث خطأ غير متوقع أثناء الحذف.";
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 }

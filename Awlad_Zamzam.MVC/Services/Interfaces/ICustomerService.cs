@@ -9,4 +9,6 @@ public interface ICustomerService
     Task<List<CustomerListItemViewModel>> SearchAsync(string? searchTerm);
 
     Task<CustomerListItemViewModel?> GetByIdAsync(Guid id);
+
+    Task DeleteAsync(Guid id);
 }

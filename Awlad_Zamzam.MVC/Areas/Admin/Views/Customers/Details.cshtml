@@ -16,9 +16,26 @@
             @(string.IsNullOrWhiteSpace(Model.Address) ? "لم يتم تحديد العنوان" : Model.Address)
         </p>
     </div>
-    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
-        <i class="fa-solid fa-arrow-right me-1"></i> العودة لقائمة العملاء
-    </a>
+    <div class="d-flex gap-2">
+        @if (Model.OrdersCount == 0)
+        {
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="js-delete-form">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="fa-solid fa-trash me-1"></i> حذف العميل
+                </button>
+            </form>
+        }
+        else
+        {
+            <button type="button" class="btn btn-sm btn-outline-danger" disabled title="لا يمكن حذف عميل لديه طلبات مسجلة">
+                <i class="fa-solid fa-trash me-1"></i> حذف العميل
+            </button>
+        }
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+            <i class="fa-solid fa-arrow-right me-1"></i> العودة لقائمة العملاء
+        </a>
+    </div>
 </div>
 
 <!-- بطاقات الإحصائيات -->

@@ -23,6 +23,7 @@ wwwroot\css\pages\not-found.css
 wwwroot\css\pages\offers.css
 wwwroot\css\pages\order-success.css
 wwwroot\css\pages\products.css
+wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\admin-notifications.js
 wwwroot\js\catalog-watch.js
@@ -85,6 +86,7 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\Uplodes\.gitkeep
 wwwroot\Uplodes\Admin\2.jpg
 wwwroot\Uplodes\Categories\8e032236-1970-4e67-b3ca-0d40949ad355.jpg
 wwwroot\Uplodes\Categories\c064fb57-f855-40e0-802f-cbf705bd0695.png
@@ -94,4 +96,3 @@ wwwroot\Uplodes\Products\79aa593e-13b1-44ef-a470-5b827d7135eb.jpg
 wwwroot\Uplodes\Products\a828b33b-e817-4e75-8c81-c94b059750a0.jpg
 wwwroot\Uplodes\Products\e48f3a1f-e514-4c8c-98fa-aea7963034c7.png
 wwwroot\Uplodes\Products\f0de2a36-d945-4f90-bf42-c908ac7fc91b.jpg
-wwwroot\css\site.css

@@ -17,6 +17,29 @@
     </a>
 </div>
 
+<!-- فلاتر البحث والترتيب -->
+<div class="card border-0 shadow-sm p-3 mb-4 rounded-4">
+    <form method="get" class="row g-2">
+        <div class="col-12 col-md-7 col-lg-8">
+            <div class="input-group">
+                <span class="input-group-text bg-light border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                <input type="text" name="search" value="@ViewBag.SearchTerm" class="form-control border-start-0 ps-0 js-live-search" placeholder="بحث باسم العميل أو رقم الهاتف..." autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-8 col-md-3 col-lg-2">
+            <select name="sort" class="form-select" onchange="this.form.requestSubmit ? this.form.requestSubmit() : this.form.submit()">
+                <option value="newest" selected="@(ViewBag.Sort == "newest")">الأحدث أولاً</option>
+                <option value="oldest" selected="@(ViewBag.Sort == "oldest")">الأقدم أولاً</option>
+            </select>
+        </div>
+        <div class="col-4 col-md-2 col-lg-2">
+            <button type="submit" class="btn btn-brand w-100">
+                <i class="fa-solid fa-filter me-1"></i> بحث
+            </button>
+        </div>
+    </form>
+</div>
+
 @if (Model != null && Model.Any())
 {
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
@@ -139,11 +162,19 @@ else
             <div class="order-empty-icon mb-3 mx-auto">
                 <i class="fa-solid fa-receipt text-muted fs-1"></i>
             </div>
-            <h5 class="fw-bold text-dark mb-1">لا توجد طلبات مسجلة</h5>
-            <p class="text-muted small mb-3">يمكنك تسجيل طلب آجل جديد أو استقبال طلبات العملاء المباشرة.</p>
-            <a asp-action="Create" class="btn btn-brand btn-sm px-4">
-                <i class="fa-solid fa-plus me-1"></i> تسجيل طلب جديد
-            </a>
+            @if (!string.IsNullOrWhiteSpace(ViewBag.SearchTerm as string))
+            {
+                <h5 class="fw-bold text-dark mb-1">لا توجد نتائج مطابقة</h5>
+                <p class="text-muted small mb-3">جرّب اسمًا أو رقم هاتف آخر، أو <a asp-action="Index" class="text-decoration-none">امسح البحث</a> لعرض كل الطلبات.</p>
+            }
+            else
+            {
+                <h5 class="fw-bold text-dark mb-1">لا توجد طلبات مسجلة</h5>
+                <p class="text-muted small mb-3">يمكنك تسجيل طلب آجل جديد أو استقبال طلبات العملاء المباشرة.</p>
+                <a asp-action="Create" class="btn btn-brand btn-sm px-4">
+                    <i class="fa-solid fa-plus me-1"></i> تسجيل طلب جديد
+                </a>
+            }
         </div>
     </div>
 }

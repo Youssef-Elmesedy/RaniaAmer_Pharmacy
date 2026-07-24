@@ -1,4 +1,5 @@
 using Awlad_Zamzam.MVC.Models.Entities;
+using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Models.ViewModels;
 using Awlad_Zamzam.MVC.Repository.Interfaces;
 using Awlad_Zamzam.MVC.Services.Interfaces;
@@ -52,6 +53,21 @@ public class CustomerService : ICustomerService
     {
         var customer = await _customerRepository.GetByIdAsync(id);
         return customer == null ? null : await BuildListItemAsync(customer);
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var customer = await _customerRepository.GetByIdAsync(id)
+            ?? throw new BusinessException("العميل غير موجود", nameof(id));
+
+        var orders = await _orderRepository.GetByCustomerIdAsync(id);
+        if (orders.Any())
+            throw new BusinessException(
+                "لا يمكن حذف هذا العميل لوجود طلبات مسجلة باسمه. يمكنك حذف العميل فقط إذا لم يكن لديه أي طلبات سابقة.",
+                nameof(id));
+
+        await _customerRepository.DeleteAsync(customer);
+        await _customerRepository.SaveChangesAsync();
     }
 
     private async Task<CustomerListItemViewModel> BuildListItemAsync(Customer customer)
