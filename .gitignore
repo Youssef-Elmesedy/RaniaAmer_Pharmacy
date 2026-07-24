@@ -1,0 +1,84 @@
+## =====================================================================
+## .gitignore — Awlad Zamzam (ASP.NET Core MVC / .NET 8)
+## =====================================================================
+
+## ---------- Build results ----------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+[Ll]ogs/
+*.pdb
+
+## ---------- Visual Studio / Rider / VS Code ----------
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+.idea/
+*.DotSettings.user
+
+## ---------- Build artifacts / publish output ----------
+[Pp]ublish/
+PublishProfiles/*.pubxml.user
+*.azurePubxml
+*.publishproj
+
+## ---------- NuGet ----------
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ---------- Test results ----------
+[Tt]est[Rr]esult*/
+*.trx
+*.coverage
+*.coveragexml
+
+## ---------- ASP.NET Core specific ----------
+# Local secrets & environment-specific configuration (use User Secrets / env vars instead)
+appsettings.Development.json
+appsettings.*.Local.json
+appsettings.Local.json
+*.pfx
+
+# Data Protection keys (must not be shared / versioned — regenerate per environment)
+DataProtection-Keys/
+
+# EF Core local tooling cache
+Migrations/*.bak
+
+## ---------- User-uploaded content ----------
+# Product/category/admin images uploaded at runtime through the admin panel.
+# Keeping these out of source control avoids repo bloat & merge conflicts on binary files.
+# Remove the line below if you'd rather version this content (e.g. small demo/seed images).
+wwwroot/Uplodes/**
+!wwwroot/Uplodes/.gitkeep
+
+## ---------- OS-generated files ----------
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+## ---------- Node (in case front-end tooling is added later) ----------
+node_modules/
+npm-debug.log*
+
+## ---------- Misc ----------
+*.tmp
+*.bak
+*.swp
+*~
