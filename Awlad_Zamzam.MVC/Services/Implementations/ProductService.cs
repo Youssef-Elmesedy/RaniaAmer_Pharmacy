@@ -58,7 +58,7 @@ public class ProductService : IProductService
 
     public Task<Product?> GetDetailsAsync(Guid id) => _productRepository.GetByIdWithCategoryAsync(id);
 
-    public Task<IReadOnlyList<Product>> GetAllForAdminAsync() => _productRepository.GetAllAsync();
+    public Task<IReadOnlyList<Product>> GetAllForAdminAsync() => _productRepository.GetAllIncludeCategory();
 
     public async Task<Guid> CreateAsync(ProductFormViewModel model)
     {

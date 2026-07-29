@@ -1,0 +1,112 @@
+@model AdminSettingsViewModel
+@{
+    ViewData["Title"] = "الإعدادات";
+    var activeTab = ViewData["ActiveSettingsTab"] as string ?? "profile";
+}
+
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+    <div>
+        <h3 class="admin-page-title mb-1">إعدادات الحساب</h3>
+        <p class="text-muted small mb-0">تعديل بياناتك الشخصية وكلمة المرور الخاصة بحسابك كمدير</p>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm p-4 rounded-4">
+            <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+                <div class="user-avatar-circle" style="width:56px;height:56px;font-size:22px;">
+                    @(string.IsNullOrEmpty(Model.FullName) ? "A" : Model.FullName.Substring(0, 1).ToUpper())
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-0">@Model.FullName</h5>
+                    <span class="text-muted small">@Model.Email</span>
+                </div>
+            </div>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+            }
+
+            <ul class="nav nav-tabs mb-4" id="settingsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(activeTab == "profile" ? "active" : "")" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-pane" type="button" role="tab">
+                        <i class="fa-solid fa-user me-1"></i>البيانات الشخصية
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(activeTab == "password" ? "active" : "")" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-pane" type="button" role="tab">
+                        <i class="fa-solid fa-lock me-1"></i>كلمة المرور
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="settingsTabsContent">
+                <!-- البيانات الشخصية -->
+                <div class="tab-pane fade @(activeTab == "profile" ? "show active" : "")" id="profile-pane" role="tabpanel">
+                    <form asp-action="EditProfile" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input class="form-control" value="@Model.Email" disabled />
+                            <div class="form-text">البريد الإلكتروني هو معرّف الدخول ولا يمكن تعديله من هنا.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EditProfile.FullName" class="form-label"></label>
+                            <input asp-for="EditProfile.FullName" class="form-control" />
+                            <span asp-validation-for="EditProfile.FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EditProfile.PhoneNumber" class="form-label"></label>
+                            <input asp-for="EditProfile.PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
+                            <span asp-validation-for="EditProfile.PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EditProfile.Address" class="form-label"></label>
+                            <textarea asp-for="EditProfile.Address" class="form-control" rows="2"></textarea>
+                            <span asp-validation-for="EditProfile.Address" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand">
+                            <i class="fa-solid fa-floppy-disk me-2"></i>حفظ التعديلات
+                        </button>
+                    </form>
+                </div>
+
+                <!-- كلمة المرور -->
+                <div class="tab-pane fade @(activeTab == "password" ? "show active" : "")" id="password-pane" role="tabpanel">
+                    <form asp-action="ChangePassword" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="ChangePassword.CurrentPassword" class="form-label"></label>
+                            <input asp-for="ChangePassword.CurrentPassword" class="form-control" />
+                            <span asp-validation-for="ChangePassword.CurrentPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ChangePassword.NewPassword" class="form-label"></label>
+                            <input asp-for="ChangePassword.NewPassword" class="form-control" />
+                            <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ChangePassword.ConfirmNewPassword" class="form-label"></label>
+                            <input asp-for="ChangePassword.ConfirmNewPassword" class="form-control" />
+                            <span asp-validation-for="ChangePassword.ConfirmNewPassword" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand">
+                            <i class="fa-solid fa-key me-2"></i>تغيير كلمة المرور
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

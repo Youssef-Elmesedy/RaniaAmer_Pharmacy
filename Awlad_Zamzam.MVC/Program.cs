@@ -111,6 +111,13 @@ namespace Awlad_Zamzam.MVC
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ICustomerAuthService, CustomerAuthService>();
 
+            // Generic data-retention engine (counts/deletes oldest rows of any table) + the
+            // admin-facing layer on top of it — nothing is ever deleted automatically; the
+            // admin reviews and approves every cleanup from the "تنظيف البيانات" admin page.
+            builder.Services.AddScoped<IDataRetentionService, DataRetentionService>();
+            builder.Services.AddScoped<IDataCleanupService, DataCleanupService>();
+            builder.Services.AddScoped<IPushNotificationService, PushNotificationService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

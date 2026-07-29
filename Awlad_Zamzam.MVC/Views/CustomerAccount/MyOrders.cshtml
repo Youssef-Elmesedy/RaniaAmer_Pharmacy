@@ -153,13 +153,13 @@
 
                                     <td>
 
-                                        @order.OrderDate.ToString("yyyy/MM/dd")
+                                        @order.OrderDate.ToEgyptTime().ToString("yyyy/MM/dd")
 
                                         <br />
 
                                         <small class="text-muted">
 
-                                            @order.OrderDate.ToString("hh:mm tt")
+                                            @order.OrderDate.ToEgyptTime().ToString("hh:mm tt")
 
                                         </small>
 

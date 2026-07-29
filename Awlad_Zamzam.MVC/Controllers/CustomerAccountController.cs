@@ -117,7 +117,16 @@ public class CustomerAccountController : Controller
         if (!ModelState.IsValid)
             return View(model);
 
-        var customer = await _customerAuthService.ValidateLoginAsync(model);
+        Customer? customer;
+        try
+        {
+            customer = await _customerAuthService.ValidateLoginAsync(model);
+        }
+        catch (BusinessException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
+            return View(model);
+        }
 
         if (customer == null)
         {

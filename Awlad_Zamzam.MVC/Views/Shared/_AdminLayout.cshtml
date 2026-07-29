@@ -1,10 +1,12 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
     <title>@ViewData["Title"] - لوحة تحكم أولاد زمزم</title>
 
     <!-- Favicon -->
@@ -88,6 +90,12 @@
                             <i class="fa-solid fa-money-bill-wave me-1"></i> المدفوعات
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @isActive("DataCleanup")" asp-controller="DataCleanup" asp-action="Index">
+                            <i class="fa-solid fa-broom me-1"></i> تنظيف البيانات
+                            @await Component.InvokeAsync("DataCleanupBadge")
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- User & Account Links -->
@@ -98,9 +106,19 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link text-white-50 @isActive("Settings")" asp-controller="Settings" asp-action="Index" title="الإعدادات">
+                            <i class="fa-solid fa-gear me-1"></i> الإعدادات
+                        </a>
+                    </li>
+
                     <li class="nav-item d-flex align-items-center gap-2 px-2 text-white my-2 my-xl-0">
                         <div class="user-avatar-circle">
-                            @(user?.UserName?.Substring(0, 1).ToUpper() ?? "A")
+                            @{
+                                var displayName = user?.FullName;
+                                if (string.IsNullOrWhiteSpace(displayName)) displayName = user?.UserName;
+                            }
+                            @(string.IsNullOrWhiteSpace(displayName) ? "A" : displayName.Trim().Substring(0, 1).ToUpper())
                         </div>
                         <span class="fw-semibold small">
                             @(user?.FullName ?? user?.UserName ?? "المدير")
@@ -137,12 +155,17 @@
         @RenderBody()
     </main>
 
+    <div id="push-notifications-root" class="d-none"
+         data-subscribe-endpoint="/push/subscribe/admin"
+         data-unsubscribe-endpoint="/push/unsubscribe"></div>
+
     <!-- Core Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/admin-notifications.js" asp-append-version="true"></script>
+    <script src="~/js/push-notifications.js" asp-append-version="true"></script>
 
     <script>
             // Hide loader safely when page finishes loading

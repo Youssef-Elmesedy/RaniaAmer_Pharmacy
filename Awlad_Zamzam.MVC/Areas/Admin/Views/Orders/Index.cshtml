@@ -86,8 +86,8 @@
                                 }
                             </td>
                             <td>
-                                <span class="d-block fw-semibold text-dark small">@order.OrderDate.ToString("yyyy-MM-dd")</span>
-                                <span class="text-muted extra-small">@order.OrderDate.ToString("hh:mm tt")</span>
+                                <span class="d-block fw-semibold text-dark small">@order.OrderDate.ToEgyptTime().ToString("yyyy-MM-dd")</span>
+                                <span class="text-muted extra-small">@order.OrderDate.ToEgyptTime().ToString("hh:mm tt")</span>
                             </td>
                             <td>
                                 @if (order.Status == OrderStatus.Pending)

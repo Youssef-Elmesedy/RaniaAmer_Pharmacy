@@ -1,8 +1,10 @@
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Antiforgery
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="@Antiforgery.GetAndStoreTokens(Context).RequestToken" />
     <title>@ViewData["Title"] - أولاد زمزم</title>
     <link rel="icon" type="image/png" sizes="32x32" href="~/Uplodes/logo/7154d8e0-7ee2-4cfe-a7e8-f6827c1aa810.png" />
 
@@ -131,6 +133,16 @@
         </div>
     </footer>
 
+    @{
+        var pushAuthResult = await Context.AuthenticateAsync(Awlad_Zamzam.MVC.Controllers.CustomerAccountController.SchemeName);
+    }
+    @if (pushAuthResult.Succeeded)
+    {
+        <div id="push-notifications-root" class="d-none"
+             data-subscribe-endpoint="/push/subscribe/customer"
+             data-unsubscribe-endpoint="/push/unsubscribe"></div>
+    }
+
     <script>
             // إذا رجع المستخدم للصفحة عن طريق زر الرجوع في المتصفح بعد الخروج، يتم عمل Refresh آلي
             window.addEventListener('pageshow', function (event) {
@@ -147,6 +159,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/catalog-watch.js" asp-append-version="true"></script>
+    <script src="~/js/push-notifications.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

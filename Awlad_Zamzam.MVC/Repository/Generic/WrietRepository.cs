@@ -2,6 +2,7 @@
 using Awlad_Zamzam.MVC.Models.Entities;
 using Awlad_Zamzam.MVC.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Awlad_Zamzam.MVC.Repository.Generic;
 
@@ -9,11 +10,16 @@ public class WriteRepository<TEntity> : IWriteRepository<TEntity> where TEntity 
 {
     private readonly ApplicationDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
+    private readonly ILogger<WriteRepository<TEntity>> _logger;
 
-    public WriteRepository(ApplicationDbContext context)
+    // logger is optional: this type is manually "new"'d (not DI-resolved) by each concrete
+    // repository (CategoryRepository, OrderRepository, etc.), so it can't rely on constructor
+    // injection for it. Falls back to a no-op logger when not supplied.
+    public WriteRepository(ApplicationDbContext context, ILogger<WriteRepository<TEntity>>? logger = null)
     {
         _context = context;
         _dbSet = context.Set<TEntity>();
+        _logger = logger ?? NullLogger<WriteRepository<TEntity>>.Instance;
     }
 
     public async Task AddAsync(TEntity entity)
@@ -47,36 +53,32 @@ public class WriteRepository<TEntity> : IWriteRepository<TEntity> where TEntity 
     {
         try
         {
-            foreach (var entry in _context.ChangeTracker.Entries<OfferItem>())
-            {
-                Console.WriteLine("--------------------------------");
-                Console.WriteLine($"Id       : {entry.Entity.Id}");
-                Console.WriteLine($"State    : {entry.State}");
-                Console.WriteLine($"IsKeySet : {entry.IsKeySet}");
-                Console.WriteLine($"OfferId  : {entry.Entity.OfferId}");
-                Console.WriteLine($"Created  : {entry.Entity.CreatedAt}");
-
-                foreach (var reference in entry.References)
-                {
-                    Console.WriteLine($"{reference.Metadata.Name} Loaded={reference.IsLoaded}");
-                }
-            }
-
             return await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException ex)
         {
             foreach (var entry in ex.Entries)
             {
-                Console.WriteLine($"Entity: {entry.Entity.GetType().Name}");
-                Console.WriteLine($"State : {entry.State}");
+                var keyValue = entry.Metadata.FindPrimaryKey()?.Properties
+                    .Select(p => entry.Property(p.Name).CurrentValue)
+                    .FirstOrDefault();
 
-                var dbValues = await entry.GetDatabaseValuesAsync();
+                object? dbValues;
+                try
+                {
+                    dbValues = (await entry.GetDatabaseValuesAsync())?.ToObject();
+                }
+                catch
+                {
+                    dbValues = "<failed to read>";
+                }
 
-                if (dbValues == null)
-                    Console.WriteLine("Database Values: NULL (row not found)");
-                else
-                    Console.WriteLine("Database Values: FOUND");
+                _logger.LogWarning(
+                    "Concurrency conflict: entity={Entity} id={Id} EF-state={State} row-in-db={RowInDb}",
+                    entry.Entity.GetType().Name,
+                    keyValue,
+                    entry.State,
+                    dbValues == null ? "NO (row does not exist)" : "YES (row exists with different/matching values)");
             }
 
             throw;

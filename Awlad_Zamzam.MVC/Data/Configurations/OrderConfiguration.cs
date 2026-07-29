@@ -28,6 +28,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.CreatedAt)
             .IsRequired();
 
+        // Supports the data-retention/pruning background job, which scans oldest-first at scale.
+        builder.HasIndex(o => o.CreatedAt);
+
         builder.Property(o => o.UpdatedAt);
 
         builder.Ignore(o => o.Total);

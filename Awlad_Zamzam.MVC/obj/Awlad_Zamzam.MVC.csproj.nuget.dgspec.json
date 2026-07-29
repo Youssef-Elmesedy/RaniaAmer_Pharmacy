@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj": {}
+    "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj": {}
   },
   "projects": {
-    "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj": {
+    "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj",
+        "projectUniqueName": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj",
         "projectName": "Awlad_Zamzam.MVC",
-        "projectPath": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj",
+        "projectPath": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj",
         "packagesPath": "C:\\Users\\Youssef\\.nuget\\packages\\",
-        "outputPath": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\obj\\",
+        "outputPath": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -75,6 +75,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "SixLabors.ImageSharp": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "WebPush": {
+              "target": "Package",
+              "version": "[1.0.13, )"
             }
           },
           "imports": [

@@ -12,9 +12,23 @@ public class PaymentPageViewModel
 
     public List<OrderListItemViewModel> CreditOrders { get; set; } = new();
 
+    // Money-only ledger: one row per day a payment was made, newest first.
+    public List<CustomerPaymentLogItem> PaymentsLog { get; set; } = new();
+
     public decimal TotalDue => CreditOrders.Sum(o => o.RemainingBalance);
     public decimal TotalOrdersAmount => CreditOrders.Sum(o => o.Total);
     public decimal TotalPaidSoFar => CreditOrders.Sum(o => o.AmountPaid);
+}
+
+public class CustomerPaymentLogItem
+{
+    public DateTime Date { get; set; }
+
+    // Total amount paid across all of the customer's credit orders on this day
+    public decimal AmountPaid { get; set; }
+
+    // Remaining balance on the customer's total credit right after this day's payment(s)
+    public decimal RemainingBalance { get; set; }
 }
 
 public class CustomerSelectItem

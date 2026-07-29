@@ -58,9 +58,19 @@ public class CustomerAuthService : ICustomerAuthService
 
         var result = _passwordHasher.VerifyHashedPassword(customer, customer.PasswordHash!, model.Password);
 
-        return result == PasswordVerificationResult.Success || result == PasswordVerificationResult.SuccessRehashNeeded
-            ? customer
-            : null;
+        if (result != PasswordVerificationResult.Success && result != PasswordVerificationResult.SuccessRehashNeeded)
+            return null;
+
+        if (!customer.IsActive)
+            throw new BusinessException(
+                "تم إيقاف حسابك مؤقتًا لعدم النشاط لفترة طويلة، من فضلك تواصل معنا لإعادة تفعيله.",
+                nameof(model.PhoneNumber));
+
+        customer.RecordActivity();
+        await _customerRepository.UpdateAsync(customer);
+        await _customerRepository.SaveChangesAsync();
+
+        return customer;
     }
 
     public async Task<string?> GetSecurityQuestionAsync(string phoneNumber)

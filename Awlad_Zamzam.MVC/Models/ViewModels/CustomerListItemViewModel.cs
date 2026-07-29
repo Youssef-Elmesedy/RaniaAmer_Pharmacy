@@ -7,6 +7,8 @@ public class CustomerListItemViewModel
     public string PhoneNumber { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
     public bool HasAccount { get; set; }
+    public bool IsActive { get; set; } = true;
+    public DateTime? LastActivityAt { get; set; }
     public int OrdersCount { get; set; }
     public int CreditOrdersCount { get; set; }
     public decimal TotalCreditDue { get; set; }

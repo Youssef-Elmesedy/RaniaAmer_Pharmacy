@@ -4,6 +4,7 @@ namespace Awlad_Zamzam.MVC.Repository.Interfaces;
 
 public interface IProductRepository : IReadRepository<Product>, IWriteRepository<Product>
 {
+    Task<IReadOnlyList<Product>> GetAllIncludeCategory();
     Task<Product?> GetByIdWithCategoryAsync(Guid id);
 
     Task<bool> ExistsByNameAsync(string normalizedName, Guid? excludeId = null);

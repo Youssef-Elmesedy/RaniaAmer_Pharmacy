@@ -50,6 +50,8 @@ public class PaymentsController : Controller
 
                 var creditOrders = await _orderService.GetCreditOrdersByCustomerAsync(customerId.Value);
                 model.CreditOrders = creditOrders.OrderByDescending(o => o.OrderDate).ToList();
+
+                model.PaymentsLog = await _orderService.GetPaymentsLogByCustomerAsync(customerId.Value);
             }
         }
 

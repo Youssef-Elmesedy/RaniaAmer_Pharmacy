@@ -28,6 +28,7 @@ wwwroot\favicon.ico
 wwwroot\js\admin-notifications.js
 wwwroot\js\catalog-watch.js
 wwwroot\js\contact.js
+wwwroot\js\push-notifications.js
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -86,13 +87,12 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\sw.js
 wwwroot\Uplodes\.gitkeep
-wwwroot\Uplodes\Admin\2.jpg
 wwwroot\Uplodes\Categories\8e032236-1970-4e67-b3ca-0d40949ad355.jpg
 wwwroot\Uplodes\Categories\c064fb57-f855-40e0-802f-cbf705bd0695.png
 wwwroot\Uplodes\Categories\fde7cd07-56d7-4b16-a2b9-6c1814be78c9.jpg
 wwwroot\Uplodes\logo\7154d8e0-7ee2-4cfe-a7e8-f6827c1aa810.png
 wwwroot\Uplodes\Products\79aa593e-13b1-44ef-a470-5b827d7135eb.jpg
-wwwroot\Uplodes\Products\a828b33b-e817-4e75-8c81-c94b059750a0.jpg
-wwwroot\Uplodes\Products\e48f3a1f-e514-4c8c-98fa-aea7963034c7.png
+wwwroot\Uplodes\Products\d5533f47-db46-4a74-a1a8-751b038af169.webp
 wwwroot\Uplodes\Products\f0de2a36-d945-4f90-bf42-c908ac7fc91b.jpg

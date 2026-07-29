@@ -23,6 +23,17 @@ public class Customer : BaseEntity
 
     public bool HasSecurityQuestion => !string.IsNullOrEmpty(SecurityQuestion) && !string.IsNullOrEmpty(SecurityAnswerHash);
 
+    // Paused automatically after a long stretch of no orders/no login (see ICustomerService
+    // inactivity cleanup). An admin can reactivate manually at any time.
+    public bool IsActive { get; private set; } = true;
+
+    // Last time this customer placed an order or logged in. Null means "never" (e.g. a guest
+    // record created from a single checkout who never logged in again) — CreatedAt is then used
+    // as the baseline for inactivity instead.
+    public DateTime? LastActivityAt { get; private set; }
+
+    public DateTime? DeactivatedAt { get; private set; }
+
     private Customer() { }
 
     public static Customer Create(string name, string phoneNumber, string address)
@@ -76,6 +87,30 @@ public class Customer : BaseEntity
 
         SecurityQuestion = question.Trim();
         SecurityAnswerHash = answerHash;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    // Called whenever the customer places an order or logs in — resets the inactivity clock.
+    public void RecordActivity()
+    {
+        LastActivityAt = DateTime.UtcNow;
+    }
+
+    public void Deactivate()
+    {
+        if (!IsActive) return;
+
+        IsActive = false;
+        DeactivatedAt = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void Activate()
+    {
+        if (IsActive) return;
+
+        IsActive = true;
+        DeactivatedAt = null;
         UpdatedAt = DateTime.UtcNow;
     }
 

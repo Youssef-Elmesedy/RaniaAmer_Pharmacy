@@ -165,7 +165,7 @@
 
             <!-- جدول الطلبات -->
             <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-clock-rotate-left me-2 text-muted"></i>سجل الطلبات الآجلة</h6>
-            <div class="table-responsive rounded-3 border overflow-hidden">
+            <div class="table-responsive rounded-3 border">
                 <table class="table align-middle mb-0">
                     <thead class="table-light">
                         <tr>
@@ -182,7 +182,7 @@
                             <tr class="@(order.IsFullyPaid ? "table-success-tint" : "")">
                                 <td class="small fw-semibold text-dark">
                                     <i class="fa-regular fa-calendar-days me-1 text-muted extra-small"></i>
-                                    @order.OrderDate.ToString("yyyy-MM-dd hh:mm tt")
+                                    @order.OrderDate.ToEgyptTime().ToString("yyyy-MM-dd hh:mm tt")
                                 </td>
                                 <td class="fw-bold text-dark">@order.Total.ToString("N2") ج.م</td>
                                 <td class="text-success fw-semibold">@order.AmountPaid.ToString("N2") ج.م</td>
@@ -199,6 +199,45 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- سجل الدفعات (الفلوس فقط) -->
+            <h6 class="fw-bold text-dark mb-3 mt-4"><i class="fa-solid fa-coins me-2 text-muted"></i>سجل الدفعات</h6>
+            @if (!Model.PaymentsLog.Any())
+            {
+                <div class="text-center py-4 text-muted">
+                    <i class="fa-solid fa-inbox fs-2 mb-2 d-block"></i>
+                    <span>لا توجد دفعات مسجلة لهذا العميل بعد.</span>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive rounded-3 border">
+                    <table class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>المبلغ المدفوع</th>
+                                <th>الباقي بعد الدفعة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var entry in Model.PaymentsLog)
+                            {
+                                <tr>
+                                    <td class="small fw-semibold text-dark">
+                                        <i class="fa-regular fa-calendar-days me-1 text-muted extra-small"></i>
+                                        @entry.Date.ToString("yyyy-MM-dd")
+                                    </td>
+                                    <td class="text-success fw-bold">@entry.AmountPaid.ToString("N2") ج.م</td>
+                                    <td class="fw-bold @(entry.RemainingBalance == 0 ? "text-success" : "text-danger")">
+                                        @(entry.RemainingBalance == 0 ? "خالص السداد" : entry.RemainingBalance.ToString("N2") + " ج.م")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         }
     </div>
 }

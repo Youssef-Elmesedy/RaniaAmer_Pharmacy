@@ -1,18 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "E:\\Awlad_Zamzam\\",
+  "WorkspaceRootPath": "D:\\Awlad_Zamzam\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Migrations\\20260728235133_AddPushSubscriptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Awlad_Zamzam.MVC\\Migrations\\20260728235133_AddPushSubscriptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\wwwroot\\css\\pages\\products.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\wwwroot\\css\\pages\\products.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\controllers\\pushcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\controllers\\pushcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|e:\\awlad_zamzam\\awlad_zamzam.mvc\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\views\\products\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\controllers\\customeraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\controllers\\customeraccountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\common\\egypttimezonehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\common\\egypttimezonehelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\services\\implementations\\pushnotificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\services\\implementations\\pushnotificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\areas\\admin\\views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\areas\\admin\\views\\customers\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\services\\implementations\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\services\\implementations\\customerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|d:\\awlad_zamzam\\awlad_zamzam.mvc\\services\\implementations\\customerauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B3976979-7F47-DF25-3CC0-78570B1F2399}|Awlad_Zamzam.MVC\\Awlad_Zamzam.MVC.csproj|solutionrelative:awlad_zamzam.mvc\\services\\implementations\\customerauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,39 +71,145 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "site.js",
-              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\wwwroot\\js\\site.js",
-              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\wwwroot\\js\\site.js",
-              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\wwwroot\\js\\site.js",
-              "RelativeToolTip": "Awlad_Zamzam.MVC\\wwwroot\\js\\site.js",
+              "Title": "20260728235133_AddPushSubscriptions.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Migrations\\20260728235133_AddPushSubscriptions.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Migrations\\20260728235133_AddPushSubscriptions.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Migrations\\20260728235133_AddPushSubscriptions.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Migrations\\20260728235133_AddPushSubscriptions.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:51:35.637Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EgyptTimeZoneHelper.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Common\\EgyptTimeZoneHelper.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Common\\EgyptTimeZoneHelper.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Common\\EgyptTimeZoneHelper.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Common\\EgyptTimeZoneHelper.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:48:27.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Program.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Program.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Program.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Program.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAywL0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:47:23.665Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Controllers\\AccountController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-07-24T08:26:06.651Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:47:13.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomerAccountController.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Controllers\\CustomerAccountController.cs",
+              "ViewState": "AgIAAJ0AAAAAAAAAAAAswAoBAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:46:27.202Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "products.css",
-              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\wwwroot\\css\\pages\\products.css",
-              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\wwwroot\\css\\pages\\products.css",
-              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\wwwroot\\css\\pages\\products.css",
-              "RelativeToolTip": "Awlad_Zamzam.MVC\\wwwroot\\css\\pages\\products.css",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAgwHYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-07-24T08:03:38.473Z"
+              "Title": "PushController.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\PushController.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Controllers\\PushController.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Controllers\\PushController.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Controllers\\PushController.cs",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAiwFEAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:39:52.518Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Products\\Index.cshtml",
-              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Views\\Products\\Index.cshtml",
-              "ToolTip": "E:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Products\\Index.cshtml",
-              "RelativeToolTip": "Awlad_Zamzam.MVC\\Views\\Products\\Index.cshtml",
-              "ViewState": "AgIAAF4AAAAAAAAAAAAywIsAAAAGAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "PushNotificationService.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\PushNotificationService.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Services\\Implementations\\PushNotificationService.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\PushNotificationService.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Services\\Implementations\\PushNotificationService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAYwAUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-28T23:38:30.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAAAGUAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-07-24T08:03:27.004Z"
+              "WhenOpened": "2026-07-28T05:06:03.428Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Areas\\Admin\\Views\\Customers\\Index.cshtml",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Areas\\Admin\\Views\\Customers\\Index.cshtml",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Areas\\Admin\\Views\\Customers\\Index.cshtml",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Areas\\Admin\\Views\\Customers\\Index.cshtml",
+              "ViewState": "AgIAAEgAAAAAAAAAAIAzwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-07-28T00:05:42.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CustomerService.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerService.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerService.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerService.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerService.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-27T23:54:00.578Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CustomerAuthService.cs",
+              "DocumentMoniker": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "RelativeDocumentMoniker": "Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "ToolTip": "D:\\Awlad_Zamzam\\Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "RelativeToolTip": "Awlad_Zamzam.MVC\\Services\\Implementations\\CustomerAuthService.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAABVwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-27T23:53:52.009Z",
+              "EditorCaption": ""
             }
           ]
         }

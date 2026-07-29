@@ -57,7 +57,7 @@ else
                                 <span>&bull;</span>
                                 <span><i class="fa-solid fa-box-open me-1 small"></i>@order.ItemsCount صنف</span>
                                 <span>&bull;</span>
-                                <span><i class="fa-regular fa-clock me-1 small"></i>@order.OrderDate.ToString("yyyy-MM-dd hh:mm tt")</span>
+                                <span><i class="fa-regular fa-clock me-1 small"></i>@order.OrderDate.ToEgyptTime().ToString("yyyy-MM-dd hh:mm tt")</span>
                             </div>
                         </div>
                     </div>

@@ -76,7 +76,7 @@ public class Offer : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    public void AddItem(Guid productId, decimal specialPrice)
+    public OfferItem AddItem(Guid productId, decimal specialPrice)
     {
         if (productId == Guid.Empty)
             throw new BusinessException("المنتج مطلوب", nameof(productId));
@@ -87,10 +87,11 @@ public class Offer : BaseEntity
         if (_items.Any(i => i.ProductId == productId))
             throw new BusinessException("هذا المنتج مضاف بالفعل في العرض", nameof(productId));
 
-        _items.Add(
-    OfferItem.Create(this, productId, specialPrice));
+        var item = OfferItem.Create(this, productId, specialPrice);
+        _items.Add(item);
 
         UpdatedAt = DateTime.UtcNow;
+        return item;
     }
 
     public void RemoveItem(Guid offerItemId)
@@ -103,18 +104,21 @@ public class Offer : BaseEntity
         }
     }
 
-    // Wipes the current bundle items and rebuilds it from scratch (used when editing an offer)
-    public void ReplaceItems(IEnumerable<(Guid ProductId, decimal SpecialPrice)> items)
+    // Wipes the current bundle items and rebuilds it from scratch (used when editing an offer).
+    // Returns the newly-created items: because their Id is a client-generated (already non-empty)
+    // Guid, EF Core can't reliably tell them apart from a pre-existing row once they're only
+    // discovered via collection fixup on an already-tracked Offer — the caller (repository) must
+    // explicitly mark these as Added, or EF may issue an UPDATE for a row that doesn't exist yet.
+    public IReadOnlyList<OfferItem> ReplaceItems(IEnumerable<(Guid ProductId, decimal SpecialPrice)> items)
     {
         var incoming = items.ToDictionary(x => x.ProductId);
+        var newlyAddedItems = new List<OfferItem>();
 
         // حذف العناصر غير الموجودة
         foreach (var existing in _items.ToList())
         {
             if (!incoming.ContainsKey(existing.ProductId))
                 _items.Remove(existing);
-
-            Console.WriteLine($"Items Count = {_items.Count}");
         }
 
         // إضافة أو تحديث
@@ -124,9 +128,7 @@ public class Offer : BaseEntity
 
             if (existing == null)
             {
-                AddItem(item.Key, item.Value.SpecialPrice);
-
-                Console.WriteLine($"Items Count = {_items.Count}");
+                newlyAddedItems.Add(AddItem(item.Key, item.Value.SpecialPrice));
             }
             else if (existing.SpecialPrice != item.Value.SpecialPrice)
             {
@@ -135,6 +137,7 @@ public class Offer : BaseEntity
         }
 
         UpdatedAt = DateTime.UtcNow;
+        return newlyAddedItems;
     }
 
     private static void Validate(string title, string? description)

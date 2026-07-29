@@ -53,4 +53,14 @@ public class OfferRepository : IOfferRepository
         await _context.Offers
             .Include(o => o.Items).ThenInclude(i => i.Product)
             .FirstOrDefaultAsync(o => o.Id == id);
+
+    public void MarkItemsAsAdded(IEnumerable<OfferItem> items)
+    {
+        foreach (var item in items)
+        {
+            var entry = _context.Entry(item);
+            if (entry.State != EntityState.Added)
+                entry.State = EntityState.Added;
+        }
+    }
 }

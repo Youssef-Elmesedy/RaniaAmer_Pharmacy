@@ -61,7 +61,7 @@
 
                     <strong>
 
-                        @Model.OrderDate.ToString("yyyy/MM/dd")
+                        @Model.OrderDate.ToEgyptTime().ToString("yyyy/MM/dd")
 
                     </strong>
 
@@ -335,7 +335,7 @@
 
                                         <td>
 
-                                            @payment.PaidAt.ToString("yyyy/MM/dd HH:mm")
+                                            @payment.PaidAt.ToEgyptTime().ToString("yyyy/MM/dd HH:mm")
 
                                         </td>
 

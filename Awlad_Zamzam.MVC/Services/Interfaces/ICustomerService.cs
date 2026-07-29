@@ -11,4 +11,11 @@ public interface ICustomerService
     Task<CustomerListItemViewModel?> GetByIdAsync(Guid id);
 
     Task DeleteAsync(Guid id);
+
+    // Inactivity auto-pause (customer inactive 3+ months) - admin-approval workflow, see DataCleanup
+    int InactivityThresholdMonths { get; }
+    Task<int> CountInactiveEligibleAsync();
+    Task<List<CustomerListItemViewModel>> GetInactiveEligibleAsync();
+    Task<int> DeactivateInactiveAsync();
+    Task ReactivateAsync(Guid id);
 }

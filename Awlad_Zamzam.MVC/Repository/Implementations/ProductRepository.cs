@@ -19,6 +19,8 @@ public class ProductRepository : IProductRepository
         _write = new WriteRepository<Product>(context);
     }
 
+    public async Task<IReadOnlyList<Product>> GetAllIncludeCategory() => await _context.Products.Include(p => p.Category).AsNoTracking().ToListAsync();
+
     public Task<Product?> GetByIdAsync(Guid id) => _read.GetByIdAsync(id);
 
     public Task<IReadOnlyList<Product>> GetAllAsync() => _read.GetAllAsync();

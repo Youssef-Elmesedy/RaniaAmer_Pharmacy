@@ -52,7 +52,15 @@
                     @foreach (var customer in Model)
                     {
                         <tr>
-                            <td class="fw-bold text-dark">@customer.Name</td>
+                            <td class="fw-bold text-dark">
+                                @customer.Name
+                                @if (!customer.IsActive)
+                                {
+                                    <span class="badge bg-secondary rounded-pill ms-1" title="موقوف لعدم النشاط">
+                                        <i class="fa-solid fa-pause"></i>
+                                    </span>
+                                }
+                            </td>
                             <td>
                                 <a href="tel:@customer.PhoneNumber" class="text-decoration-none text-secondary dir-ltr d-inline-block">
                                     <i class="fa-solid fa-phone me-1 small text-muted"></i>@customer.PhoneNumber

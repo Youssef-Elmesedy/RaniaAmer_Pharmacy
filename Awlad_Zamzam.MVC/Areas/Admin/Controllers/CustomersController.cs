@@ -60,4 +60,26 @@ public class CustomersController : Controller
 
         return RedirectToAction(nameof(Index));
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Reactivate(Guid id)
+    {
+        try
+        {
+            await _customerService.ReactivateAsync(id);
+            TempData["SuccessMessage"] = "تم إعادة تفعيل حساب العميل بنجاح";
+        }
+        catch (BusinessException ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error while reactivating a customer.");
+            TempData["ErrorMessage"] = "حدث خطأ غير متوقع أثناء العملية.";
+        }
+
+        return RedirectToAction(nameof(Details), new { id });
+    }
 }

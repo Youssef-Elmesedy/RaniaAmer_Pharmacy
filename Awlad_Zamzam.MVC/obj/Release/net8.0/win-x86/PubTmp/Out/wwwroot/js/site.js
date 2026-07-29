@@ -36,19 +36,24 @@ document.addEventListener('DOMContentLoaded', function () {
         var success = toastData.getAttribute('data-success');
         var error = toastData.getAttribute('data-error');
 
-        var Toast = Swal.mixin({
-            toast: true,
-            position: 'top-start',
-            showConfirmButton: false,
-            timer: 3500,
-            timerProgressBar: true
-        });
+        if (success || error) {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-start',
+                showConfirmButton: false,
+                timer: 3500,
+                timerProgressBar: true
+            });
 
-        if (success) {
-            Toast.fire({ icon: 'success', title: success });
-        }
-        if (error) {
-            Toast.fire({ icon: 'error', title: error });
+            if (success) Toast.fire({ icon: 'success', title: success });
+            if (error) Toast.fire({ icon: 'error', title: error });
+
+            // Toasts have no backdrop, so a click anywhere on the page doesn't dismiss them by
+            // default - only the timer does. Close it on the very next click instead of making
+            // the admin wait it out.
+            document.addEventListener('click', function () {
+                Swal.close();
+            }, { once: true });
         }
     }
 

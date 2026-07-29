@@ -42,9 +42,20 @@ public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 
         builder.Property(c => c.UpdatedAt);
 
+        builder.Property(c => c.IsActive)
+            .IsRequired()
+            .HasDefaultValue(true);
+
+        builder.Property(c => c.LastActivityAt);
+
+        builder.Property(c => c.DeactivatedAt);
+
         builder.HasIndex(c => c.NormalizedName);
 
         builder.HasIndex(c => c.PhoneNumber)
             .IsUnique();
+
+        // Supports the inactive-customer cleanup scan (IsActive customers ordered by activity)
+        builder.HasIndex(c => new { c.IsActive, c.LastActivityAt });
     }
 }

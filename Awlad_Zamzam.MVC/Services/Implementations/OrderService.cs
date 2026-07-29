@@ -1,3 +1,4 @@
+using Awlad_Zamzam.MVC.Common;
 using Awlad_Zamzam.MVC.Models.Entities;
 using Awlad_Zamzam.MVC.Models.Enums;
 using Awlad_Zamzam.MVC.Models.Exceptions;
@@ -17,19 +18,25 @@ public class OrderService : IOrderService
     private readonly IProductRepository _productRepository;
     private readonly ICartService _cartService;
     private readonly IMemoryCache _cache;
+    private readonly IPushNotificationService _pushService;
+    private readonly ILogger<OrderService> _logger;
 
     public OrderService(
         IOrderRepository orderRepository,
         ICustomerRepository customerRepository,
         IProductRepository productRepository,
         ICartService cartService,
-        IMemoryCache cache)
+        IMemoryCache cache,
+        IPushNotificationService pushService,
+        ILogger<OrderService> logger)
     {
         _orderRepository = orderRepository;
         _customerRepository = customerRepository;
         _productRepository = productRepository;
         _cartService = cartService;
         _cache = cache;
+        _pushService = pushService;
+        _logger = logger;
     }
 
     public async Task<Guid> CreateFromCartAsync(CheckoutViewModel model, Guid? authenticatedCustomerId = null)
@@ -53,6 +60,10 @@ public class OrderService : IOrderService
                 await _customerRepository.UpdateAsync(customer);
                 await _customerRepository.SaveChangesAsync();
             }
+
+            customer.RecordActivity();
+            await _customerRepository.UpdateAsync(customer);
+            await _customerRepository.SaveChangesAsync();
         }
         else
         {
@@ -74,6 +85,7 @@ public class OrderService : IOrderService
                 await _customerRepository.UpdateAsync(customer);
             }
 
+            customer.RecordActivity();
             await _customerRepository.SaveChangesAsync();
         }
 
@@ -88,6 +100,11 @@ public class OrderService : IOrderService
 
         _cartService.Clear();
         InvalidatePendingCountCache();
+
+        await SafeNotifyAsync(() => _pushService.SendToAllAdminsAsync(
+            "طلب جديد 🛎️",
+            $"طلب جديد من {customer.Name} بقيمة {order.Total:N0} ج.م",
+            "/Admin/Orders"));
 
         return order.Id;
     }
@@ -131,6 +148,10 @@ public class OrderService : IOrderService
         if (selectedItems.Count == 0)
             throw new BusinessException("اختر منتج واحد على الأقل بكمية أكبر من صفر", nameof(model.SelectedProductIds));
 
+        customer.RecordActivity();
+        await _customerRepository.UpdateAsync(customer);
+        await _customerRepository.SaveChangesAsync();
+
         var order = Order.Create(customer.Id, model.Notes);
 
         foreach (var productId in selectedItems)
@@ -170,6 +191,42 @@ public class OrderService : IOrderService
             .Where(o => o.IsCredit)
             .Select(MapToListItem)
             .ToList();
+    }
+
+    // Money-only ledger for the customer's credit account: one row per day a payment was
+    // made (amount paid that day + the running remaining balance right after it), newest first.
+    public async Task<List<CustomerPaymentLogItem>> GetPaymentsLogByCustomerAsync(Guid customerId)
+    {
+        var creditOrders = (await _orderRepository.GetByCustomerIdAsync(customerId))
+            .Where(o => o.IsCredit)
+            .ToList();
+
+        var totalCreditIssued = creditOrders.Sum(o => o.Total);
+
+        var dailyTotals = creditOrders
+            .SelectMany(o => o.Payments)
+            .GroupBy(p => p.PaidAt.ToEgyptTime().Date)
+            .Select(g => new { Date = g.Key, AmountPaid = g.Sum(p => p.Amount) })
+            .OrderBy(g => g.Date)
+            .ToList();
+
+        var log = new List<CustomerPaymentLogItem>();
+        var cumulativePaid = 0m;
+
+        foreach (var day in dailyTotals)
+        {
+            cumulativePaid += day.AmountPaid;
+
+            log.Add(new CustomerPaymentLogItem
+            {
+                Date = day.Date,
+                AmountPaid = day.AmountPaid,
+                RemainingBalance = Math.Max(0, totalCreditIssued - cumulativePaid)
+            });
+        }
+
+        log.Reverse(); // newest first
+        return log;
     }
 
     public async Task<OrderDetailsViewModel?> GetDetailsAsync(Guid id)
@@ -225,6 +282,12 @@ public class OrderService : IOrderService
         }
 
         InvalidatePendingCountCache();
+
+        await SafeNotifyAsync(() => _pushService.SendToCustomerAsync(
+            order.CustomerId,
+            "تم تجهيز طلبك ✅",
+            isCredit ? "تم تجهيز طلبك الآجل بنجاح" : "تم تجهيز طلبك وسيتم توصيله قريبًا",
+            "/CustomerAccount/OrderDetails/" + order.Id));
     }
 
     public async Task AddPaymentAsync(Guid orderId, decimal amount, string? notes)
@@ -307,6 +370,21 @@ public class OrderService : IOrderService
     }
 
     private void InvalidatePendingCountCache() => _cache.Remove(PendingCountCacheKey);
+
+    // Push notifications are a nice-to-have layered on top of the real business action (placing
+    // or completing an order). A push failure (bad VAPID config, network blip, expired
+    // subscription, etc.) must never roll back or fail the order itself.
+    private async Task SafeNotifyAsync(Func<Task> notify)
+    {
+        try
+        {
+            await notify();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Failed to send a push notification (order flow was not affected).");
+        }
+    }
 
     private static OrderListItemViewModel MapToListItem(Order o) => new()
     {

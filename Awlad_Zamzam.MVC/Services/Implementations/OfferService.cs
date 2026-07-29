@@ -1,4 +1,3 @@
-using Awlad_Zamzam.MVC.Data;
 using Awlad_Zamzam.MVC.Models.Entities;
 using Awlad_Zamzam.MVC.Models.Exceptions;
 using Awlad_Zamzam.MVC.Models.ViewModels;
@@ -17,19 +16,17 @@ public class OfferService : IOfferService
     private readonly IProductRepository _productRepository;
     private readonly IMemoryCache _cache;
     private readonly ICatalogChangeTracker _catalogChangeTracker;
-    public readonly ApplicationDbContext _context;
+
     public OfferService(
         IOfferRepository offerRepository,
         IProductRepository productRepository,
         IMemoryCache cache,
-        ICatalogChangeTracker catalogChangeTracker,
-        ApplicationDbContext context)
+        ICatalogChangeTracker catalogChangeTracker)
     {
         _offerRepository = offerRepository;
         _productRepository = productRepository;
         _cache = cache;
         _catalogChangeTracker = catalogChangeTracker;
-        _context = context;
     }
 
     public async Task<List<OfferViewModel>> GetActiveOffersAsync()
@@ -118,17 +115,27 @@ public class OfferService : IOfferService
 
         offer.Update(model.Title, model.Description);
 
-        offer.ReplaceItems(model.SelectedProductIds.Select(id =>
+        var newItems = offer.ReplaceItems(model.SelectedProductIds.Select(id =>
             (id, model.SpecialPrices.GetValueOrDefault(id))));
 
-        foreach (var e in _context.ChangeTracker.Entries<OfferItem>())
-        {
-            Console.WriteLine($"{e.Entity.Id} => {e.State}");
-        }
+        // EF can't reliably auto-detect these as "new" (see MarkItemsAsAdded docs) since they
+        // only surface via collection fixup on an already-tracked Offer — mark them explicitly.
+        _offerRepository.MarkItemsAsAdded(newItems);
 
         if (model.IsActive) offer.Activate(); else offer.Deactivate();
 
-        await _offerRepository.SaveChangesAsync();
+        try
+        {
+            await _offerRepository.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            // Someone else changed or deleted this offer between the moment it was loaded for
+            // editing and this save. Surface a friendly message instead of a raw 500 page.
+            throw new BusinessException(
+                "تم تعديل هذا العرض من مكان آخر في نفس الوقت، من فضلك أعد تحميل الصفحة وحاول مرة أخرى.",
+                nameof(model.Id));
+        }
 
         InvalidateCache();
     }

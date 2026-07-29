@@ -27,6 +27,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<OrderPayment> OrderPayments => Set<OrderPayment>();
 
+    public DbSet<Models.Entities.PushSubscription> PushSubscriptions => Set<Models.Entities.PushSubscription>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

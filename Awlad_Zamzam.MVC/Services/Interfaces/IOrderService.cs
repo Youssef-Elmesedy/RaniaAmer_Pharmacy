@@ -9,6 +9,7 @@ public interface IOrderService
     Task<List<OrderListItemViewModel>> GetAllAsync();
     Task<List<OrderListItemViewModel>> GetByCustomerAsync(Guid customerId);
     Task<List<OrderListItemViewModel>> GetCreditOrdersByCustomerAsync(Guid customerId);
+    Task<List<CustomerPaymentLogItem>> GetPaymentsLogByCustomerAsync(Guid customerId);
     Task<OrderDetailsViewModel?> GetDetailsAsync(Guid id);
     Task CompleteAsync(Guid id, bool isCredit);
     Task AddPaymentAsync(Guid orderId, decimal amount, string? notes);
