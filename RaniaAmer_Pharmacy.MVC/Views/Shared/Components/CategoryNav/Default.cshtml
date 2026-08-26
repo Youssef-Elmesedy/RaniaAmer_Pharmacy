@@ -1,0 +1,22 @@
+@model List<CategorySelectItem>
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+        <i class="fa-solid fa-mortar-pestle me-1"></i>الأقسام
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" asp-controller="Products" asp-action="Index">كل المنتجات</a></li>
+        @if (Model.Any())
+        {
+            <li><hr class="dropdown-divider" /></li>
+        }
+        @foreach (var category in Model)
+        {
+            <li>
+                <a class="dropdown-item" asp-controller="Products" asp-action="Index" asp-route-categoryId="@category.Id">
+                    @category.Name
+                </a>
+            </li>
+        }
+    </ul>
+</li>

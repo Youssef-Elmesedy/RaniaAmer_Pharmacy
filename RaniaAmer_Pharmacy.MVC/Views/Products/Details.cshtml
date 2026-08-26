@@ -1,0 +1,152 @@
+@model Product
+@{
+    ViewData["Title"] = Model.Name;
+    var priceAfter = Model.DiscountPercentage > 0
+        ? Math.Round(Model.Price - (Model.Price * Model.DiscountPercentage / 100), 2)
+        : Model.Price;
+
+    // All the ways this product can be bought: the base unit first, then each sub-unit option
+    var unitChoices = new List<(Guid Id, string Name, decimal OriginalPrice, decimal FinalPrice)>
+    {
+        (Model.SaleUnitId, Model.SaleUnit?.Name ?? "-", Model.Price, priceAfter)
+    };
+
+    foreach (var option in Model.UnitOptions.OrderByDescending(o => o.QuantityPerBaseUnit))
+    {
+        unitChoices.Add((
+            option.SaleUnitId,
+            option.SaleUnit?.Name ?? "-",
+            Math.Round(Model.Price / option.QuantityPerBaseUnit, 2),
+            Math.Round(priceAfter / option.QuantityPerBaseUnit, 2)
+        ));
+    }
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/products.css" asp-append-version="true" />
+}
+
+<div class="container py-5">
+    <!-- مسار التنقل -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb bg-light p-3 rounded-4 shadow-sm align-items-center">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none text-dark fw-semibold"><i class="fa-solid fa-house me-1 text-danger"></i>الرئيسية</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" class="text-decoration-none text-dark fw-semibold">المنتجات</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Products" asp-action="Index" asp-route-categoryId="@Model.CategoryId" class="text-decoration-none text-dark fw-semibold">@Model.Category?.Name</a></li>
+            <li class="breadcrumb-item active text-danger fw-bold" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row g-5 align-items-center">
+        <!-- صورة المنتج -->
+        <div class="col-12 col-md-6">
+            <div class="product-details-img-wrapper rounded-4 overflow-hidden shadow-sm border bg-white position-relative">
+                @if (Model.DiscountPercentage > 0)
+                {
+                    <span class="badge badge-offer position-absolute top-0 start-0 m-3 px-3 py-2 fs-6 shadow-sm">خصم @Model.DiscountPercentage%</span>
+                }
+                @if (!Model.IsAvailable)
+                {
+                    <span class="badge badge-unavailable position-absolute top-0 end-0 m-3 px-3 py-2 fs-6 shadow-sm">غير متوفر حالياً</span>
+                }
+                <img src="@(Model.ImagePath ?? "/images/product-placeholder.svg")" class="img-fluid w-100 object-fit-cover" alt="@Model.Name" style="max-height: 420px;" />
+            </div>
+        </div>
+
+        <!-- تفاصيل ومعلومات المنتج -->
+        <div class="col-12 col-md-6">
+            <div class="card border-0 shadow-sm p-4 rounded-4 bg-white">
+                <span class="badge bg-secondary-subtle text-secondary mb-2 align-self-start px-3 py-2 rounded-pill fw-bold">@Model.Category?.Name</span>
+                <h2 class="fw-bold text-dark mb-3">@Model.Name</h2>
+                <p class="text-muted leading-loose mb-4">@Model.Description</p>
+
+                <div class="product-price-box p-3 bg-light rounded-3 mb-3 d-flex align-items-center gap-3">
+                    @if (Model.DiscountPercentage > 0)
+                    {
+                        <span class="price-old text-decoration-line-through text-muted fs-5" id="priceOldLabel">@unitChoices[0].OriginalPrice.ToString("N2") ج.م</span>
+                    }
+                    <span class="price-new fs-3 fw-bold text-danger" id="priceNewLabel">@unitChoices[0].FinalPrice.ToString("N2") ج.م</span>
+                    <span class="text-muted small" id="priceUnitLabel">/ @unitChoices[0].Name</span>
+                </div>
+
+                @if (unitChoices.Count > 1)
+                {
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold small mb-2">اختر وحدة الشراء</label>
+                        <div class="d-flex flex-wrap gap-2" id="unitChoiceGroup">
+                            @for (var i = 0; i < unitChoices.Count; i++)
+                            {
+                                var choice = unitChoices[i];
+                                <button type="button"
+                                        class="btn unit-choice-btn @(i == 0 ? "active" : "")"
+                                        data-unit-id="@choice.Id"
+                                        data-unit-name="@choice.Name"
+                                        data-original-price="@choice.OriginalPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)"
+                                        data-final-price="@choice.FinalPrice.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)">
+                                    @choice.Name
+                                    <span class="d-block extra-small fw-normal">@choice.FinalPrice.ToString("N2") ج.م</span>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+
+                @if (Model.IsAvailable)
+                {
+                    <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex align-items-end gap-3 flex-wrap">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="saleUnitId" id="selectedSaleUnitId" value="@unitChoices[0].Id" />
+                        <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+
+                        <div class="flex-grow-1" style="max-width: 140px;">
+                            <label class="form-label fw-semibold small mb-1">
+                                الكمية
+                            </label>
+                            <input type="number" name="quantity" value="1" min="1" step="1" class="form-control form-control-lg text-center fw-bold" />
+                        </div>
+                        <button type="submit" class="btn btn-brand btn-lg flex-grow-1 rounded-3 py-3 fw-bold shadow-sm">
+                            <i class="fa-solid fa-cart-plus me-2"></i>أضف للسلة
+                        </button>
+                    </form>
+
+                    @if (unitChoices.Count > 1)
+                    {
+                        <style>
+                            .unit-choice-btn { border: 1.5px solid var(--brand-teal, #0d9488); color: var(--brand-teal, #0d9488); background: #fff; border-radius: 10px; padding: 6px 16px; font-weight: 600; }
+                            .unit-choice-btn.active, .unit-choice-btn:hover { background: var(--brand-teal, #0d9488); color: #fff; }
+                        </style>
+                        <script>
+                            (function () {
+                                var buttons = document.querySelectorAll('.unit-choice-btn');
+                                var hasDiscount = @Json.Serialize(Model.DiscountPercentage > 0);
+
+                                buttons.forEach(function (btn) {
+                                    btn.addEventListener('click', function () {
+                                        buttons.forEach(function (b) { b.classList.remove('active'); });
+                                        btn.classList.add('active');
+
+                                        document.getElementById('selectedSaleUnitId').value = btn.dataset.unitId;
+                                        document.getElementById('priceUnitLabel').textContent = '/ ' + btn.dataset.unitName;
+                                        document.getElementById('priceNewLabel').textContent = parseFloat(btn.dataset.finalPrice).toFixed(2) + ' ج.م';
+
+                                        if (hasDiscount) {
+                                            var oldLabel = document.getElementById('priceOldLabel');
+                                            if (oldLabel) oldLabel.textContent = parseFloat(btn.dataset.originalPrice).toFixed(2) + ' ج.م';
+                                        }
+                                    });
+                                });
+                            })();
+                        </script>
+                    }
+                }
+                else
+                {
+                    <a asp-controller="Customer" asp-action="Index" class="btn btn-brand btn-lg w-100 rounded-3 py-3 fw-bold shadow-sm">
+                        <i class="fa-solid fa-phone me-2"></i>تواصل معنا للاستفسار
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>

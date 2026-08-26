@@ -1,0 +1,245 @@
+@model PaymentPageViewModel
+@{
+    ViewData["Title"] = "تسجيل الدفعات والآجل";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/admin-payments.css" asp-append-version="true" />
+}
+
+<div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+    <div>
+        <h3 class="admin-page-title mb-1"><i class="fa-solid fa-money-bill-wave me-2 text-danger"></i>سداد الحسابات والآجل</h3>
+        <p class="text-muted small mb-0">البحث عن العملاء وتسجيل الدفعات النقدية لتصفية الحسابات الآجلة</p>
+    </div>
+</div>
+
+<!-- بطاقة البحث والفلترة -->
+<div class="card border-0 shadow-sm p-4 mb-4 payments-search-card rounded-4">
+    <form method="get" class="row g-3 align-items-end">
+        <div class="col-12 col-md-5">
+            <label class="form-label fw-semibold small">بحث بالاسم أو رقم الهاتف</label>
+
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" name="search" value="@Model.SearchTerm" class="form-control border-start-0 js-live-search"
+                       placeholder="اكتب اسم العميل أو رقمه..." autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-12 col-md-5">
+            <label class="form-label fw-semibold small">اختر العميل من القائمة</label>
+            <select name="customerId" class="form-select" onchange="this.form.submit()">
+                <option value="">-- اختر عميل لديه مبالغ آجلة --</option>
+                @foreach (var customer in Model.Customers.Where(c => c.TotalCreditDue > 0))
+                {
+                    if (customer.Id == Model.SelectedCustomerId)
+                    {
+                        <option value="@customer.Id" selected>
+                            @customer.Name - @customer.PhoneNumber (متبقي @customer.TotalCreditDue.ToString("N2") ج.م)
+                        </option>
+                    }
+                    else
+                    {
+                        <option value="@customer.Id">
+                            @customer.Name - @customer.PhoneNumber (متبقي @customer.TotalCreditDue.ToString("N2") ج.م)
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-2">
+            <button type="submit" class="btn btn-brand w-100 py-2">
+                <i class="fa-solid fa-filter me-1"></i> عرض
+            </button>
+        </div>
+    </form>
+
+    @if (Model.SearchTerm != null && Model.Customers.Any())
+    {
+        <div class="mt-3 pt-3 border-top">
+            <div class="small text-muted fw-semibold mb-2"><i class="fa-solid fa-list-check me-1"></i>نتائج البحث السريع:</div>
+            <div class="d-flex flex-wrap gap-2">
+                @foreach (var customer in Model.Customers)
+                {
+                    <a asp-action="Index" asp-route-customerId="@customer.Id" asp-route-search="@Model.SearchTerm"
+                       class="btn btn-sm rounded-3 d-flex align-items-center gap-1.5 @(customer.Id == Model.SelectedCustomerId ? "btn-brand" : "btn-outline-secondary")">
+                        <span>@customer.Name</span>
+                        <small class="opacity-75">(@customer.PhoneNumber)</small>
+                        @if (customer.TotalCreditDue > 0)
+                        {
+                            <span class="badge bg-danger rounded-pill ms-1">@customer.TotalCreditDue.ToString("N2") ج.م</span>
+                        }
+                    </a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.SelectedCustomerId != null)
+{
+    <!-- ملخص العميل والدفع -->
+    <div class="card border-0 shadow-sm p-4 mb-4 payment-summary-card rounded-4">
+        <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
+            <div class="customer-avatar bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center">
+                <i class="fa-solid fa-user fs-4"></i>
+            </div>
+            <div>
+                <h5 class="fw-bold text-dark mb-0">@Model.SelectedCustomerName</h5>
+                <a href="tel:@Model.SelectedCustomerPhone" class="text-decoration-none text-muted small dir-ltr d-inline-block mt-0.5">
+                    <i class="fa-solid fa-phone me-1 extra-small"></i>@Model.SelectedCustomerPhone
+                </a>
+            </div>
+        </div>
+
+        @if (!Model.CreditOrders.Any())
+        {
+            <div class="text-center py-4 text-muted">
+                <i class="fa-solid fa-folder-open fs-2 mb-2 d-block"></i>
+                <span>لا توجد طلبات آجل مسجلة لهذا العميل.</span>
+            </div>
+        }
+        else
+        {
+            <!-- الإحصائيات -->
+            <div class="row g-3 mb-4">
+                <div class="col-12 col-md-4">
+                    <div class="payment-stat p-3 rounded-4 text-center">
+                        <div class="small text-muted mb-1">إجمالي طلبات الآجل</div>
+                        <div class="fw-bold fs-5 text-dark">@Model.TotalOrdersAmount.ToString("N2") <small class="fs-6">ج.م</small></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="payment-stat payment-stat-paid p-3 rounded-4 text-center">
+                        <div class="small text-muted mb-1">تم سداده سابقاً</div>
+                        <div class="fw-bold fs-5 text-success">@Model.TotalPaidSoFar.ToString("N2") <small class="fs-6">ج.م</small></div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="payment-stat payment-stat-due p-3 rounded-4 text-center">
+                        <div class="small text-muted mb-1">إجمالي المتبقي حالياً</div>
+                        <div class="fw-bold fs-4 text-danger">@Model.TotalDue.ToString("N2") <small class="fs-6">ج.م</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- نموذج تسجيل الدفعة -->
+            @if (Model.TotalDue > 0)
+            {
+                <div class="payment-form-wrap p-4 rounded-4 mb-4">
+                    <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-hand-holding-dollar me-2 text-success"></i>تسجيل دفعة جديدة</h6>
+                    <form asp-action="Pay" method="post" class="row g-3 align-items-end">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="customerId" value="@Model.SelectedCustomerId" />
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label fw-semibold small">المبلغ المدفوع (ج.م)</label>
+                            <input type="number" name="amount" step="0.01" min="0.01" max="@Model.TotalDue"
+                                   class="form-control form-control-lg fw-bold text-success fs-5" placeholder="0.00" required />
+                        </div>
+                        <div class="col-12 col-md-5">
+                            <label class="form-label fw-semibold small">ملاحظات الدفعة (اختياري)</label>
+                            <input type="text" name="notes" class="form-control form-control-lg fs-6" placeholder="مثال: دفعة نقداً، تحويل..." />
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button type="submit" class="btn btn-brand btn-lg w-100 rounded-3 fs-6 py-2.5">
+                                <i class="fa-solid fa-circle-check me-1"></i> تأكيد السداد
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <div class="text-muted extra-small d-flex align-items-center gap-1 mt-1">
+                                <i class="fa-solid fa-circle-info text-primary"></i>
+                                <span>سيتم توزيع المبلغ المدفوع تلقائياً على أقدم الطلبات غير المسددة أولاً حتى المفي بالتكامل.</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-success border-0 shadow-sm rounded-4 p-3 text-center mb-4">
+                    <i class="fa-solid fa-circle-check fs-4 mb-1 d-block text-success"></i>
+                    <span class="fw-bold">تم سداد كافة المبالغ والطلبات الآجلة لهذا العميل بالكامل!</span>
+                </div>
+            }
+
+            <!-- جدول الطلبات -->
+            <h6 class="fw-bold text-dark mb-3"><i class="fa-solid fa-clock-rotate-left me-2 text-muted"></i>سجل الطلبات الآجلة</h6>
+            <div class="table-responsive rounded-3 border">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>التاريخ والوقت</th>
+                            <th>إجمالي الطلب</th>
+                            <th>المدفوع</th>
+                            <th>المتبقي</th>
+                            <th class="text-end">التفاصيل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.CreditOrders.OrderBy(o => o.OrderDate))
+                        {
+                            <tr class="@(order.IsFullyPaid ? "table-success-tint" : "")">
+                                <td class="fw-bold text-dark">#@order.OrderNumber</td>
+                                <td class="small fw-semibold text-dark">
+                                    <i class="fa-regular fa-calendar-days me-1 text-muted extra-small"></i>
+                                    @order.OrderDate.ToEgyptTime().ToString("yyyy-MM-dd hh:mm tt")
+                                </td>
+                                <td class="fw-bold text-dark">@order.Total.ToString("N2") ج.م</td>
+                                <td class="text-success fw-semibold">@order.AmountPaid.ToString("N2") ج.م</td>
+                                <td class="fw-bold @(order.IsFullyPaid ? "text-success" : "text-danger")">
+                                    @(order.IsFullyPaid ? "خالص السداد" : order.RemainingBalance.ToString("N2") + " ج.م")
+                                </td>
+                                <td class="text-end">
+                                    <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-outline-secondary rounded-3">
+                                        <i class="fa-solid fa-eye me-1"></i> عرض
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- سجل الدفعات (الفلوس فقط) -->
+            <h6 class="fw-bold text-dark mb-3 mt-4"><i class="fa-solid fa-coins me-2 text-muted"></i>سجل الدفعات</h6>
+            @if (!Model.PaymentsLog.Any())
+            {
+                <div class="text-center py-4 text-muted">
+                    <i class="fa-solid fa-inbox fs-2 mb-2 d-block"></i>
+                    <span>لا توجد دفعات مسجلة لهذا العميل بعد.</span>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive rounded-3 border">
+                    <table class="table align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>التاريخ</th>
+                                <th>المبلغ المدفوع</th>
+                                <th>الباقي بعد الدفعة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var entry in Model.PaymentsLog)
+                            {
+                                <tr>
+                                    <td class="small fw-semibold text-dark">
+                                        <i class="fa-regular fa-calendar-days me-1 text-muted extra-small"></i>
+                                        @entry.Date.ToString("yyyy-MM-dd")
+                                    </td>
+                                    <td class="text-success fw-bold">@entry.AmountPaid.ToString("N2") ج.م</td>
+                                    <td class="fw-bold @(entry.RemainingBalance == 0 ? "text-success" : "text-danger")">
+                                        @(entry.RemainingBalance == 0 ? "خالص السداد" : entry.RemainingBalance.ToString("N2") + " ج.م")
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+    </div>
+}

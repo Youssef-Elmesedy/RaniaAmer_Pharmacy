@@ -1,0 +1,24 @@
+@model SaleUnitFormViewModel
+@{
+    ViewData["Title"] = "تعديل وحدة بيع";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="admin-page-title mb-1">تعديل وحدة البيع</h3>
+        <p class="text-muted small mb-0">تعديل اسم وحدة البيع</p>
+    </div>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+        <i class="fa-solid fa-arrow-right me-1"></i> العودة للوحدات
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 p-4">
+    <form asp-action="Edit" method="post">
+        @await Html.PartialAsync("_SaleUnitForm", Model)
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

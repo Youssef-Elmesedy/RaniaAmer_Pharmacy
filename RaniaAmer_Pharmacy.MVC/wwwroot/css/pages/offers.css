@@ -1,0 +1,61 @@
+/* ==========================================================================
+   OFFERS PAGE STYLESHEET (ENHANCED & MODERN)
+   ========================================================================== */
+:root {
+    --offers-border-color: #edf0f2;
+}
+
+/* --- Badge & Shadows --- */
+.badge-offer {
+    background: linear-gradient(135deg, var(--brand-teal, #0d9488), var(--brand-accent, #2dd4bf)) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(45, 212, 191, 0.35);
+}
+
+/* --- Offer Image Wrapper --- */
+.offer-img-wrapper {
+    height: 75px;
+    width: 100%;
+}
+
+    .offer-img-wrapper img {
+        transition: transform 0.3s ease;
+    }
+
+.card.product-card:hover .offer-img-wrapper img {
+    transform: scale(1.08);
+}
+
+/* --- Empty Offers State --- */
+.offers-empty-icon {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(45, 212, 191, 0.08) 0%, rgba(13, 148, 136, 0.06) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 2px dashed rgba(45, 212, 191, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+}
+
+/* --- Extra Small Utilities --- */
+.extra-small {
+    font-size: 0.75rem;
+}
+
+/* --- Responsive Adaptations --- */
+@media (max-width: 768px) {
+    .offer-img-wrapper {
+        height: 60px;
+    }
+}
+
+@media (max-width: 576px) {
+    .offers-empty-icon {
+        width: 70px;
+        height: 70px;
+    }
+}

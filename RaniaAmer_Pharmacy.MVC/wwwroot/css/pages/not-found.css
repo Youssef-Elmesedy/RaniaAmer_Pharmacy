@@ -1,0 +1,97 @@
+﻿/* ==========================================================================
+   404 NOT FOUND PAGE STYLESHEET
+   ========================================================================== */
+
+.not-found-page {
+    min-height: 82vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f8f9fb 0%, #edf2f7 100%);
+    padding: 40px 0;
+}
+
+.not-found-card {
+    max-width: 650px;
+    width: 100%;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #edf0f2;
+}
+
+    /* شريط تزييني علوي ملون */
+    .not-found-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--brand-teal, #0d9488), var(--brand-accent, #2dd4bf));
+    }
+
+/* الأيقونة الرمزية المتحركة */
+.not-found-icon-wrap {
+    width: 95px;
+    height: 95px;
+    margin: auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(45, 212, 191, 0.12) 100%);
+    color: var(--brand-teal, #0d9488);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    border: 2px dashed rgba(13, 148, 136, 0.25);
+    box-shadow: 0 10px 25px rgba(13, 148, 136, 0.08);
+    animation: floatEffect 3s ease-in-out infinite;
+}
+
+@keyframes floatEffect {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* رقم الخطأ البارز */
+.error-code {
+    font-size: 5rem;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--brand-teal, #0d9488) 0%, var(--brand-accent, #2dd4bf) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+/* الاستجابة للشاشات الصغيرة */
+@media (max-width: 768px) {
+    .not-found-card {
+        padding: 35px 20px;
+        border-radius: 20px;
+    }
+
+    .error-code {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .not-found-icon-wrap {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+    }
+
+    .error-code {
+        font-size: 3rem;
+    }
+}

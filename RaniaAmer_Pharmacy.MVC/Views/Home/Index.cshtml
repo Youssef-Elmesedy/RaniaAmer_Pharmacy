@@ -1,0 +1,192 @@
+@using RaniaAmer_Pharmacy.MVC.Models.ViewModels
+@inject RaniaAmer_Pharmacy.MVC.Services.Interfaces.ISiteSettingsService SiteSettingsService
+@{
+    ViewData["Title"] = "الرئيسية";
+    var offers = ViewBag.Offers as IReadOnlyList<ProductViewModel> ?? new List<ProductViewModel>();
+    var categories = ViewBag.Categories as List<CategorySelectItem> ?? new List<CategorySelectItem>();
+    var storeSettings = await SiteSettingsService.GetAsync();
+    var bundleOffers = ViewBag.BundleOffers as List<OfferViewModel> ?? new List<OfferViewModel>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/home.css" asp-append-version="true" />
+}
+
+<section class="hero-section">
+
+    <div class="hero-shapes">
+
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                <i class="fa-solid fa-shield-heart"></i>
+                صحتك أمانة في أيدينا
+            </span>
+
+            <h1>@storeSettings.PharmacyName</h1>
+
+            <p>
+                أدوية أصلية ومستلزمات طبية وعناية شخصية،
+                بخبرة تمتد لأكثر من 25 عاماً نقدم لكم الثقة والاهتمام.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a asp-controller="Products"
+                   asp-action="Index"
+                   class="btn btn-brand">
+
+                    تصفح المنتجات
+
+                </a>
+
+                <a asp-controller="Customer"
+                   asp-action="Index"
+                   class="btn btn-outline-brand">
+
+                    تواصل معنا
+
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div class="stat">
+                    <h3>25+</h3>
+                    <span>سنة خبرة</span>
+                </div>
+
+                <div class="stat">
+                    <h3>5000+</h3>
+                    <span>عميل سعيد</span>
+                </div>
+
+                <div class="stat">
+                    <h3>100%</h3>
+                    <span>جودة مضمونة</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<section class="container py-5">
+    <div class="row text-center g-4">
+        <div class="col-md-4">
+            <div class="feature-icon"><i class="fa-solid fa-award"></i></div>
+            <h5 class="fw-bold">جودة مضمونة</h5>
+            <p class="text-muted">أدوية أصلية ومنتجات موثوقة بأعلى معايير الجودة</p>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+            <h5 class="fw-bold">توصيل سريع</h5>
+            <p class="text-muted">نوصلك طلبك في أسرع وقت وبأفضل حالة</p>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <h5 class="fw-bold">أسعار مناسبة</h5>
+            <p class="text-muted">أفضل الأسعار مع عروض وخصومات دائمة</p>
+        </div>
+    </div>
+</section>
+
+@if (categories.Any())
+{
+    <section class="container py-4">
+        <h3 class="fw-bold text-center mb-4">أقسامنا</h3>
+        <div class="row g-4">
+            @foreach (var category in categories)
+            {
+                <div class="col-md-4">
+                    <a asp-controller="Products" asp-action="Index" asp-route-categoryId="@category.Id"
+                       class="text-decoration-none text-dark">
+                        <div class="card product-card text-center p-4 h-100">
+                            <i class="fa-solid fa-mortar-pestle fa-2x mb-3" style="color:var(--brand-red)"></i>
+                            <h5 class="fw-bold mb-0">@category.Name</h5>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@if (bundleOffers.Any())
+{
+    <section class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold mb-0"><i class="fa-solid fa-gift me-2" style="color:var(--brand-gold)"></i>عروض مجمّعة</h3>
+            <a asp-controller="Offers" asp-action="Index" class="btn btn-sm btn-outline-secondary">كل العروض</a>
+        </div>
+        <div class="row g-4">
+            @foreach (var offer in bundleOffers)
+            {
+                <div class="col-md-6">
+                    <div class="card product-card p-3 h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="fw-bold mb-0">@offer.Title</h5>
+                            @if (offer.TotalSavings > 0)
+                            {
+                                <span class="badge badge-offer">وفر @offer.TotalSavings.ToString("0.00") ج.م</span>
+                            }
+                        </div>
+                        <div class="row g-2 mb-3">
+                            @foreach (var item in offer.Items)
+                            {
+                                <div class="col-4">
+                                    <img src="@(item.ProductImagePath ?? "/images/product-placeholder.svg")" class="rounded-2 w-100"
+                                         style="height:60px;object-fit:cover" alt="@item.ProductName" />
+                                    <div class="small text-center mt-1">@item.ProductName</div>
+                                </div>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-auto">
+                            <span class="price-new fs-5">@offer.TotalSpecialPrice.ToString("0.00") ج.م</span>
+                            <a asp-controller="Offers" asp-action="Index" class="btn btn-sm btn-brand">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}
+
+@if (offers.Any())
+{
+    <section class="container py-5">
+        <h3 class="fw-bold text-center mb-4"><i class="fa-solid fa-tag me-2"></i>عروضنا الحالية</h3>
+        <div class="row g-4">
+            @foreach (var product in offers)
+            {
+                <div class="col-md-4 col-lg-3">
+                    <div class="card product-card">
+                        <span class="badge badge-offer position-absolute m-2">خصم @product.DiscountPercentage%</span>
+                        <img src="@(product.ImagePath ?? "/images/product-placeholder.svg")" class="card-img-top" alt="@product.Name" />
+                        <div class="card-body">
+                            <h6 class="fw-bold">@product.Name</h6>
+                            <div>
+                                <span class="price-old">@product.Price.ToString("0.00") ج.م</span>
+                                <span class="price-new ms-2">@product.PriceAfterDiscount.ToString("0.00") ج.م</span>
+                            </div>
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id"
+                               class="btn btn-sm btn-brand w-100 mt-2">عرض التفاصيل</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+}

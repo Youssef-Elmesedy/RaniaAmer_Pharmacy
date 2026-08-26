@@ -1,0 +1,152 @@
+@model CustomerRegisterViewModel
+
+@{
+    ViewData["Title"] = "إنشاء حساب";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/customer-account.css" asp-append-version="true" />
+}
+
+<div class="customer-login-page">
+    <div class="login-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100 py-5">
+            <div class="col-xl-6 col-lg-7 col-md-9">
+
+                <a asp-controller="Home" asp-action="Index" class="back-home">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    العودة للرئيسية
+                </a>
+
+                <div class="login-card">
+                    <div class="text-center mb-4">
+                        <div class="logo-circle">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <h2 class="fw-bold mt-4">إنشاء حساب جديد</h2>
+                        <p class="text-muted">أنشئ حسابك للاستفادة من خدمات صيدلية رانيا عامر</p>
+                    </div>
+
+                    <form asp-action="Register" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- الاسم -->
+                        <div class="mb-3">
+                            <div class="input-group-custom">
+                                <i class="fa-solid fa-user"></i>
+                                <input asp-for="Name" class="form-control" placeholder="الاسم بالكامل" />
+                            </div>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <!-- الهاتف -->
+                        <div class="mb-3">
+                            <div class="input-group-custom">
+                                <i class="fa-solid fa-phone"></i>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="01xxxxxxxxx" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <!-- العنوان -->
+                        <div class="mb-3">
+                            <div class="input-group-custom">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <textarea asp-for="Address" class="form-control" rows="2" placeholder="العنوان تفصيلياً"></textarea>
+                            </div>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <!-- سؤال الأمان -->
+                        <div class="mb-3">
+                            <div class="input-group-custom">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <select asp-for="SecurityQuestion" class="form-select custom-select-style">
+                                    <option value="">-- اختر سؤال الأمان --</option>
+                                    @foreach (var q in SecurityQuestions.All)
+                                    {
+                                        <option value="@q">@q</option>
+                                    }
+                                </select>
+                            </div>
+                            <span asp-validation-for="SecurityQuestion" class="text-danger"></span>
+                        </div>
+
+                        <!-- إجابة سؤال الأمان -->
+                        <div class="mb-3">
+                            <div class="input-group-custom">
+                                <i class="fa-solid fa-comment-dots"></i>
+                                <input asp-for="SecurityAnswer" class="form-control" placeholder="إجابة سؤال الأمان" />
+                            </div>
+                            <span asp-validation-for="SecurityAnswer" class="text-danger"></span>
+                        </div>
+
+                        <!-- كلمة المرور -->
+                        <div class="mb-3">
+                            <div class="input-group-custom password-box">
+                                <i class="fa-solid fa-lock"></i>
+                                <input asp-for="Password" type="password" class="form-control" id="passwordInput" placeholder="كلمة المرور" />
+                                <button type="button" id="togglePassword">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- تأكيد كلمة المرور -->
+                        <div class="mb-4">
+                            <div class="input-group-custom password-box">
+                                <i class="fa-solid fa-lock"></i>
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPasswordInput" placeholder="تأكيد كلمة المرور" />
+                                <button type="button" id="toggleConfirmPassword">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn-login">
+                            <i class="fa-solid fa-user-plus me-2"></i>
+                            إنشاء الحساب
+                        </button>
+                    </form>
+
+                    <div class="register-box">
+                        لديك حساب بالفعل؟
+                        <a asp-action="Login" class="ms-1">تسجيل الدخول</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePass(btnId, inputId) {
+            const btn = document.getElementById(btnId);
+            const input = document.getElementById(inputId);
+            if(btn && input) {
+                btn.onclick = function() {
+                    if (input.type === "password") {
+                        input.type = "text";
+                        btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+                    } else {
+                        input.type = "password";
+                        btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+                    }
+                }
+            }
+        }
+        togglePass("togglePassword", "passwordInput");
+        togglePass("toggleConfirmPassword", "confirmPasswordInput");
+    </script>
+}

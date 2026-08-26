@@ -1,0 +1,160 @@
+<div align="center">
+
+# 💊 صيدلية رانيا عامر | Rania Amer Pharmacy
+
+**نظام متكامل لإدارة صيدلية إلكترونيًا — متجر للعملاء + لوحة تحكم كاملة للإدارة**
+
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![ASP.NET Core MVC](https://img.shields.io/badge/ASP.NET%20Core-MVC-512BD4?logo=dotnet)](https://learn.microsoft.com/aspnet/core)
+[![EF Core](https://img.shields.io/badge/Entity%20Framework-Core-512BD4)](https://learn.microsoft.com/ef/core)
+[![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
+[![License](https://img.shields.io/badge/license-MIT-green)](#-الترخيص)
+
+</div>
+
+---
+
+## 📖 نظرة عامة
+
+**صيدلية رانيا عامر** مشروع ويب متكامل مبني بـ **ASP.NET Core 8 MVC** يحاكي احتياجات صيدلية حقيقية:
+عرض منتجات، سلة شراء، طلبات فورية وآجلة، ودعم أكتر من فرع على نفس الموقع — مع لوحة تحكم إدارية
+شاملة للتحكم في كل تفصيلة من غير الحاجة لتعديل كود.
+
+المشروع مبني بأسلوب **Layered / Clean-ish Architecture** (Controllers → Services → Repositories →
+EF Core)، مع فصل واضح للمسؤوليات، Domain Models بمنطق تحقّق داخلي (Rich Domain Model)، واستخدام
+أنماط زي الـ Repository Pattern وDependency Injection في كل حتة.
+
+---
+
+## ✨ أبرز المميزات
+
+### للعميل
+- 🏠 صفحة رئيسية بعروض وأقسام ديناميكية
+- 🔍 تصفح المنتجات بالبحث والفلترة والترتيب حسب القسم
+- 💰 **تسعير مرن حسب الوحدة** — نفس المنتج ممكن يتباع بالعلبة والشريط والقرص، والسعر يتحسب
+  تلقائيًا حسب الوحدة المختارة (مثال: علبة 60 ج.م تحتوي شريطين → الشريط 30 ج.م أوتوماتيك)
+- 🛒 سلة تفاعلية، تدعم إضافة نفس المنتج بأكتر من وحدة بيع في نفس الوقت
+- 📦 نظام طلبات فوري وآجل (بالتقسيط) مع تتبّع الحالة ورقم طلب تسلسلي لكل عملية شراء
+- 👤 حساب عميل (تسجيل / دخول بأسئلة أمان) لمتابعة الطلبات وسجل المدفوعات
+- 🔔 إشعارات Push حية (Web Push / VAPID) عند تحديث حالة الطلب
+- 🏢 **دعم أكتر من فرع** على نفس الموقع، كل فرع بعنوانه ورقمه ومواعيده وخريطته
+- 📱 تصميم متجاوب بالكامل (موبايل / تابلت / ديسكتوب) بألوان مخصصة
+
+### للإدارة (لوحة التحكم)
+- 📊 Dashboard بملخص سريع للطلبات والمبيعات والمخزون
+- 🗂️ إدارة كاملة: المنتجات، الأقسام، **وحدات البيع** (قابلة للإضافة/التعديل بالكامل، مش قائمة ثابتة)
+- 🎁 نظام عروض (تجميع منتجات بسعر خاص)
+- 📋 إدارة الطلبات (فوري وآجل) مع تسجيل مدفوعات جزئية وتتبّع المتبقي
+- 👥 إدارة العملاء وسجلاتهم وتاريخ نشاطهم
+- 🏢 إدارة الفروع وبيانات المتجر (اسم، سوشيال ميديا، خرائط) من غير لمس الكود
+- 🔔 مركز إشعارات حي بالطلبات الجديدة عبر **SignalR**
+- 🧹 أداة تنظيف بيانات (عملاء غير نشطين، إلخ)
+- 🔐 مصادقة وصلاحيات كاملة عبر **ASP.NET Core Identity**
+
+---
+
+## 🛠️ التقنيات المستخدمة
+
+| الطبقة | التقنية |
+|---|---|
+| Backend | ASP.NET Core 8 MVC (C#) |
+| قاعدة البيانات | SQL Server + Entity Framework Core 8 (Code-First / Migrations) |
+| المصادقة | ASP.NET Core Identity |
+| الاتصال الحي | SignalR (إشعارات الأدمن الفورية) |
+| الإشعارات | Web Push (VAPID) |
+| الواجهة | Razor Views + Bootstrap 5 + Vanilla JS |
+| البنية | Repository Pattern + Service Layer + Dependency Injection |
+
+---
+
+## 🚀 التشغيل محليًا
+
+### المتطلبات
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
+- SQL Server (أو [LocalDB](https://learn.microsoft.com/sql/database-engine/configure-windows/sql-server-express-localdb) اللي بييجي مع Visual Studio)
+- Visual Studio 2022 أو أي IDE يدعم C#
+
+### الخطوات
+
+```bash
+# 1. استنسخي المشروع
+git clone https://github.com/your-username/rania-amer-pharmacy.git
+cd rania-amer-pharmacy
+
+# 2. عدّلي سلسلة الاتصال في appsettings.json لو مختلفة عن الافتراضي
+#    الافتراضي: (localdb)\MSSQLLocalDB
+
+# 3. طبّقي الـ Migrations (تنشئ الجداول وتزرع بيانات أولية)
+dotnet ef database update
+
+# 4. شغّلي المشروع
+dotnet run
+```
+
+### 🔑 حساب الأدمن الافتراضي
+بعد أول تشغيل، هيتزرع حساب أدمن تلقائيًا:
+
+| البيانات | القيمة |
+|---|---|
+| الإيميل | `admin@raniaamerpharmacy.com` |
+| كلمة المرور | `Admin@123` |
+
+> ⚠️ **غيّري كلمة المرور دي فورًا بعد أول دخول** من لوحة التحكم.
+
+### ⚙️ بيانات لازم تظبطيها بعد التشغيل
+معظم بيانات المتجر بقت قابلة للتعديل بالكامل من لوحة التحكم (Admin → الإعدادات) من غير لمس كود:
+- اسم الصيدلية، رقم الواتساب، روابط السوشيال ميديا
+- بيانات الفروع (العنوان، الهاتف، مواعيد العمل، رابط الخريطة) — وممكن تضيفي أكتر من فرع
+- وحدات البيع، الأقسام، المنتجات، العروض
+
+### 📝 ملاحظات إضافية
+- **مفاتيح Web Push (VAPID)**: موجودة في `appsettings.json` — لو هتنشري المشروع فعليًا، غيّريها
+  بمفاتيح جديدة خاصة بيك (متاح مولّدات مجانية أونلاين).
+- **الشعار**: أيقونة SVG بسيطة في `wwwroot/images/favicon.svg`، تقدري تستبدليها بلوجو خاص بيك.
+- لو حدّثتي المشروع من نسخة قديمة وعندك بيانات حقيقية بالفعل، راجعي أحدث الـ Migrations في مجلد
+  `Migrations/` قبل التطبيق، لأن بعضها بيغيّر شكل أعمدة موجودة (زي وحدات البيع).
+
+---
+
+## 📁 هيكل المشروع (مختصر)
+
+```
+├── Areas/Admin/          # لوحة التحكم (Controllers + Views مستقلة)
+├── Controllers/          # الكونترولرز العامة (المتجر، السلة، الحساب)
+├── Models/
+│   ├── Entities/         # الكيانات (Domain Models) بمنطق تحقّق داخلي
+│   ├── ViewModels/        # نماذج العرض لكل صفحة
+│   └── Enums/
+├── Data/
+│   ├── Configurations/   # EF Core Fluent API لكل كيان
+│   └── ApplicationDbContext.cs
+├── Repository/           # طبقة الوصول للبيانات (Repository Pattern)
+├── Services/             # منطق العمل (Business Logic)
+├── Hubs/                 # SignalR Hub للإشعارات الحية
+├── Views/                # صفحات المتجر العامة
+├── Migrations/           # EF Core Migrations
+└── wwwroot/               # CSS / JS / الصور المرفوعة
+```
+
+---
+
+## 🗺️ تطويرات مستقبلية مقترحة
+
+- [ ] رفع روشتة الدكتور وربطها بالطلب
+- [ ] بوابة دفع إلكتروني (فيزا / فوري / إنستاباي)
+- [ ] تطبيق موبايل أو PWA كامل
+- [ ] تقارير مبيعات وتحليلات أعمق للأدمن
+
+---
+
+## 📄 الترخيص
+
+المشروع ده لأغراض تعليمية وتطبيقية شخصية. حرّة تستخدميه وتعدّلي عليه زي ما تحبي.
+
+---
+
+<div align="center">
+
+صُنع بـ ❤️ باستخدام ASP.NET Core
+
+</div>

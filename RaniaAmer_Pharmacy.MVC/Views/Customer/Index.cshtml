@@ -1,0 +1,324 @@
+@inject RaniaAmer_Pharmacy.MVC.Services.Interfaces.ISiteSettingsService SiteSettingsService
+@inject RaniaAmer_Pharmacy.MVC.Services.Interfaces.IBranchService BranchService
+@{
+    ViewData["Title"] = "تواصل معنا";
+    var storeSettings = await SiteSettingsService.GetAsync();
+    var branches = await BranchService.GetAllAsync();
+    var mainBranch = branches.FirstOrDefault();
+    var whatsAppNumber = string.IsNullOrWhiteSpace(storeSettings.WhatsAppNumber) ? mainBranch?.PhoneNumber : storeSettings.WhatsAppNumber;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/contact.css" asp-append-version="true" />
+}
+
+@section Scripts {
+    <script src="~/js/contact.js" asp-append-version="true"></script>
+}
+
+<!-- Hero -->
+<section class="contact-hero">
+
+    <div class="container">
+
+        <div class="row align-items-center gy-5">
+
+            <div class="col-lg-6">
+
+                <span class="hero-badge">
+                    <i class="fa-solid fa-headset"></i>
+                    تواصل معنا
+                </span>
+
+                <h1 class="hero-title">
+                    يسعدنا خدمتك فى أى وقت
+                </h1>
+
+                <p class="hero-text">
+                    فريق صيدلية رانيا عامر جاهز لاستقبال جميع استفساراتكم وطلباتكم،
+                    ونسعد دائماً بخدمتكم بأفضل جودة وأسرع وقت.
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="tel:@mainBranch?.PhoneNumber"
+                       class="btn btn-brand btn-lg">
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        اتصال مباشر
+
+                    </a>
+
+                    <a href="https://wa.me/@whatsAppNumber"
+                       target="_blank"
+                       class="btn btn-success btn-lg">
+
+                        <i class="fab fa-whatsapp"></i>
+
+                        واتساب
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            @* <div class="col-lg-6">
+
+                <div class="hero-image">
+
+                    <img src="~/images/contact-hero.png"
+                         asp-append-version="true"
+                         alt="Contact">
+
+                </div>
+
+            </div> *@
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Contact Info -->
+
+<section class="contact-info-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <span>بيانات التواصل</span>
+
+            <h2>يمكنك الوصول إلينا بسهولة</h2>
+
+        </div>
+
+        @foreach (var branch in branches)
+        {
+            @if (branches.Count > 1)
+            {
+                <h4 class="fw-bold text-dark mb-3 mt-4">
+                    <i class="fa-solid fa-store text-brand me-2"></i>@branch.Name
+                </h4>
+            }
+
+            <div class="row g-4 mb-4">
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="contact-box">
+
+                        <div class="box-icon">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                        </div>
+
+                        <h4>الهاتف</h4>
+
+                        <p>@branch.PhoneNumber</p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="contact-box">
+
+                        <div class="box-icon">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                        </div>
+
+                        <h4>العنوان</h4>
+
+                        <p>
+                            @branch.Address
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="contact-box">
+
+                        <div class="box-icon">
+
+                            <i class="fa-solid fa-clock"></i>
+
+                        </div>
+
+                        <h4>مواعيد العمل</h4>
+
+                        <p>
+
+                            @branch.WorkingHours
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="contact-box">
+
+                        <div class="box-icon">
+
+                            <i class="fa-solid fa-truck-fast"></i>
+
+                        </div>
+
+                        <h4>التوصيل</h4>
+
+                        <p>
+
+                            @(string.IsNullOrWhiteSpace(branch.DeliveryAreaText) ? "تواصل معنا لمعرفة نطاق التوصيل" : branch.DeliveryAreaText)
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+</section>
+
+<!-- Map + Form -->
+
+<section class="contact-area">
+    <div class="container">
+        @foreach (var branch in branches)
+        {
+            <div class="row mb-5">
+                <div class="col-12">
+
+                    @if (branches.Count > 1)
+                    {
+                        <h4 class="fw-bold text-dark mb-3">
+                            <i class="fa-solid fa-map-location-dot text-brand me-2"></i>خريطة @branch.Name
+                        </h4>
+                    }
+
+                    <div class="d-flex justify-content-end mb-3">
+                        @if (!string.IsNullOrWhiteSpace(branch.MapDirectionsUrl))
+                        {
+                            <div class="d-flex justify-content-end mb-3">
+                                <a href="@branch.MapDirectionsUrl"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="btn btn-danger">
+                                    <i class="fas fa-location-arrow me-2"></i>
+                                    احصل على الاتجاهات
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="map-card">
+                        <div class="card-title">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            موقع @storeSettings.PharmacyName @(branches.Count > 1 ? $"- {branch.Name}" : "") على الخريطة
+                        </div>
+
+                        @if (!string.IsNullOrWhiteSpace(branch.MapEmbedUrl))
+                        {
+                            <iframe src="@branch.MapEmbedUrl"
+                                    loading="lazy"
+                                    allowfullscreen>
+                            </iframe>
+                        }
+                        else
+                        {
+                            <div class="text-center text-muted py-5">
+                                <i class="fa-solid fa-map-location-dot fs-1 mb-2 d-block"></i>
+                                لم يتم إضافة رابط الخريطة بعد
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Social -->
+
+<section class="social-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <span>تابعنا</span>
+
+            <h2>ابق على تواصل معنا</h2>
+
+        </div>
+        <div class="social-grid">
+
+            @if (!string.IsNullOrWhiteSpace(storeSettings.FacebookUrl))
+            {
+                <a href="@storeSettings.FacebookUrl" target="_blank" class="social-card facebook">
+
+                    <div class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+
+                    <div>
+                        <h5>Facebook</h5>
+                        <span>تابع آخر العروض</span>
+                    </div>
+
+                </a>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(storeSettings.InstagramUrl))
+            {
+                <a href="@storeSettings.InstagramUrl" target="_blank" class="social-card instagram">
+
+                    <div class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+
+                    <div>
+                        <h5>Instagram</h5>
+                        <span>شاهد أحدث المنتجات</span>
+                    </div>
+
+                </a>
+            }
+
+            <a href="https://wa.me/@whatsAppNumber"
+               target="_blank"
+               class="social-card whatsapp">
+
+                <div class="social-icon">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+
+                <div>
+                    <h5>WhatsApp</h5>
+                    <span>تواصل معنا مباشرة</span>
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,69 @@
+@model BranchFormViewModel
+
+<input type="hidden" asp-for="Id" />
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger border-0 shadow-sm mb-3"></div>
+
+<div class="row g-4">
+    <div class="col-12 col-md-6">
+        <label asp-for="Name" class="form-label fw-semibold text-dark">اسم الفرع <span class="text-danger">*</span></label>
+        <input asp-for="Name" class="form-control" placeholder="مثال: الفرع الرئيسي، فرع المعادي..." />
+        <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="PhoneNumber" class="form-label fw-semibold text-dark">رقم هاتف الفرع <span class="text-danger">*</span></label>
+        <input asp-for="PhoneNumber" class="form-control" dir="ltr" placeholder="01xxxxxxxxx" />
+        <span asp-validation-for="PhoneNumber" class="text-danger small mt-1 d-block"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Address" class="form-label fw-semibold text-dark">العنوان <span class="text-danger">*</span></label>
+        <textarea asp-for="Address" class="form-control" rows="2"></textarea>
+        <span asp-validation-for="Address" class="text-danger small mt-1 d-block"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="WorkingHours" class="form-label fw-semibold text-dark">مواعيد العمل <span class="text-danger">*</span></label>
+        <input asp-for="WorkingHours" class="form-control" placeholder="مثال: يوميًا 9 صباحًا - 1 مساءً" />
+        <span asp-validation-for="WorkingHours" class="text-danger small mt-1 d-block"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="DeliveryAreaText" class="form-label fw-semibold text-dark">نطاق التوصيل</label>
+        <input asp-for="DeliveryAreaText" class="form-control" placeholder="مثال: داخل نطاق هذا الفرع فقط" />
+        <span asp-validation-for="DeliveryAreaText" class="text-danger small mt-1 d-block"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="MapDirectionsUrl" class="form-label fw-semibold text-dark">رابط الاتجاهات</label>
+        <input asp-for="MapDirectionsUrl" class="form-control" dir="ltr" placeholder="https://www.google.com/maps/dir/..." />
+        <span asp-validation-for="MapDirectionsUrl" class="text-danger small mt-1 d-block"></span>
+        <div class="form-text extra-small">رابط زر "احصل على الاتجاهات" الخاص بهذا الفرع</div>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="DisplayOrder" class="form-label fw-semibold text-dark">ترتيب الظهور</label>
+        <input asp-for="DisplayOrder" type="number" class="form-control" />
+        <span asp-validation-for="DisplayOrder" class="text-danger small mt-1 d-block"></span>
+        <div class="form-text extra-small">الأصغر رقمًا يظهر أولاً (ويظهر في الفوتر)</div>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="MapEmbedUrl" class="form-label fw-semibold text-dark">رابط تضمين الخريطة (Embed)</label>
+        <input asp-for="MapEmbedUrl" class="form-control" dir="ltr" placeholder="https://www.google.com/maps?q=...&output=embed" />
+        <span asp-validation-for="MapEmbedUrl" class="text-danger small mt-1 d-block"></span>
+        <div class="form-text extra-small">
+            رابط الخريطة اللي بتظهر داخل الصفحة (مش نفس رابط الاتجاهات) — من جوجل ماps اختاري "مشاركة" ثم "تضمين خريطة" وانسخي رابط الـ src فقط.
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 pt-3 border-top d-flex flex-wrap gap-2">
+    <button type="submit" class="btn btn-brand px-4">
+        <i class="fa-solid fa-floppy-disk me-1"></i> حفظ بيانات الفرع
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary px-4">
+        <i class="fa-solid fa-xmark me-1"></i> إلغاء
+    </a>
+</div>

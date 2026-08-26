@@ -1,0 +1,164 @@
+﻿/* ==========================================================================
+   LOGIN PAGE STYLESHEET (ENHANCED & MODERN)
+   ========================================================================== */
+
+:root {
+    --login-gradient-start: #b92d2d;
+    --login-gradient-mid: #7d1b1b;
+    --login-gradient-end: #4e0f0f;
+    --login-card-bg: #ffffff;
+    --login-border-color: #e2e8f0;
+}
+
+/* --- Body Background Override for Login --- */
+body {
+    background: radial-gradient(circle at top, var(--login-gradient-start) 0%, var(--login-gradient-mid) 45%, var(--login-gradient-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* --- Login Card Box --- */
+.login-card {
+    border-radius: 28px;
+    padding: 45px 40px;
+    background: var(--login-card-bg);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+    .login-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 6px;
+        background: linear-gradient(90deg, var(--brand-teal, #0d9488), var(--brand-accent, #2dd4bf));
+    }
+
+/* --- Login Logo --- */
+.login-logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--brand-teal, #0d9488), var(--brand-teal-dark, #0f766e));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 38px;
+    margin: 0 auto 25px;
+    box-shadow: 0 10px 25px rgba(139, 30, 30, 0.3);
+    border: 3px solid #ffffff;
+}
+
+/* --- Input Groups & Form Controls --- */
+.input-group {
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.25s ease;
+}
+
+.input-group-text {
+    background: #f8f9fa;
+    border-right: 0;
+    border-color: var(--login-border-color);
+    color: #6c757d;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.form-control {
+    border-left: 0;
+    border-color: var(--login-border-color);
+    height: 52px;
+    background: #f8f9fa;
+    font-size: 0.98rem;
+    font-weight: 500;
+}
+
+    .form-control:focus {
+        background: #ffffff;
+        box-shadow: none;
+        border-color: var(--login-border-color);
+    }
+
+.input-group:focus-within {
+    box-shadow: 0 0 0 0.25rem rgba(139, 30, 30, 0.15);
+    border-radius: 14px;
+}
+
+    .input-group:focus-within .input-group-text,
+    .input-group:focus-within .form-control {
+        border-color: var(--brand-teal, #0d9488);
+        background: #ffffff;
+    }
+
+/* --- Buttons Styling --- */
+.btn-brand {
+    height: 52px;
+    font-weight: 700;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(139, 30, 30, 0.25);
+}
+
+    .btn-brand:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(139, 30, 30, 0.35);
+    }
+
+.btn-outline-secondary {
+    border-radius: 14px;
+    height: 52px;
+    font-weight: 600;
+    border-color: var(--login-border-color);
+    transition: all 0.25s ease;
+}
+
+    .btn-outline-secondary:hover {
+        background-color: #f8f9fa;
+        border-color: #adb5bd;
+        color: #212529;
+    }
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 35px 28px;
+    }
+
+    .login-logo {
+        width: 78px;
+        height: 78px;
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+        margin: 15px;
+    }
+
+    .login-logo {
+        width: 68px;
+        height: 68px;
+        font-size: 28px;
+        margin-bottom: 18px;
+    }
+
+    .form-control,
+    .btn-brand,
+    .btn-outline-secondary {
+        height: 46px;
+        font-size: 0.92rem;
+    }
+}

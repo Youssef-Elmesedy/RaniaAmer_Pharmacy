@@ -1,0 +1,226 @@
+@model ProductFormViewModel
+
+<input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="ExistingImagePath" />
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 mb-3" role="alert"></div>
+
+<div class="row g-3">
+    <!-- اسم المنتج -->
+    <div class="col-12 col-md-6">
+        <label asp-for="Name" class="form-label fw-semibold">اسم المنتج</label>
+        <input asp-for="Name" class="form-control" placeholder="مثال: بانادول اكسترا، فيتامين سي 1000..." />
+        <span asp-validation-for="Name" class="text-danger extra-small"></span>
+    </div>
+
+    <!-- القسم -->
+    <div class="col-12 col-md-6">
+        <label asp-for="CategoryId" class="form-label fw-semibold">القسم</label>
+        <select asp-for="CategoryId" class="form-select"
+                asp-items="Model.Categories.Select(c => new SelectListItem(c.Name, c.Id.ToString()))">
+            <option value="">-- اختر القسم --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger extra-small"></span>
+    </div>
+
+    <!-- الوصف -->
+    <div class="col-12">
+        <label asp-for="Description" class="form-label fw-semibold">وصف المنتج</label>
+        <textarea asp-for="Description" class="form-control" rows="3" placeholder="تفاصيل ومكونات المنتج..."></textarea>
+        <span asp-validation-for="Description" class="text-danger extra-small"></span>
+    </div>
+
+    <!-- السعر -->
+    <div class="col-12 col-md-4">
+        <label asp-for="Price" class="form-label fw-semibold">السعر الأساسي (ج.م)</label>
+        <div class="input-group">
+            <input asp-for="Price" class="form-control fw-bold text-dark" type="number" step="0.01" placeholder="0.00" />
+            <span class="input-group-text text-muted">ج.م</span>
+        </div>
+        <span asp-validation-for="Price" class="text-danger extra-small"></span>
+    </div>
+
+    <!-- وحدة البيع -->
+    <div class="col-12 col-md-4">
+        <label asp-for="SaleUnitId" class="form-label fw-semibold">وحدة البيع</label>
+        <select asp-for="SaleUnitId" class="form-select"
+                asp-items="Model.SaleUnits.Select(u => new SelectListItem(u.Name, u.Id.ToString()))">
+            <option value="">-- اختر وحدة البيع --</option>
+        </select>
+        <span asp-validation-for="SaleUnitId" class="text-danger extra-small"></span>
+        <div class="form-text extra-small text-muted"><i class="fa-solid fa-circle-info me-1"></i>اختر الوحدة المناسبة لطريقة بيع هذا الصنف في الصيدلية</div>
+    </div>
+
+    <!-- وحدات بيع فرعية (تقسيم السعر) -->
+    <div class="col-12">
+        <div class="card border-0 bg-light rounded-3 p-3 mt-2">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label fw-semibold mb-0">
+                    <i class="fa-solid fa-layer-group me-1"></i> وحدات بيع فرعية (اختياري)
+                </label>
+                <button type="button" id="addUnitOptionBtn" class="btn btn-sm btn-outline-secondary">
+                    <i class="fa-solid fa-plus me-1"></i> إضافة وحدة فرعية
+                </button>
+            </div>
+            <div class="form-text extra-small text-muted mb-3">
+                لو المنتج بيتباع بالوحدة الأساسية (فوق) وجواها وحدات أصغر، أضفها هنا وحدد
+                "كام وحدة فرعية في الوحدة الأساسية الواحدة؟" — وسعر الوحدة الفرعية هيتحسب تلقائي.
+                مثال: الوحدة الأساسية "علبة" بسعر 60 ج.م، تحت أضف "شريط" وحدد 2 (يبقى سعر الشريط 30 ج.م)،
+                وممكن كمان تضيف "قرص" وتحدد 20 (يبقى سعر القرص 3 ج.م).
+            </div>
+            <div id="unitOptionsContainer" class="d-flex flex-column gap-2"></div>
+        </div>
+    </div>
+
+    <template id="unitOptionRowTemplate">
+        <div class="unit-option-row row g-2 align-items-center bg-white rounded-3 p-2 border">
+            <div class="col-12 col-sm-5">
+                <select class="form-select form-select-sm unit-option-select">
+                    <option value="">-- اختر الوحدة الفرعية --</option>
+                    @foreach (var u in Model.SaleUnits)
+                    {
+                        <option value="@u.Id">@u.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-7 col-sm-3">
+                <input type="number" min="2" step="1" placeholder="كام وحدة في الأساسية؟" class="form-control form-control-sm unit-option-qty" />
+            </div>
+            <div class="col-4 col-sm-3">
+                <span class="unit-option-price small text-brand fw-semibold">—</span>
+            </div>
+            <div class="col-1 text-end">
+                <button type="button" class="btn btn-sm btn-outline-danger unit-option-remove" title="حذف">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+
+    <!-- نسبة الخصم -->
+    <div class="col-12 col-md-4">
+        <label asp-for="DiscountPercentage" class="form-label fw-semibold">نسبة الخصم (%)</label>
+        <div class="input-group">
+            <input asp-for="DiscountPercentage" class="form-control fw-bold text-danger" type="number" min="0" max="100" placeholder="0" />
+            <span class="input-group-text text-muted">%</span>
+        </div>
+        <span asp-validation-for="DiscountPercentage" class="text-danger extra-small"></span>
+    </div>
+
+    <!-- مفتاح التوفر -->
+    <div class="col-12 col-md-6 d-flex align-items-center pt-md-3">
+        <div class="form-check form-switch bg-light p-2.5 rounded-3 border w-100 d-flex align-items-center justify-content-between px-3">
+            <label asp-for="IsAvailable" class="form-check-label fw-semibold mb-0">توفر المنتج للطلب</label>
+            <input asp-for="IsAvailable" class="form-check-input ms-0" type="checkbox" role="switch" />
+        </div>
+    </div>
+
+    <!-- رفع الصورة -->
+    <div class="col-12 col-md-6">
+        <label asp-for="ImageFile" class="form-label fw-semibold">صورة المنتج</label>
+        <input asp-for="ImageFile" class="form-control" type="file" accept="image/*" />
+        <span class="text-muted small d-block mt-1">الحد الأقصى 3 ميجابايت — يتم تصغير الصورة وضغطها تلقائيًا بعد الرفع.</span>
+    </div>
+
+    <!-- معاينة الصورة الحالية -->
+    @if (!string.IsNullOrWhiteSpace(Model.ExistingImagePath))
+    {
+        <div class="col-12 pt-2">
+            <label class="form-label d-block fw-semibold small text-muted">الصورة الحالية:</label>
+            <div class="current-img-preview d-inline-block p-1 border rounded-3 bg-light">
+                <img src="@Model.ExistingImagePath" class="rounded-2" alt="الصورة الحالية" />
+            </div>
+        </div>
+    }
+</div>
+
+<!-- أزرار الإجراءات -->
+<div class="mt-4 pt-3 border-top d-flex gap-2">
+    <button type="submit" class="btn btn-brand px-5 py-2 rounded-3">
+        <i class="fa-solid fa-floppy-disk me-1"></i> حفظ المنتج
+    </button>
+    <a asp-action="Index" class="btn btn-outline-secondary px-4 py-2 rounded-3">إلغاء</a>
+</div>
+
+<script>
+    (function () {
+        const existingOptions = @Html.Raw(Json.Serialize(Model.ExistingUnitOptions.Select(o => new { saleUnitId = o.SaleUnitId, quantity = o.QuantityPerBaseUnit })));
+
+        const container = document.getElementById('unitOptionsContainer');
+        const template = document.getElementById('unitOptionRowTemplate');
+        const addBtn = document.getElementById('addUnitOptionBtn');
+        const priceInput = document.querySelector('input[name="Price"]');
+        const formEl = document.getElementById('productForm');
+
+        function addRow(saleUnitId, quantity) {
+            const node = template.content.cloneNode(true);
+            const row = node.querySelector('.unit-option-row');
+            const select = row.querySelector('.unit-option-select');
+            const qtyInput = row.querySelector('.unit-option-qty');
+            const removeBtn = row.querySelector('.unit-option-remove');
+
+            if (saleUnitId) select.value = saleUnitId;
+            if (quantity) qtyInput.value = quantity;
+
+            select.addEventListener('change', updateAllPrices);
+            qtyInput.addEventListener('input', updateAllPrices);
+            removeBtn.addEventListener('click', function () {
+                row.remove();
+            });
+
+            container.appendChild(row);
+            updateAllPrices();
+        }
+
+        function updateAllPrices() {
+            const basePrice = parseFloat(priceInput.value) || 0;
+
+            container.querySelectorAll('.unit-option-row').forEach(function (row) {
+                const qty = parseFloat(row.querySelector('.unit-option-qty').value) || 0;
+                const priceLabel = row.querySelector('.unit-option-price');
+
+                if (qty > 1 && basePrice > 0) {
+                    priceLabel.textContent = '≈ ' + (basePrice / qty).toFixed(2) + ' ج.م';
+                } else {
+                    priceLabel.textContent = '—';
+                }
+            });
+        }
+
+        addBtn.addEventListener('click', function () {
+            addRow(null, null);
+        });
+
+        priceInput.addEventListener('input', updateAllPrices);
+
+        if (existingOptions && existingOptions.length > 0) {
+            existingOptions.forEach(function (o) {
+                addRow(o.saleUnitId, o.quantity);
+            });
+        }
+
+        // On submit, sync the row inputs into the hidden fields the server model binds to
+        formEl.addEventListener('submit', function () {
+            formEl.querySelectorAll('input[name="UnitOptionSaleUnitIds"], input[name="UnitOptionQuantities"]').forEach(el => el.remove());
+
+            container.querySelectorAll('.unit-option-row').forEach(function (row) {
+                const saleUnitId = row.querySelector('.unit-option-select').value;
+                const qty = row.querySelector('.unit-option-qty').value;
+
+                if (!saleUnitId || !qty) return;
+
+                const hiddenUnit = document.createElement('input');
+                hiddenUnit.type = 'hidden';
+                hiddenUnit.name = 'UnitOptionSaleUnitIds';
+                hiddenUnit.value = saleUnitId;
+                formEl.appendChild(hiddenUnit);
+
+                const hiddenQty = document.createElement('input');
+                hiddenQty.type = 'hidden';
+                hiddenQty.name = 'UnitOptionQuantities';
+                hiddenQty.value = qty;
+                formEl.appendChild(hiddenQty);
+            });
+        });
+    })();
+</script>

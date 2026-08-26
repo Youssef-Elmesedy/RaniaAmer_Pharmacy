@@ -1,0 +1,147 @@
+@model CartViewModel
+@{
+    ViewData["Title"] = "سلة المشتريات";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/cart.css" asp-append-version="true" />
+}
+
+<div class="container py-5">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h2 class="fw-bold mb-1"><i class="fa-solid fa-cart-shopping me-2 text-danger"></i>سلة المشتريات</h2>
+            <p class="text-muted small mb-0">راجع منتجاتك وكمياتها قبل إتمام الطلب</p>
+        </div>
+        @if (Model.Items.Any())
+        {
+            <span class="badge bg-light text-dark border px-3 py-2 rounded-pill fs-6">
+                إجمالي المنتجات: <strong>@Model.Items.Count</strong>
+            </span>
+        }
+    </div>
+
+    @if (!Model.Items.Any())
+    {
+        <div class="text-center py-5 card border-0 shadow-sm p-5 rounded-4">
+            <div class="cart-empty-icon mb-4 text-danger">
+                <i class="fa-solid fa-cart-arrow-down fa-2x"></i>
+            </div>
+            <h4 class="fw-bold text-dark mb-2">سلة المشتريات فارغة تماماً</h4>
+            <p class="text-muted mb-4">لم تقم بإضافة أي منتجات إلى سلتك حتى الآن. استعرض منتجاتنا اللذيذة وابدأ الطلب!</p>
+            <a asp-controller="Products" asp-action="Index" class="btn btn-brand btn-lg px-5 rounded-pill shadow-sm">
+                <i class="fa-solid fa-utensils me-2"></i>تصفح المنتجات الآن
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <!-- جدول المنتجات -->
+            <div class="col-12 col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table cart-table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>المنتج</th>
+                                    <th>السعر</th>
+                                    <th>الكمية</th>
+                                    <th>الإجمالي</th>
+                                    <th class="text-center">إزالة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-3">
+                                                <div class="cart-product-img-wrapper">
+                                                    <img src="@(item.ProductImagePath ?? "/images/product-placeholder.svg")" class="cart-product-img" alt="@item.ProductName" />
+                                                </div>
+                                                <div>
+                                                    <h6 class="fw-bold text-dark mb-1">@item.ProductName</h6>
+                                                    <span class="extra-small text-muted">وحدة البيع: @item.UnitLabel</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="fw-semibold text-secondary">@item.UnitPrice.ToString("N2") ج.م</span>
+                                        </td>
+                                        <td>
+                                            <form asp-action="UpdateQuantity" method="post" class="d-flex align-items-center gap-2">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <input type="hidden" name="saleUnitId" value="@item.SaleUnitId" />
+
+                                                <div class="cart-quantity-control">
+                                                    <input type="number" name="quantity" value="@item.Quantity.ToString("0")" min="1" step="1" class="cart-quantity-input" />
+                                                </div>
+
+                                                <button type="submit" class="btn btn-sm btn-light border rounded-circle p-2 text-muted hover-brand" title="تحديث الكمية">
+                                                    <i class="fa-solid fa-rotate"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold text-danger">@item.LineTotal.ToString("N2") ج.م</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <form asp-action="Remove" method="post" class="js-delete-form d-inline-block">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <input type="hidden" name="saleUnitId" value="@item.SaleUnitId" />
+                                                <button type="submit" class="btn btn-sm btn-light text-danger border-0 rounded-circle p-2 hover-bg-danger" title="حذف المنتج">
+                                                    <i class="fa-solid fa-trash-can"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="fa-solid fa-arrow-right me-2"></i> إضافة المزيد من المنتجات
+                    </a>
+                </div>
+            </div>
+
+            <!-- ملخص الفاتورة الجانبي -->
+            <div class="col-12 col-lg-4">
+                <div class="card cart-summary-card border-0 shadow-sm p-4 rounded-4 sticky-top" style="top: 20px;">
+                    <h5 class="fw-bold mb-3 pb-2 border-bottom"><i class="fa-solid fa-receipt me-2 text-muted"></i>ملخص الفاتورة</h5>
+
+                    <div class="d-flex justify-content-between mb-3 text-muted">
+                        <span>إجمالي المنتجات</span>
+                        <span class="fw-semibold text-dark">@Model.Total.ToString("N2") ج.م</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3 text-muted">
+                        <span>خدمة التوصيل</span>
+                        <span class="badge bg-success bg-opacity-10 text-success fw-bold px-2 py-1">تحدد لاحقاً</span>
+                    </div>
+
+                    <div class="cart-summary-divider"></div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fw-bold fs-5 text-dark">الإجمالي النهائي</span>
+                        <span class="fw-bold fs-4 text-danger">@Model.Total.ToString("N2") ج.م</span>
+                    </div>
+
+                    <a asp-action="Checkout" class="btn btn-brand btn-lg w-100 rounded-3 py-3 fw-bold shadow-sm">
+                        <i class="fa-solid fa-bag-shopping me-2"></i>إتمام الطلب الآن
+                    </a>
+
+                    <div class="text-center mt-3">
+                        <span class="extra-small text-muted"><i class="fa-solid fa-shield-halved me-1 text-success"></i>تسوق آمن ومضمون 100%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

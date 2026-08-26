@@ -1,0 +1,24 @@
+@model BranchFormViewModel
+@{
+    ViewData["Title"] = "إضافة فرع جديد";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="admin-page-title mb-1">إضافة فرع جديد</h3>
+        <p class="text-muted small mb-0">أضيفي بيانات الفرع الجديد</p>
+    </div>
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+        <i class="fa-solid fa-arrow-right me-1"></i> العودة للفروع
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4 p-4">
+    <form asp-action="Create" method="post">
+        @await Html.PartialAsync("_BranchForm", Model)
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
