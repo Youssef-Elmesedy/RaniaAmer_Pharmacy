@@ -162,10 +162,11 @@ public class OrderService : IOrderService
 
         var order = Order.Create(customer.Id, model.Notes);
 
+        var products = (await _productRepository.GetByIdsWithDetailsAsync(selectedItems)).ToDictionary(p => p.Id);
+
         foreach (var productId in selectedItems)
         {
-            var product = await _productRepository.GetByIdWithDetailsAsync(productId);
-            if (product == null) continue;
+            if (!products.TryGetValue(productId, out var product)) continue;
 
             var quantity = model.Quantities[productId];
             order.AddItem(product.Id, product.Name, product.Price, product.SaleUnit?.Name ?? string.Empty, quantity, null);

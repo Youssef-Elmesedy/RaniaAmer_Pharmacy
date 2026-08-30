@@ -4,29 +4,35 @@ using RaniaAmer_Pharmacy.MVC.Models.ViewModels;
 using RaniaAmer_Pharmacy.MVC.Repository.Interfaces;
 using RaniaAmer_Pharmacy.MVC.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace RaniaAmer_Pharmacy.MVC.Services.Implementations;
 
 public class ProductService : IProductService
 {
+    private const string OffersCacheKey = "products:offers";
+
     private readonly IProductRepository _productRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IOfferRepository _offerRepository;
     private readonly IImageService _imageService;
     private readonly ICatalogChangeTracker _catalogChangeTracker;
+    private readonly IMemoryCache _cache;
 
     public ProductService(
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
         IOfferRepository offerRepository,
         IImageService imageService,
-        ICatalogChangeTracker catalogChangeTracker)
+        ICatalogChangeTracker catalogChangeTracker,
+        IMemoryCache cache)
     {
         _productRepository = productRepository;
         _categoryRepository = categoryRepository;
         _offerRepository = offerRepository;
         _imageService = imageService;
         _catalogChangeTracker = catalogChangeTracker;
+        _cache = cache;
     }
 
     public async Task<ProductListViewModel> GetListAsync(
@@ -52,8 +58,19 @@ public class ProductService : IProductService
 
     public async Task<IReadOnlyList<ProductViewModel>> GetOffersAsync(int take)
     {
-        var offers = await _productRepository.GetOffersAsync(take);
-        return offers.Select(MapToViewModel).ToList();
+        // Cache one reasonably-large batch (not keyed by "take") so every caller shares the
+        // same cached query regardless of how many they ask for, and slice in-memory.
+        const int cachedBatchSize = 24;
+
+        if (!_cache.TryGetValue(OffersCacheKey, out List<ProductViewModel>? cached) || cached == null)
+        {
+            var offers = await _productRepository.GetOffersAsync(cachedBatchSize);
+            cached = offers.Select(MapToViewModel).ToList();
+
+            _cache.Set(OffersCacheKey, cached, TimeSpan.FromMinutes(10));
+        }
+
+        return cached.Take(take).ToList();
     }
 
     public Task<Product?> GetDetailsAsync(Guid id) => _productRepository.GetByIdWithCategoryAsync(id);
@@ -84,6 +101,7 @@ public class ProductService : IProductService
         await _productRepository.SaveChangesAsync();
 
         _catalogChangeTracker.Touch();
+        _cache.Remove(OffersCacheKey);
 
         return product.Id;
     }
@@ -119,6 +137,7 @@ public class ProductService : IProductService
         await _productRepository.SaveChangesAsync();
 
         _catalogChangeTracker.Touch();
+        _cache.Remove(OffersCacheKey);
     }
 
     private static IEnumerable<(Guid SaleUnitId, int QuantityPerBaseUnit)> BuildUnitOptionInputs(ProductFormViewModel model)
@@ -153,6 +172,7 @@ public class ProductService : IProductService
         await _productRepository.SaveChangesAsync();
 
         _catalogChangeTracker.Touch();
+        _cache.Remove(OffersCacheKey);
     }
 
     private static ProductViewModel MapToViewModel(Product p) => new()

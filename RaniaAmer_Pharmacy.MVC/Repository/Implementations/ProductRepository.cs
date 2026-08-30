@@ -76,6 +76,22 @@ public class ProductRepository : IProductRepository
             .Include(p => p.UnitOptions)
             .FirstOrDefaultAsync(p => p.Id == id);
 
+    // Batched version of GetByIdWithDetailsAsync — one round-trip for many products instead
+    // of one per product (avoids N+1 when loading a cart or a multi-item admin order form).
+    public async Task<IReadOnlyList<Product>> GetByIdsWithDetailsAsync(IEnumerable<Guid> ids)
+    {
+        var idList = ids.Distinct().ToList();
+        if (idList.Count == 0) return Array.Empty<Product>();
+
+        return await _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.SaleUnit)
+            .Include(p => p.UnitOptions).ThenInclude(o => o.SaleUnit)
+            .AsNoTracking()
+            .Where(p => idList.Contains(p.Id))
+            .ToListAsync();
+    }
+
     public void MarkUnitOptionsAsAdded(IEnumerable<ProductUnitOption> options)
     {
         foreach (var option in options)

@@ -34,12 +34,18 @@ public class CartService : ICartService
     public async Task<CartViewModel> GetCartAsync()
     {
         var lines = GetLines();
+        if (lines.Count == 0) return new CartViewModel();
+
+        // One round-trip for every product in the cart instead of one per line (this used to
+        // run on every single page load via the navbar cart badge — see GetItemsCountAsync).
+        var products = await _productRepository.GetByIdsWithDetailsAsync(lines.Select(l => l.ProductId));
+        var productsById = products.ToDictionary(p => p.Id);
+
         var items = new List<CartItemViewModel>();
 
         foreach (var line in lines)
         {
-            var product = await _productRepository.GetByIdWithDetailsAsync(line.ProductId);
-            if (product == null) continue;
+            if (!productsById.TryGetValue(line.ProductId, out var product)) continue;
 
             var basePrice = product.DiscountPercentage > 0
                 ? Math.Round(product.Price - (product.Price * product.DiscountPercentage / 100), 2)
@@ -77,6 +83,11 @@ public class CartService : ICartService
 
         return new CartViewModel { Items = items };
     }
+
+    // Used by the navbar cart badge (rendered on every public page) — reads the count straight
+    // from the session with NO database round-trip at all, instead of loading full cart/pricing
+    // details just to count lines.
+    public Task<int> GetItemsCountAsync() => Task.FromResult(GetLines().Count);
 
     public async Task AddItemAsync(Guid productId, Guid? saleUnitId, decimal quantity, string? note)
     {

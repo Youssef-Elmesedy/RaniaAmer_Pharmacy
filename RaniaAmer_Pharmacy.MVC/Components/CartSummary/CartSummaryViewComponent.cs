@@ -22,8 +22,7 @@ public class CartSummaryViewComponent : ViewComponent
 
         try
         {
-            var cart = await _cartService.GetCartAsync();
-            itemsCount = cart.ItemsCount;
+            itemsCount = await _cartService.GetItemsCountAsync();
         }
         catch (Exception ex)
         {

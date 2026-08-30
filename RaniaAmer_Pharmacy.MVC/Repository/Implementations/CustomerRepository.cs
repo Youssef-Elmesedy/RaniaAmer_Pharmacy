@@ -42,11 +42,11 @@ public class CustomerRepository : ICustomerRepository
     public Task<int> SaveChangesAsync() => _write.SaveChangesAsync();
 
     public Task<bool> ExistsByPhoneAsync(string phoneNumber) =>
-        _context.Customers.AnyAsync(c => c.PhoneNumber == phoneNumber);
+        _context.Customers.AsNoTracking().AnyAsync(c => c.PhoneNumber == phoneNumber);
 
     public Task<Customer?> GetByPhoneAsync(string phoneNumber) =>
-        _context.Customers.FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber);
+        _context.Customers.AsNoTracking().FirstOrDefaultAsync(c => c.PhoneNumber == phoneNumber);
 
     public Task<Customer?> GetByNameAndPhoneAsync(string name, string phone) =>
-        _context.Customers.FirstOrDefaultAsync(c => c.NormalizedName == name.ToUpper().Trim() && c.PhoneNumber == phone);
+        _context.Customers.AsNoTracking().FirstOrDefaultAsync(c => c.NormalizedName == name.ToUpper().Trim() && c.PhoneNumber == phone);
 }

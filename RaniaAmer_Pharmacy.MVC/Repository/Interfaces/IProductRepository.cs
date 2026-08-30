@@ -8,6 +8,7 @@ public interface IProductRepository : IReadRepository<Product>, IWriteRepository
     Task<Product?> GetByIdWithCategoryAsync(Guid id);
     Task<Product?> GetByIdWithDetailsAsync(Guid id);
     Task<Product?> GetByIdWithUnitOptionsAsync(Guid id);
+    Task<IReadOnlyList<Product>> GetByIdsWithDetailsAsync(IEnumerable<Guid> ids);
     void MarkUnitOptionsAsAdded(IEnumerable<ProductUnitOption> options);
 
     Task<bool> ExistsByNameAsync(string normalizedName, Guid? excludeId = null);

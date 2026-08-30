@@ -6,6 +6,7 @@ using RaniaAmer_Pharmacy.MVC.Services.Implementations;
 using RaniaAmer_Pharmacy.MVC.Services.Interfaces;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
 namespace RaniaAmer_Pharmacy.MVC
@@ -18,6 +19,14 @@ namespace RaniaAmer_Pharmacy.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Gzip/Brotli compression for smaller page payloads (bigger win on mobile connections)
+            builder.Services.AddResponseCompression(options =>
+            {
+                options.EnableForHttps = true;
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+            });
             builder.Services.AddSignalR();
 
             // Persist Data Protection keys to disk
@@ -36,7 +45,11 @@ namespace RaniaAmer_Pharmacy.MVC
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(
-                    builder.Configuration.GetConnectionString("DefaultConnection"));
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 3,
+                        maxRetryDelay: TimeSpan.FromSeconds(5),
+                        errorNumbersToAdd: null));
             });
 
             builder.Services
@@ -128,6 +141,9 @@ namespace RaniaAmer_Pharmacy.MVC
 
             var app = builder.Build();
 
+            // Must be one of the first middlewares in the pipeline to compress everything downstream.
+            app.UseResponseCompression();
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -149,6 +165,17 @@ namespace RaniaAmer_Pharmacy.MVC
             });
 
             app.UseHttpsRedirection();
+
+            // Standard hardening headers - cheap to add, meaningful protection against
+            // clickjacking and MIME-type sniffing attacks.
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("X-Frame-Options", "DENY");
+                context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+                await next();
+            });
+
             app.UseStaticFiles();
 
             app.UseCookiePolicy(new CookiePolicyOptions
