@@ -6,6 +6,13 @@ public interface IOrderRepository : IReadRepository<Order>, IWriteRepository<Ord
 {
     Task<IReadOnlyList<Order>> GetAllWithDetailsAsync();
 
+    Task<(IReadOnlyList<Order> Items, int TotalCount)> GetPagedWithDetailsAsync(
+        string? searchTerm, string sortOrder, int pageNumber, int pageSize);
+
+    // Filtered at the database level (not "load everything, filter in memory") — used by the
+    // admin notifications feed, which only ever needs pending orders.
+    Task<IReadOnlyList<Order>> GetPendingWithDetailsAsync();
+
     Task<IReadOnlyList<Order>> GetByCustomerIdAsync(Guid customerId);
 
     Task<Order?> GetByIdWithDetailsAsync(Guid id);

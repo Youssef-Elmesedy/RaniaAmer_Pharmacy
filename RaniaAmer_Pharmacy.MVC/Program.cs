@@ -55,16 +55,23 @@ namespace RaniaAmer_Pharmacy.MVC
             builder.Services
                 .AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
+                    // This governs the ADMIN account only — customers use a separate,
+                    // custom-built auth system (see CustomerAuthService) with its own
+                    // matching password rules on CustomerRegisterViewModel/ResetPasswordViewModel.
+                    // Balances security with usability: meaningfully harder to guess/brute-force
+                    // than the old 6-char/no-complexity policy, without requiring special
+                    // characters that are annoying to type on a phone keyboard.
                     options.Password.RequireDigit = true;
-                    options.Password.RequireUppercase = false;
+                    options.Password.RequireUppercase = true;
                     options.Password.RequireNonAlphanumeric = false;
-                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredLength = 8;
 
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                     options.Lockout.MaxFailedAccessAttempts = 5;
                     options.Lockout.AllowedForNewUsers = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddErrorDescriber<RaniaAmer_Pharmacy.MVC.Common.ArabicIdentityErrorDescriber>()
                 .AddDefaultTokenProviders();
 
             builder.Services.ConfigureApplicationCookie(options =>

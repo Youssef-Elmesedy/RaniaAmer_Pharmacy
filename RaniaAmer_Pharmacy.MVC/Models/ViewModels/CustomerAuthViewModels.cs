@@ -33,7 +33,8 @@ public class CustomerRegisterViewModel
     public string Address { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "كلمة المرور مطلوبة")]
-    [StringLength(100, MinimumLength = 6, ErrorMessage = "كلمة المرور يجب ألا تقل عن 6 أحرف")]
+    [StringLength(100, MinimumLength = 8, ErrorMessage = "كلمة المرور يجب ألا تقل عن 8 أحرف")]
+    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d).+$", ErrorMessage = "كلمة المرور يجب أن تحتوي على حرف كبير (A-Z) ورقم واحد على الأقل")]
     [DataType(DataType.Password)]
     [Display(Name = "كلمة المرور")]
     public string Password { get; set; } = string.Empty;
@@ -88,7 +89,8 @@ public class ResetPasswordViewModel
     public string SecurityAnswer { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "كلمة المرور الجديدة مطلوبة")]
-    [StringLength(100, MinimumLength = 6, ErrorMessage = "كلمة المرور يجب ألا تقل عن 6 أحرف")]
+    [StringLength(100, MinimumLength = 8, ErrorMessage = "كلمة المرور يجب ألا تقل عن 8 أحرف")]
+    [RegularExpression(@"^(?=.*[A-Z])(?=.*\d).+$", ErrorMessage = "كلمة المرور يجب أن تحتوي على حرف كبير (A-Z) ورقم واحد على الأقل")]
     [DataType(DataType.Password)]
     [Display(Name = "كلمة المرور الجديدة")]
     public string NewPassword { get; set; } = string.Empty;

@@ -20,5 +20,12 @@ public interface IProductRepository : IReadRepository<Product>, IWriteRepository
         int pageNumber,
         int pageSize);
 
+    // Admin listing: includes unavailable products too (unlike the public GetFilteredAsync),
+    // since the admin needs to see and manage everything, not just what's currently for sale.
+    Task<(IReadOnlyList<Product> Items, int TotalCount)> GetPagedForAdminAsync(
+        string? searchTerm,
+        int pageNumber,
+        int pageSize);
+
     Task<IReadOnlyList<Product>> GetOffersAsync(int take);
 }

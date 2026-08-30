@@ -51,6 +51,48 @@ public class OrderRepository : IOrderRepository
             .OrderByDescending(o => o.OrderDate)
             .ToListAsync();
 
+    public async Task<(IReadOnlyList<Order> Items, int TotalCount)> GetPagedWithDetailsAsync(
+        string? searchTerm, string sortOrder, int pageNumber, int pageSize)
+    {
+        var query = _context.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.Items)
+            .Include(o => o.Payments)
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var term = searchTerm.Trim();
+            query = query.Where(o =>
+                o.Customer != null &&
+                (o.Customer.Name.Contains(term) || o.Customer.PhoneNumber.Contains(term)));
+        }
+
+        query = sortOrder == "oldest"
+            ? query.OrderBy(o => o.OrderDate)
+            : query.OrderByDescending(o => o.OrderDate);
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
+    public async Task<IReadOnlyList<Order>> GetPendingWithDetailsAsync() =>
+        await _context.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.Items)
+            .Include(o => o.Payments)
+            .AsNoTracking()
+            .Where(o => o.Status == OrderStatus.Pending)
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync();
+
     public async Task<IReadOnlyList<Order>> GetByCustomerIdAsync(Guid customerId) =>
         await _context.Orders
             .Include(o => o.Customer)

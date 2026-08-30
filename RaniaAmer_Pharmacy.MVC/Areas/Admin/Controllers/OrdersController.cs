@@ -26,28 +26,15 @@ public class OrdersController : Controller
         _productRepository = productRepository;
     }
 
-    public async Task<IActionResult> Index(string? search, string? sort)
+    public async Task<IActionResult> Index(string? search, string? sort, int page = 1)
     {
-        var orders = await _orderService.GetAllAsync();
-
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            var term = search.Trim();
-            orders = orders
-                .Where(o =>
-                    o.CustomerName.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                    o.CustomerPhone.Contains(term, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-        }
-
-        orders = sort == "oldest"
-            ? orders.OrderBy(o => o.OrderDate).ToList()
-            : orders.OrderByDescending(o => o.OrderDate).ToList();
+        var sortOrder = sort ?? "newest";
+        var model = await _orderService.GetPagedAsync(search, sortOrder, page, pageSize: 20);
 
         ViewBag.SearchTerm = search;
-        ViewBag.Sort = sort ?? "newest";
+        ViewBag.Sort = sortOrder;
 
-        return View(orders);
+        return View(model);
     }
 
     public async Task<IActionResult> Details(Guid id)

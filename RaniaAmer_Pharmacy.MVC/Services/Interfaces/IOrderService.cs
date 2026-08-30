@@ -7,6 +7,8 @@ public interface IOrderService
     Task<Guid> CreateFromCartAsync(CheckoutViewModel model, Guid? authenticatedCustomerId = null);
     Task<Guid> CreateCreditOrderByAdminAsync(CreditOrderFormViewModel model);
     Task<List<OrderListItemViewModel>> GetAllAsync();
+    Task<AdminOrderListViewModel> GetPagedAsync(string? searchTerm, string sortOrder, int pageNumber, int pageSize);
+    Task<List<OrderListItemViewModel>> GetPendingAsync();
     Task<List<OrderListItemViewModel>> GetByCustomerAsync(Guid customerId);
     Task<List<OrderListItemViewModel>> GetCreditOrdersByCustomerAsync(Guid customerId);
     Task<List<CustomerPaymentLogItem>> GetPaymentsLogByCustomerAsync(Guid customerId);

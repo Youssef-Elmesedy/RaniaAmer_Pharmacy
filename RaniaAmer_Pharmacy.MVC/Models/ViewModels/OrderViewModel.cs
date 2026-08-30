@@ -2,6 +2,19 @@ using RaniaAmer_Pharmacy.MVC.Models.Enums;
 
 namespace RaniaAmer_Pharmacy.MVC.Models.ViewModels;
 
+public class AdminOrderListViewModel
+{
+    public List<OrderListItemViewModel> Orders { get; set; } = new();
+
+    public string? SearchTerm { get; set; }
+    public string SortOrder { get; set; } = "newest";
+
+    public int PageNumber { get; set; } = 1;
+    public int PageSize { get; set; } = 20;
+    public int TotalCount { get; set; }
+    public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
+}
+
 public class OrderListItemViewModel
 {
     public Guid Id { get; set; }

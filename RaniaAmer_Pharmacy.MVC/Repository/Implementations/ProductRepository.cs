@@ -117,6 +117,7 @@ public class ProductRepository : IProductRepository
             .Include(p => p.Category)
             .Include(p => p.SaleUnit)
             .AsNoTracking()
+            .Where(p => p.IsAvailable)
             .AsQueryable();
 
         if (categoryId.HasValue && categoryId.Value != Guid.Empty)
@@ -134,6 +135,35 @@ public class ProductRepository : IProductRepository
             "price_desc" => query.OrderByDescending(p => p.Price),
             _ => query.OrderByDescending(p => p.CreatedAt)
         };
+
+        var totalCount = await query.CountAsync();
+
+        var items = await query
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (items, totalCount);
+    }
+
+    public async Task<(IReadOnlyList<Product> Items, int TotalCount)> GetPagedForAdminAsync(
+        string? searchTerm, int pageNumber, int pageSize)
+    {
+        var query = _context.Products
+            .Include(p => p.Category)
+            .Include(p => p.SaleUnit)
+            .AsNoTracking()
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            var normalizedSearch = searchTerm.Trim().ToUpperInvariant();
+            query = query.Where(p =>
+                p.NormalizedName.Contains(normalizedSearch) ||
+                (p.Category != null && p.Category.NormalizedName.Contains(normalizedSearch)));
+        }
+
+        query = query.OrderByDescending(p => p.CreatedAt);
 
         var totalCount = await query.CountAsync();
 

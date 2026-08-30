@@ -75,7 +75,19 @@ public class ProductService : IProductService
 
     public Task<Product?> GetDetailsAsync(Guid id) => _productRepository.GetByIdWithCategoryAsync(id);
 
-    public Task<IReadOnlyList<Product>> GetAllForAdminAsync() => _productRepository.GetAllIncludeCategory();
+    public async Task<AdminProductListViewModel> GetPagedForAdminAsync(string? searchTerm, int pageNumber, int pageSize)
+    {
+        var (items, totalCount) = await _productRepository.GetPagedForAdminAsync(searchTerm, pageNumber, pageSize);
+
+        return new AdminProductListViewModel
+        {
+            Products = items.Select(MapToViewModel).ToList(),
+            SearchTerm = searchTerm,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalCount = totalCount
+        };
+    }
 
     public async Task<Guid> CreateAsync(ProductFormViewModel model)
     {

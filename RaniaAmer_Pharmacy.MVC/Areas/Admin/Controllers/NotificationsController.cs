@@ -19,13 +19,8 @@ public class NotificationsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var orders = await _orderService.GetAllAsync();
-        var pending = orders
-            .Where(o => o.Status == OrderStatus.Pending)
-            .OrderByDescending(o => o.OrderDate)
-            .ToList();
-
-        return View(pending);
+        var pending = await _orderService.GetPendingAsync();
+        return View(pending.OrderByDescending(o => o.OrderDate).ToList());
     }
 
     // Polled periodically from the admin layout to detect new orders without a manual refresh

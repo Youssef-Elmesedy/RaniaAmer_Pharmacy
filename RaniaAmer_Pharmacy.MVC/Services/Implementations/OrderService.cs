@@ -187,6 +187,27 @@ public class OrderService : IOrderService
         return orders.Select(MapToListItem).ToList();
     }
 
+    public async Task<AdminOrderListViewModel> GetPagedAsync(string? searchTerm, string sortOrder, int pageNumber, int pageSize)
+    {
+        var (items, totalCount) = await _orderRepository.GetPagedWithDetailsAsync(searchTerm, sortOrder, pageNumber, pageSize);
+
+        return new AdminOrderListViewModel
+        {
+            Orders = items.Select(MapToListItem).ToList(),
+            SearchTerm = searchTerm,
+            SortOrder = sortOrder,
+            PageNumber = pageNumber,
+            PageSize = pageSize,
+            TotalCount = totalCount
+        };
+    }
+
+    public async Task<List<OrderListItemViewModel>> GetPendingAsync()
+    {
+        var orders = await _orderRepository.GetPendingWithDetailsAsync();
+        return orders.Select(MapToListItem).ToList();
+    }
+
     public async Task<List<OrderListItemViewModel>> GetByCustomerAsync(Guid customerId)
     {
         var orders = await _orderRepository.GetByCustomerIdAsync(customerId);

@@ -27,23 +27,13 @@ public class ProductsController : Controller
         _logger = logger;
     }
 
-    public async Task<IActionResult> Index(string? search)
+    public async Task<IActionResult> Index(string? search, int page = 1)
     {
-        var products = await _productService.GetAllForAdminAsync();
-
-        if (!string.IsNullOrWhiteSpace(search))
-        {
-            var term = search.Trim();
-            products = products
-                .Where(p =>
-                    p.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
-                    (p.Category != null && p.Category.Name.Contains(term, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
-        }
+        var model = await _productService.GetPagedForAdminAsync(search, page, pageSize: 20);
 
         ViewBag.SearchTerm = search;
 
-        return View(products.OrderByDescending(p => p.CreatedAt).ToList());
+        return View(model);
     }
 
     public async Task<IActionResult> Create()
